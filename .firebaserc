@@ -1,0 +1,8 @@
+{
+  "hosting": {
+    "public": "public"
+  },
+  "projects": {
+    "default": "pis-frontend"
+  }
+}
