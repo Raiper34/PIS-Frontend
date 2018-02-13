@@ -1,5 +1,7 @@
 # PISFrontend
 
+[![Build Status](https://travis-ci.com/Raiper34/PIS-Frontend.svg?token=YPso2kVSLTqjSuMCViE8&branch=master)](https://travis-ci.com/Raiper34/PIS-Frontend)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6.
 
 ## Development server
