@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MaterializeModule } from 'angular2-materialize';
+import {MaterializeDirective, MaterializeModule} from 'angular2-materialize';
 import { RouterModule, Routes } from '@angular/router';
 
 
@@ -9,6 +9,7 @@ import {PublicModule} from "./public/public.module";
 import {PrivateModule} from "./private/private.module";
 import {PrivateComponent} from "./private/private.component";
 import {PublicComponent} from "./public/public.component";
+import {AuthGuardService} from "./services/auth-guard.service";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'public', pathMatch: 'full'},
@@ -29,7 +30,7 @@ const appRoutes: Routes = [
     PrivateModule,
     PublicModule,
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
