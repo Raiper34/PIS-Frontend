@@ -12,8 +12,8 @@ import {PublicComponent} from "./public/public.component";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'public', pathMatch: 'full'},
-  {path: 'private', loadChildren: 'private/private.module#PrivateModule'},
-  {path: 'public', loadChildren: 'public/public.module#PublicModule'},
+  {path: 'private', loadChildren: 'app/private/private.module#PrivateModule'},
+  {path: 'public', loadChildren: 'app/public/public.module#PublicModule'},
 ];
 
 @NgModule({
