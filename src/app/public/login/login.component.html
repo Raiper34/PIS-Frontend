@@ -1,20 +1,16 @@
 <div class="background">
-  <div class="card login-card">
-    <div class="card-content">
-      <span class="card-title">Sign in</span>
-      <div class="row">
-        <form class="col s12">
-          <div class="input-field col s12">
-            <input id="first_name" type="text" class="validate">
-            <label for="first_name">Username</label>
-          </div>
-          <div class="input-field col s12">
-            <input id="password" type="password" class="validate">
-            <label for="password">Password</label>
-          </div>
-          <div class="right-align"><a class="waves-effect waves-light btn deep-orange">Login</a></div>
-        </form>
-      </div>
-    </div>
-  </div>
+  <mz-card
+    class="login-card"
+    [hoverable]="true">
+    <mz-card-title>
+      Sign in
+    </mz-card-title>
+    <mz-card-content>
+      <form class="col s12">
+        <mz-input-container><input mz-input [label]="'Username'" type="text"></mz-input-container>
+        <mz-input-container><input mz-input [label]="'Password'" type="password"></mz-input-container>
+        <div class="right-align"><a mz-button class="deep-orange">Login</a></div>
+      </form>
+    </mz-card-content>
+  </mz-card>
 </div>

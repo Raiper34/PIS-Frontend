@@ -1,12 +1,9 @@
-<nav>
-  <div class="nav-wrapper deep-orange">
-    <a href="#" class="brand-logo">Logo</a>
-    <a materialize="sideNav" href="#" data-activates="" class="button-collapse"><i class="material-icons">menu</i></a>
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <li><a href="sass.html">Sass</a></li>
-      <li><a href="badges.html">Components</a></li>
-      <li><a href="collapsible.html">JavaScript</a></li>
-    </ul>
-  </div>
-</nav>
+<mz-navbar navbarClass="deep-orange">
+  <a href="#" class="brand-logo">Logo</a>
+  <mz-navbar-item-container [align]="'right'">
+    <mz-navbar-item><a href="#">Sass</a></mz-navbar-item>
+    <mz-navbar-item><a href="#">Components</a></mz-navbar-item>
+    <mz-navbar-item><a routerLink="js">JavaScript</a></mz-navbar-item>
+  </mz-navbar-item-container>
+</mz-navbar>
 <router-outlet></router-outlet>
