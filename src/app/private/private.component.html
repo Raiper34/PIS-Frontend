@@ -1,9 +1,14 @@
+<!-- Navbar -->
 <mz-navbar navbarClass="deep-orange">
-  <a href="#" class="brand-logo">Logo</a>
+  <a href="#" class="brand-logo">&nbsp;Hotel</a>
   <mz-navbar-item-container [align]="'right'">
-    <mz-navbar-item><a href="#">Sass</a></mz-navbar-item>
-    <mz-navbar-item><a href="#">Components</a></mz-navbar-item>
-    <mz-navbar-item><a routerLink="js">JavaScript</a></mz-navbar-item>
+    <mz-navbar-item><a routerLink="/private/reservation">Reservations</a></mz-navbar-item>
+    <mz-navbar-item><a routerLink="/private/room">Rooms</a></mz-navbar-item>
+    <mz-navbar-item><a routerLink="/private/service">Services</a></mz-navbar-item>
+    <mz-navbar-item><a routerLink="/private/customer">Customer</a></mz-navbar-item>
+    <mz-navbar-item><a routerLink="/private/employee">Employee</a></mz-navbar-item>
   </mz-navbar-item-container>
 </mz-navbar>
+<!-- Content -->
 <router-outlet></router-outlet>
+

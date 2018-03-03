@@ -4,14 +4,14 @@ import { PublicComponent } from './public.component';
 import {PublicRoutingModule} from "./public-routing.module";
 import { LoginComponent } from './login/login.component';
 import {RouterModule} from "@angular/router";
-import {MaterializeModule} from "../shared/materialize/materialize.module";
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   imports: [
     CommonModule,
     PublicRoutingModule,
     RouterModule,
-    MaterializeModule
+    SharedModule
   ],
   declarations: [PublicComponent, LoginComponent]
 })

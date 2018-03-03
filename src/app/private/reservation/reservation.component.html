@@ -1,0 +1,86 @@
+<!-- Container -->
+<div class="container">
+  <div class="row">
+    <h2>Reservations</h2>
+  </div>
+  <div class="row">
+    <button mz-button class="deep-orange" (click)="creationModal.open()">
+      <i mz-icon [align]="'left'" [icon]="'add_circle'" [size]="'medium'"></i>
+      New Reservation
+    </button>
+  </div>
+  <div class="row">
+    <!-- Card -->
+    <mz-card>
+      <mz-card-content>
+        <!-- Table -->
+        <table class="highlight">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Item Name</th>
+            <th></th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr>
+            <td>Alvin</td>
+            <td>Eclair</td>
+            <td>
+              <mz-dropdown [id]="'dropdown-demo'" [dropdownButtonId]="'btn-dropdown-demo'">
+                <mz-dropdown-item><a class="deep-orange-text" href="#!">Detail</a></mz-dropdown-item>
+                <mz-dropdown-item><a class="deep-orange-text" href="#!">Edit</a></mz-dropdown-item>
+                <mz-dropdown-divider></mz-dropdown-divider>
+                <mz-dropdown-item><a class="deep-orange-text" href="#!">Delete</a></mz-dropdown-item>
+              </mz-dropdown>
+              <a class="deep-orange" mz-button id="btn-dropdown-demo" href="#">
+                <i mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>
+                Action
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <!-- Pagination -->
+        <ul class="pagination center-align">
+          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active deep-orange"><a href="#!">1</a></li>
+          <li class="waves-effect "><a href="#!">2</a></li>
+          <li class="waves-effect"><a href="#!">3</a></li>
+          <li class="waves-effect"><a href="#!">4</a></li>
+          <li class="waves-effect"><a href="#!">5</a></li>
+          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+      </mz-card-content>
+    </mz-card>
+  </div>
+</div>
+
+<!-- Creation Modal -->
+<mz-modal #creationModal>
+  <mz-modal-header>
+    New Reservation
+  </mz-modal-header>
+  <mz-modal-content>
+
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button class="deep-orange" mz-button mz-modal-close>Cancel</button>
+    <button class="deep-orange" mz-button mz-modal-close>Create</button>
+  </mz-modal-footer>
+</mz-modal>
+
+<!-- Delete Modal -->
+<mz-modal #deletionModal>
+  <mz-modal-header>
+    Delete Reservation
+  </mz-modal-header>
+  <mz-modal-content>
+
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button class="deep-orange" mz-button mz-modal-close>Cancel</button>
+    <button class="deep-orange" mz-button mz-modal-close>Create</button>
+  </mz-modal-footer>
+</mz-modal>
