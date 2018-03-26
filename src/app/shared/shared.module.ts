@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  MzButtonModule, MzCardModule, MzDropdownModule, MzIconMdiModule, MzIconModule, MzInputModule, MzModalModule,
+  MzButtonModule, MzCardModule, MzCollectionModule, MzDropdownModule, MzIconMdiModule, MzIconModule, MzInputModule, MzModalModule,
   MzNavbarModule
 } from "ng2-materialize";
+import {ReactiveFormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   imports: [
@@ -17,6 +20,10 @@ import {
     MzIconMdiModule,
     MzModalModule,
     MzDropdownModule,
+    MzCollectionModule,
+    ReactiveFormsModule,
+    HttpModule,
+    HttpClientModule,
   ],
   exports: [
     MzButtonModule,
@@ -28,6 +35,10 @@ import {
     MzIconMdiModule,
     MzModalModule,
     MzDropdownModule,
+    MzCollectionModule,
+    ReactiveFormsModule,
+    HttpModule,
+    HttpClientModule,
   ],
   declarations: []
 })

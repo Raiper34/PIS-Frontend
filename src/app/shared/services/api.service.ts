@@ -19,9 +19,6 @@ export class ApiService {
   }
 
   create(resource: string, data: Object, headers: HttpHeaders = null): Observable<Object> {
-    if (headers) {
-      this.headers = headers;
-    }
     return this.http.post(`${ENDPOINT}/${resource}`, data, {
       headers: this.headers
     });

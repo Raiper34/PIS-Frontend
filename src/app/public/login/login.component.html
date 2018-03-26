@@ -6,10 +6,16 @@
       Sign in
     </mz-card-title>
     <mz-card-content>
-      <form class="col s12">
-        <mz-input-container><input mz-input [label]="'Username'" type="text"></mz-input-container>
-        <mz-input-container><input mz-input [label]="'Password'" type="password"></mz-input-container>
-        <div class="right-align"><a mz-button class="deep-orange">Login</a></div>
+      <form class="col s12" [formGroup]="loginForm" (ngSubmit)="login()">
+        <mz-input-container>
+          <input mz-input [label]="'Username'" type="text" formControlName="username">
+        </mz-input-container>
+        <mz-input-container>
+          <input mz-input [label]="'Password'" type="password" formControlName="password">
+        </mz-input-container>
+        <div class="right-align">
+          <button [disabled]="loginForm.invalid" mz-button class="deep-orange">Login</button>
+        </div>
       </form>
     </mz-card-content>
   </mz-card>

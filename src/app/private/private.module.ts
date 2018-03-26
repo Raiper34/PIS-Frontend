@@ -20,7 +20,7 @@ import { CustomerDetailComponent } from './customer/customer-detail/customer-det
     CommonModule,
     PrivateRoutingModule,
     RouterModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [
     PrivateComponent,

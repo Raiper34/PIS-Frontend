@@ -1,3 +1,59 @@
-<p>
-  reservation-detail works!
-</p>
+<!-- Container -->
+<div class="container">
+  <div class="row">
+    <h2>Reservation detail</h2>
+  </div>
+  <!-- General info -->
+  <div class="row">
+    <mz-card [hoverable]="true">
+      <mz-card-title>
+        General info
+      </mz-card-title>
+      <mz-card-content>
+        <mz-collection>
+          <mz-collection-item>
+            <div class="title"><strong>Name</strong></div>
+            <div>Filip Gulan</div>
+          </mz-collection-item>
+          <mz-collection-item>
+            <div class="title"><strong>Status</strong></div>
+            <div>Single</div>
+          </mz-collection-item>
+        </mz-collection>
+      </mz-card-content>
+      <mz-card-action class="right-align">
+        <a href="#" class="deep-orange-text">
+          Edit
+        </a>
+      </mz-card-action>
+    </mz-card>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<mz-modal #creationModal>
+  <mz-modal-header>
+    New Reservation
+  </mz-modal-header>
+  <mz-modal-content>
+
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button class="deep-orange" mz-button mz-modal-close>Cancel</button>
+    <button class="deep-orange" mz-button mz-modal-close>Create</button>
+  </mz-modal-footer>
+</mz-modal>
+
+<!-- Delete Modal -->
+<mz-modal #deletionModal>
+  <mz-modal-header>
+    Delete Reservation
+  </mz-modal-header>
+  <mz-modal-content>
+
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button class="deep-orange" mz-button mz-modal-close>Cancel</button>
+    <button class="deep-orange" mz-button mz-modal-close>Create</button>
+  </mz-modal-footer>
+</mz-modal>
