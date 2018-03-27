@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import {PublicModule} from "./public/public.module";
 import {PrivateModule} from "./private/private.module";
-import {AuthGuardService} from "./shared/services/auth-guard.service";
+import {PrivateAuthGuardService} from "./shared/services/private-auth-guard.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AuthService} from "./shared/services/auth.service";
 import {ApiService} from "./shared/services/api.service";
@@ -12,6 +12,7 @@ import {reservationListEffects} from "./shared/effects/reservationList.effect";
 import {reservationListReducer} from "./shared/reducers/reservationList.reducer";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
+import {PublicAuthGuardService} from "./shared/services/public-auth-guard.service";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'public', pathMatch: 'full'},
@@ -41,7 +42,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     AuthService,
-    AuthGuardService,
+    PrivateAuthGuardService,
+    PublicAuthGuardService,
     ApiService,
   ],
   bootstrap: [AppComponent]

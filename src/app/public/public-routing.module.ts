@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {PublicComponent} from './public.component';
 import {LoginComponent} from './login/login.component';
+import {PublicAuthGuardService} from "../shared/services/public-auth-guard.service";
 
 const publicRoutes: Routes = [
   {
     path: 'public',
     component: PublicComponent,
+    canActivate: [PublicAuthGuardService],
     children: [
       {
         path: '',

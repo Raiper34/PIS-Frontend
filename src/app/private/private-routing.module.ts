@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {PrivateComponent} from './private.component';
-import {AuthGuardService} from '../shared/services/auth-guard.service';
+import {PrivateAuthGuardService} from '../shared/services/private-auth-guard.service';
 import {ReservationComponent} from './reservation/reservation.component';
 import {RoomComponent} from './room/room.component';
 import {ServiceComponent} from "./service/service.component";
@@ -18,7 +18,7 @@ const privateRoutes: Routes = [
   {
     path: 'private',
     component: PrivateComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [PrivateAuthGuardService],
     children: [
       {
         path: '',
