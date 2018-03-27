@@ -1,15 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import {AuthService} from "../shared/services/auth.service";
+import {Router} from "@angular/router";
+import {MzToastService} from "ng2-materialize";
 
 @Component({
   selector: 'app-private',
   templateUrl: './private.component.html',
   styleUrls: ['./private.component.scss']
 })
-export class PrivateComponent implements OnInit {
+export class PrivateComponent {
 
-  constructor() { }
+  menu = [
+    {link: '/private/reservation', title: 'Reservations'},
+    {link: '/private/room', title: 'Rooms'},
+    {link: '/private/service', title: 'Services'},
+    {link: '/private/customer', title: 'Customer'},
+    {link: '/private/employee', title: 'Employee'},
+  ];
 
-  ngOnInit() {
+  constructor(private toastService: MzToastService,
+              private auth: AuthService,
+              private router: Router) { }
+
+  logout(): void {
+    //TODO
+    this.auth.logout();
+    this.toastService.show('Logout successful!', 3000, 'green');
+    this.router.navigate(['public']);
   }
 
 }

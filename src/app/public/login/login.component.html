@@ -7,10 +7,10 @@
     </mz-card-title>
     <mz-card-content>
       <form class="col s12" [formGroup]="loginForm" (ngSubmit)="login()">
-        <mz-input-container>
+        <mz-input-container class="color-container">
           <input mz-input [label]="'Username'" type="text" formControlName="username">
         </mz-input-container>
-        <mz-input-container>
+        <mz-input-container class="color-container">
           <input mz-input [label]="'Password'" type="password" formControlName="password">
         </mz-input-container>
         <div class="right-align">

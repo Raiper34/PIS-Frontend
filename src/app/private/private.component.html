@@ -1,14 +1,60 @@
 <!-- Navbar -->
 <mz-navbar navbarClass="deep-orange">
-  <a href="#" class="brand-logo">&nbsp;Hotel</a>
+  <a href="" [id]="'btnSidenav'" class="button-collapse hide-on-large-only left"><i class="material-icons">menu</i></a>
+  <span class="brand-logo">&nbsp;Hotel</span>
   <mz-navbar-item-container [align]="'right'">
-    <mz-navbar-item><a routerLink="/private/reservation">Reservations</a></mz-navbar-item>
-    <mz-navbar-item><a routerLink="/private/room">Rooms</a></mz-navbar-item>
-    <mz-navbar-item><a routerLink="/private/service">Services</a></mz-navbar-item>
-    <mz-navbar-item><a routerLink="/private/customer">Customer</a></mz-navbar-item>
-    <mz-navbar-item><a routerLink="/private/employee">Employee</a></mz-navbar-item>
+    <mz-navbar-item *ngFor="let item of menu"><a routerLink="{{item.link}}">{{item.title}}</a></mz-navbar-item>
+    <mz-navbar-item><mz-dropdown
+      [id]="'dropdown-demo'"
+      [align]="'left'"
+      [dropdownButtonId]="'menu-dropdown'"
+      [inDuration]="300"
+      [outDuration]="300"
+      [stopPropagation]="true"
+    >
+      <mz-dropdown-item><a routerLink="/private/employee" class="deep-orange-text">Profile</a></mz-dropdown-item>
+      <mz-dropdown-item>
+        <a (click)="logout()" class="deep-orange-text">
+          Logout
+          <i mz-icon [align]="'right'" [icon]="'power_settings_new'" [size]="'medium'"></i>
+        </a>
+      </mz-dropdown-item>
+    </mz-dropdown>
+    <a id="menu-dropdown" href="#">
+      Filip Gulan
+      <i mz-icon [align]="'right'" [icon]="'keyboard_arrow_down'" [size]="'medium'"></i>
+    </a>
+    </mz-navbar-item>
   </mz-navbar-item-container>
 </mz-navbar>
+
+<!-- Sidenav -->
+<mz-sidenav #sidenav
+  [id]="'sidenav'"
+  [collapseButtonId]="'btnSidenav'">
+  <li>
+    <div class="user-view">
+      <div class="background">
+        <img src="assets/sidenav-background.jpeg">
+      </div>
+      <img class="circle" src="assets/avatar.png">
+      <span class="white-text name">Filip Gulan</span>
+      <span class="white-text email">xgulan00@stud.fit.vutbr.cz</span>
+    </div>
+  </li>
+  <mz-sidenav-subheader>Menu</mz-sidenav-subheader>
+  <mz-sidenav-link *ngFor="let item of menu" (click)="sidenav.opened = !sidenav.opened">
+    <a routerLink="{{item.link}}">{{item.title}}</a>
+  </mz-sidenav-link>
+  <mz-sidenav-subheader>Other</mz-sidenav-subheader>
+  <mz-sidenav-link (click)="sidenav.opened = !sidenav.opened">
+    <a routerLink="/private/employee">Profile</a>
+  </mz-sidenav-link>
+  <mz-sidenav-link (click)="sidenav.opened = !sidenav.opened">
+    <a href='' (click)="logout()">Logout</a>
+  </mz-sidenav-link>
+</mz-sidenav>
+
 <!-- Content -->
 <router-outlet></router-outlet>
 

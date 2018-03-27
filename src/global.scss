@@ -1,27 +1,27 @@
 $primary-color: #ff5722;
 
-::ng-deep .tabs .indicator
+::ng-deep .color-container .tabs .indicator
 {
   background-color: $primary-color;
 }
-::ng-deep .input-field label
+::ng-deep .color-container .input-field label
 {
   color: $primary-color;
 }
-::ng-deep .input-field input[type=text]:focus + ::ng-deep label
+::ng-deep .color-container .input-field input[type=text]:focus + ::ng-deep label
 {
   color: $primary-color;
 }
-::ng-deep .input-field input[type=text]:focus
+::ng-deep .color-container .input-field input[type=text]:focus
 {
   border-bottom: 1px solid $primary-color;
   box-shadow: 0 1px 0 0 $primary-color;
 }
-::ng-deep .input-field input[type=password]:focus + ::ng-deep  label
+::ng-deep .color-container .input-field input[type=password]:focus + ::ng-deep  label
 {
   color: #ff5722;
 }
-::ng-deep .input-field input[type=password]:focus
+::ng-deep .color-container .input-field input[type=password]:focus
 {
   border-bottom: 1px solid $primary-color;
   box-shadow: 0 1px 0 0 $primary-color;
