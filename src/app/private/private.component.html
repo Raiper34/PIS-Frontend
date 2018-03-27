@@ -4,22 +4,7 @@
   <span class="brand-logo">&nbsp;Hotel</span>
   <mz-navbar-item-container [align]="'right'">
     <mz-navbar-item *ngFor="let item of menu"><a routerLink="{{item.link}}">{{item.title}}</a></mz-navbar-item>
-    <mz-navbar-item><mz-dropdown
-      [id]="'dropdown-demo'"
-      [align]="'left'"
-      [dropdownButtonId]="'menu-dropdown'"
-      [inDuration]="300"
-      [outDuration]="300"
-      [stopPropagation]="true"
-    >
-      <mz-dropdown-item><a routerLink="/private/employee" class="deep-orange-text">Profile</a></mz-dropdown-item>
-      <mz-dropdown-item>
-        <a (click)="logout()" class="deep-orange-text">
-          Logout
-          <i mz-icon [align]="'right'" [icon]="'power_settings_new'" [size]="'medium'"></i>
-        </a>
-      </mz-dropdown-item>
-    </mz-dropdown>
+    <mz-navbar-item>
     <a id="menu-dropdown" href="#">
       Filip Gulan
       <i mz-icon [align]="'right'" [icon]="'keyboard_arrow_down'" [size]="'medium'"></i>
@@ -54,6 +39,24 @@
     <a href='' (click)="logout()">Logout</a>
   </mz-sidenav-link>
 </mz-sidenav>
+
+<!-- Dropdown -->
+<mz-dropdown
+  [id]="'dropdown-demo'"
+  [align]="'left'"
+  [dropdownButtonId]="'menu-dropdown'"
+  [inDuration]="300"
+  [outDuration]="300"
+  [stopPropagation]="true"
+>
+  <mz-dropdown-item><a routerLink="/private/employee" class="deep-orange-text">Profile</a></mz-dropdown-item>
+  <mz-dropdown-item>
+    <a (click)="logout()" class="deep-orange-text">
+      Logout
+      <i mz-icon [align]="'right'" [icon]="'power_settings_new'" [size]="'medium'"></i>
+    </a>
+  </mz-dropdown-item>
+</mz-dropdown>
 
 <!-- Content -->
 <router-outlet></router-outlet>

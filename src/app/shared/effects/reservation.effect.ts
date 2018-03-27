@@ -6,16 +6,17 @@ import {reservationListActions} from "../reducers/reservationList.reducer";
 import {ApiService} from "../services/api.service";
 import {of} from "rxjs/observable/of";
 import {catchError, map, mergeMap} from "rxjs/operators";
+import {reservationActions} from "../reducers/reservation.reducer";
 
 @Injectable()
-export class reservationListEffects {
+export class reservationEffects {
 
   @Effect() get$: Observable<Action> = this.actions$.pipe(
-    ofType(reservationListActions.GET_REQUEST),
+    ofType(reservationActions.GET_REQUEST),
     mergeMap((action: any) =>
-      this.api.get('reservation').pipe(
-        map(data => ({type: reservationListActions.GET_SUCCESS, payload: data})),
-        catchError(() => of({type: reservationListActions.GET_ERROR}))
+      this.api.get('reservation', action.payload).pipe(
+        map(data => ({type: reservationActions.GET_SUCCESS, payload: data})),
+        catchError(() => of({type: reservationActions.GET_ERROR}))
       )
     )
   );
