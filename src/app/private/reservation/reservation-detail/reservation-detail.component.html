@@ -5,55 +5,43 @@
   </div>
   <!-- General info -->
   <div class="row">
-    <mz-card [hoverable]="true">
+    <mz-card>
       <mz-card-title>
         General info
       </mz-card-title>
       <mz-card-content>
         <mz-collection>
-          <mz-collection-item>
-            <div class="title"><strong>Name</strong></div>
-            <div>Filip Gulan</div>
+          <mz-collection-item [ngClass]="{'red': !reservation?.paid, 'green': reservation?.paid}">
+            <div class="title"><strong>Payment</strong></div>
+            <div>
+              {{totalAmount}}EUR ({{reservation?.paymentType}})
+            </div>
           </mz-collection-item>
           <mz-collection-item>
-            <div class="title"><strong>Status</strong></div>
-            <div>Single</div>
+            <div class="title"><strong>Date</strong></div>
+            <div>{{reservation?.dateFrom | date:'M/d/yyyy'}} - {{reservation?.dateTo | date:'M/d/yyyy'}}</div>
+          </mz-collection-item>
+          <mz-collection-item>
+            <div class="title"><strong>Customer</strong></div>
+            <div>{{reservation?.customer.firstname}} {{reservation?.customer.surname}}</div>
+          </mz-collection-item>
+          <mz-collection-item>
+            <div class="title"><strong>Room</strong></div>
+            <div>{{reservation?.reservedRoom.name}}</div>
+          </mz-collection-item>
+          <mz-collection-item>
+            <div class="title"><strong>Services</strong></div>
+            <div>
+              <span *ngFor="let service of reservation?.services">{{service.name}}({{service.price}}EUR), </span>
+            </div>
           </mz-collection-item>
         </mz-collection>
       </mz-card-content>
-      <mz-card-action class="right-align">
-        <a href="#" class="deep-orange-text">
+      <mz-card-action>
+        <a *ngIf="reservation" [routerLink]="['/private/reservation/edit', reservation?.id]" class="deep-orange-text">
           Edit
         </a>
       </mz-card-action>
     </mz-card>
   </div>
 </div>
-
-<!-- Edit Modal -->
-<mz-modal #creationModal>
-  <mz-modal-header>
-    New Reservation
-  </mz-modal-header>
-  <mz-modal-content>
-
-  </mz-modal-content>
-  <mz-modal-footer>
-    <button class="deep-orange" mz-button mz-modal-close>Cancel</button>
-    <button class="deep-orange" mz-button mz-modal-close>Create</button>
-  </mz-modal-footer>
-</mz-modal>
-
-<!-- Delete Modal -->
-<mz-modal #deletionModal>
-  <mz-modal-header>
-    Delete Reservation
-  </mz-modal-header>
-  <mz-modal-content>
-
-  </mz-modal-content>
-  <mz-modal-footer>
-    <button class="deep-orange" mz-button mz-modal-close>Cancel</button>
-    <button class="deep-orange" mz-button mz-modal-close>Create</button>
-  </mz-modal-footer>
-</mz-modal>

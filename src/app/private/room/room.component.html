@@ -1,3 +1,57 @@
-<p>
-  room works!
-</p>
+<!-- Container -->
+<div class="container">
+  <div class="row">
+    <h2>Room</h2>
+  </div>
+  <div class="row flex-container">
+    <button mz-button class="deep-orange" routerLink="/private/room/add">
+      <i mz-icon [align]="'left'" [icon]="'add_circle'" [size]="'medium'"></i>
+      New Room
+    </button>
+    <mz-input-container class="color-container align-right">
+      <input mz-input placeholder="Search" type="text" [(ngModel)]="searchString">
+    </mz-input-container>
+  </div>
+  <div class="row">
+    <!-- Card -->
+    <mz-card>
+      <mz-card-content>
+        <!-- Table -->
+        <table class="highlight">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Capacity</th>
+            <th>Size</th>
+            <th>Price</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let room of roomList">
+            <td>{{room.name}}</td>
+            <td>{{room.type}}</td>
+            <td>{{room.capacity}} beds</td>
+            <td>{{room.size}}m<sup>2</sup></td>
+            <td>{{room.price}}EUR</td>
+            <td>
+              <mz-dropdown [id]="room.id+'dropdown'" [dropdownButtonId]="room.id">
+                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/room/detail', room.id]">Detail</a></mz-dropdown-item>
+                <mz-dropdown-divider></mz-dropdown-divider>
+                <mz-dropdown-item><a class="deep-orange-text" (click)="deleteReservation(room.id)" >Delete</a></mz-dropdown-item>
+              </mz-dropdown>
+              <a class="deep-orange" mz-button id="{{room.id}}" href="#">
+                <i mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>
+                Action
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <app-pagination [currentPage]="currentPage" [itemsLength]="reservationListSize" (currentPageChange)="changePage($event)"></app-pagination>
+      </mz-card-content>
+    </mz-card>
+  </div>
+</div>

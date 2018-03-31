@@ -4,10 +4,6 @@
     <h2>Reservations</h2>
   </div>
   <div class="row flex-container">
-    <button mz-button class="deep-orange" (click)="creationModal.open()">
-      <i mz-icon [align]="'left'" [icon]="'add_circle'" [size]="'medium'"></i>
-      New Reservation
-    </button>
     <button mz-button class="deep-orange" routerLink="/private/reservation/add">
       <i mz-icon [align]="'left'" [icon]="'add_circle'" [size]="'medium'"></i>
       New Reservation
@@ -27,31 +23,3 @@
     </mz-card>
   </div>
 </div>
-
-<!-- Creation Modal -->
-<mz-modal #creationModal>
-  <mz-modal-header>
-    New Reservation
-  </mz-modal-header>
-  <mz-modal-content>
-
-  </mz-modal-content>
-  <mz-modal-footer>
-    <button class="deep-orange" mz-button mz-modal-close>Cancel</button>
-    <button class="deep-orange" mz-button mz-modal-close>Create</button>
-  </mz-modal-footer>
-</mz-modal>
-
-<!-- Delete Modal -->
-<mz-modal #deletionModal>
-  <mz-modal-header>
-    Delete Reservation
-  </mz-modal-header>
-  <mz-modal-content>
-
-  </mz-modal-content>
-  <mz-modal-footer>
-    <button class="deep-orange" mz-button mz-modal-close>Cancel</button>
-    <button class="deep-orange" mz-button mz-modal-close>Create</button>
-  </mz-modal-footer>
-</mz-modal>

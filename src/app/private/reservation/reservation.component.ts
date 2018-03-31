@@ -45,16 +45,6 @@ export class ReservationComponent implements OnDestroy {
     this.currentPage = page;
   }
 
-  deleteReservation(id: string): void {
-    this.api.delete('reservation', id).subscribe(
-      () => {
-        this.store.dispatch({type: reservationListActions.GET_REQUEST});
-        this.toastService.show('Delete successful!', 3000, 'green');
-        },
-      () => this.toastService.show('Delete error!', 3000, 'green')
-    );
-  }
-
   ngOnDestroy(): void {
     this.reservationListSubscription.unsubscribe();
   }

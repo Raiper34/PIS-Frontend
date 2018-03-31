@@ -23,6 +23,10 @@ export class RoomComponent implements OnDestroy {
     this.store.dispatch({type: roomListActions.GET_REQUEST});
   }
 
+  get roomList(): RoomModel[] {
+    return this.roomListValue;
+  }
+
   ngOnDestroy(): void {
     this.roomListSubscription.unsubscribe();
   }

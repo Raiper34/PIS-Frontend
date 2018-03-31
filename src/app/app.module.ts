@@ -21,6 +21,16 @@ import {serviceListEffects} from "./shared/effects/serviceList.effect";
 import {roomListEffects} from "./shared/effects/roomList.effect";
 import {employeeListEffects} from "./shared/effects/employeeList.effect";
 import {customerListEffects} from "./shared/effects/customerList.effect";
+import {customerReducer} from "./shared/reducers/customer.reducer";
+import {employeeReducer} from "./shared/reducers/employee.reducer";
+import {reservationReducer} from "./shared/reducers/reservation.reducer";
+import {roomReducer} from "./shared/reducers/room.reducer";
+import {serviceReducer} from "./shared/reducers/service.reducer";
+import {customerEffects} from "./shared/effects/customer.effect";
+import {employeeEffects} from "./shared/effects/employee.effect";
+import {reservationEffects} from "./shared/effects/reservation.effect";
+import {roomEffects} from "./shared/effects/room.effect";
+import {serviceEffects} from "./shared/effects/service.effect";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'public', pathMatch: 'full'},
@@ -44,6 +54,11 @@ const appRoutes: Routes = [
       reservationList: reservationListReducer,
       roomList: roomListReducer,
       serviceList: serviceListReducer,
+      customer: customerReducer,
+      employee: employeeReducer,
+      reservation: reservationReducer,
+      room: roomReducer,
+      service: serviceReducer,
     }),
     EffectsModule.forRoot([
       customerListEffects,
@@ -51,6 +66,11 @@ const appRoutes: Routes = [
       reservationListEffects,
       roomListEffects,
       serviceListEffects,
+      customerEffects,
+      employeeEffects,
+      reservationEffects,
+      roomEffects,
+      serviceEffects,
     ]),
     PrivateModule,
     PublicModule,
