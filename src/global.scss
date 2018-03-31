@@ -26,3 +26,16 @@ $primary-color: #ff5722;
   border-bottom: 1px solid $primary-color;
   box-shadow: 0 1px 0 0 $primary-color;
 }
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.align-right {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
+}

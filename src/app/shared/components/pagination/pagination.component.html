@@ -1,0 +1,5 @@
+<ul class="pagination center-align" *ngIf="showPaggination">
+  <li *ngIf="showLeftArrow"><a (click)="changePage(currentPage - 1)"><i class="material-icons">chevron_left</i></a></li>
+  <li *ngFor="let page of pages" [ngClass]="{'deep-orange active': currentPage == page - 1}"><a (click)="changePage(page - 1)">{{page}}</a></li>
+  <li *ngIf="showRightArrow"><a (click)="changePage(currentPage + 1)"><i class="material-icons">chevron_right</i></a></li>
+</ul>

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {AppState} from "../../shared/models/app.state";
 import {ReservationModel} from "../../shared/models/reservation.model";
@@ -6,6 +6,7 @@ import {reservationListActions} from "../../shared/reducers/reservationList.redu
 import {Subscription} from "rxjs/Subscription";
 import {ApiService} from "../../shared/services/api.service";
 import {MzToastService} from "ng2-materialize";
+import {pageSize} from "../../shared/components/pagination/pagination.component";
 
 @Component({
   selector: 'app-reservation',
@@ -17,9 +18,8 @@ export class ReservationComponent implements OnDestroy {
   reservationListSubscription: Subscription;
   reservationListValue: ReservationModel[] = [];
   reservationListSize = 0;
-  pages = [];
-  pageSize = 10;
   currentPage = 0;
+  searchString = '';
 
   constructor(private store: Store<AppState>,
               private toastService: MzToastService,
@@ -31,11 +31,14 @@ export class ReservationComponent implements OnDestroy {
   }
 
   get reservationList(): ReservationModel[] {
-    const reservationListValue = this.reservationListValue;
-    this.reservationListSize = this.reservationListValue.length;
-    this.pages = Array(Math.ceil(this.reservationListSize / this.pageSize), 10).fill(1).map((x, y) => x + y)
+    const reservationListValue = this.reservationListValue.filter(
+      (item) => item.reservedRoom.name.includes(this.searchString) ||
+        item.customer.surname.includes(this.searchString) ||
+        item.customer.firstname.includes(this.searchString)
+    );
+    this.reservationListSize = reservationListValue.length;
     return reservationListValue
-      .filter((item, index) => index >= this.currentPage * this.pageSize && index < (this.currentPage * this.pageSize) + this.pageSize);
+      .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
   changePage(page: number): void {

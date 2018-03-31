@@ -1,6 +1,6 @@
 export interface PersonModel {
   id: number;
-  forename: string;
+  firstname: string;
   surname: string;
   personalId: string;
   email: string;

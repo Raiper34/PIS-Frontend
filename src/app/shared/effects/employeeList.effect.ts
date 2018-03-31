@@ -13,7 +13,7 @@ export class employeeListEffects {
   @Effect() get$: Observable<Action> = this.actions$.pipe(
     ofType(employeeListActions.GET_REQUEST),
     mergeMap((action: any) =>
-      this.api.get('room').pipe(
+      this.api.get('employee').pipe(
         map(data => ({type: employeeListActions.GET_SUCCESS, payload: data})),
         catchError(() => of({type: employeeListActions.GET_ERROR}))
       )

@@ -13,6 +13,11 @@ import {RoomDetailComponent} from "./room/room-detail/room-detail.component";
 import {ServiceDetailComponent} from "./service/service-detail/service-detail.component";
 import {CustomerDetailComponent} from "./customer/customer-detail/customer-detail.component";
 import {EmployeeDetailComponent} from "./employee/employee-detail/employee-detail.component";
+import {ReservationEditComponent} from "./reservation/reservation-edit/reservation-edit.component";
+import {RoomEditComponent} from "./room/room-edit/room-edit.component";
+import {ServiceEditComponent} from "./service/service-edit/service-edit.component";
+import {CustomerEditComponent} from "./customer/customer-edit/customer-edit.component";
+import {EmployeeEditComponent} from "./employee/employee-edit/employee-edit.component";
 
 const privateRoutes: Routes = [
   {
@@ -26,14 +31,24 @@ const privateRoutes: Routes = [
           {path: '', redirectTo: 'reservation', pathMatch: 'full'},
           {path: 'reservation', component: ReservationComponent},
           {path: 'reservation/detail', component: ReservationDetailComponent},
+          {path: 'reservation/edit', component: ReservationEditComponent},
+          {path: 'reservation/add', component: ReservationEditComponent},
           {path: 'room', component: RoomComponent},
           {path: 'room/detail', component: RoomDetailComponent},
+          {path: 'room/edit', component: RoomEditComponent},
+          {path: 'room/add', component: RoomEditComponent},
           {path: 'service', component: ServiceComponent},
           {path: 'service/detail', component: ServiceDetailComponent},
+          {path: 'service/edit', component: ServiceEditComponent},
+          {path: 'service/add', component: ServiceEditComponent},
           {path: 'customer', component: CustomerComponent},
           {path: 'customer/detail', component: CustomerDetailComponent},
+          {path: 'customer/edit', component: CustomerEditComponent},
+          {path: 'customer/add', component: CustomerEditComponent},
           {path: 'employee', component: EmployeeComponent},
           {path: 'employee/detail', component: EmployeeDetailComponent},
+          {path: 'employee/edit', component: EmployeeEditComponent},
+          {path: 'employee/add', component: EmployeeEditComponent},
           {path: '**', redirectTo: 'reservation', pathMatch: 'full'},
         ]
       }

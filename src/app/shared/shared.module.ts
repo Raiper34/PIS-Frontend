@@ -4,9 +4,10 @@ import {
   MzButtonModule, MzCardModule, MzCollectionModule, MzDropdownModule, MzIconMdiModule, MzIconModule, MzInputModule, MzModalModule,
   MzNavbarModule, MzSidenavModule, MzToastModule, MzToastService
 } from "ng2-materialize";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {HttpClientModule} from "@angular/common/http";
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import {HttpClientModule} from "@angular/common/http";
     MzToastModule,
     MzSidenavModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpModule,
     HttpClientModule,
   ],
@@ -41,9 +43,11 @@ import {HttpClientModule} from "@angular/common/http";
     MzToastModule,
     MzSidenavModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpModule,
     HttpClientModule,
+    PaginationComponent,
   ],
-  declarations: []
+  declarations: [PaginationComponent]
 })
 export class SharedModule { }

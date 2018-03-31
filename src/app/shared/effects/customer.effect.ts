@@ -13,7 +13,7 @@ export class customerEffects {
   @Effect() get$: Observable<Action> = this.actions$.pipe(
     ofType(customerActions.GET_REQUEST),
     mergeMap((action: any) =>
-      this.api.get('room', action.payload).pipe(
+      this.api.get('customer', action.payload).pipe(
         map(data => ({type: customerActions.GET_SUCCESS, payload: data})),
         catchError(() => of({type: customerActions.GET_ERROR}))
       )
