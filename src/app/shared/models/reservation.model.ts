@@ -3,7 +3,7 @@ import {RoomModel} from "./room.model";
 import {ServiceModel} from "./service.model";
 
 export interface ReservationModel {
-  id?: number;
+  id?: string;
   dateFrom: number;
   dateTo: number;
   paid: boolean;

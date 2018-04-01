@@ -21,9 +21,7 @@ export class ReservationComponent implements OnDestroy {
   currentPage = 0;
   searchString = '';
 
-  constructor(private store: Store<AppState>,
-              private toastService: MzToastService,
-              private api: ApiService) {
+  constructor(private store: Store<AppState>) {
     this.reservationListSubscription = store.pipe(select('reservationList')).subscribe((reservationList: ReservationModel[]) => {
       this.reservationListValue = reservationList;
     });
@@ -32,9 +30,9 @@ export class ReservationComponent implements OnDestroy {
 
   get reservationList(): ReservationModel[] {
     const reservationListValue = this.reservationListValue.filter(
-      (item) => item.reservedRoom.name.includes(this.searchString) ||
-        item.customer.surname.includes(this.searchString) ||
-        item.customer.firstname.includes(this.searchString)
+      (item) => (item.reservedRoom && item.reservedRoom.name.includes(this.searchString)) ||
+        (item.customer && item.customer.surname.includes(this.searchString)) ||
+        (item.customer && item.customer.firstname.includes(this.searchString))
     );
     this.reservationListSize = reservationListValue.length;
     return reservationListValue

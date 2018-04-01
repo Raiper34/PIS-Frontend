@@ -4,6 +4,7 @@ import {HttpHeaders} from "@angular/common/http";
 import {tap} from "rxjs/operators";
 import {Observable} from "rxjs/Observable";
 import {AuthModel} from "../models/auth.model";
+import {PersonModel} from "../models/person.model";
 
 @Injectable()
 export class AuthService {
@@ -30,6 +31,14 @@ export class AuthService {
   getAuth(): AuthModel {
     const auth = localStorage.getItem('auth');
     return auth ? JSON.parse(auth) : null;
+  }
+
+  getActualUser(): PersonModel {
+    const auth = this.getAuth();
+    if (auth) {
+      return auth.user;
+    }
+    return null;
   }
 
   logout(): void {

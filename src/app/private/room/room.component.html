@@ -1,7 +1,7 @@
 <!-- Container -->
 <div class="container">
   <div class="row">
-    <h2>Room</h2>
+    <h2>Rooms</h2>
   </div>
   <div class="row flex-container">
     <button mz-button class="deep-orange" routerLink="/private/room/add">
@@ -50,7 +50,7 @@
           </tbody>
         </table>
 
-        <app-pagination [currentPage]="currentPage" [itemsLength]="reservationListSize" (currentPageChange)="changePage($event)"></app-pagination>
+        <app-pagination [currentPage]="currentPage" [itemsLength]="roomListSize" (currentPageChange)="changePage($event)"></app-pagination>
       </mz-card-content>
     </mz-card>
   </div>

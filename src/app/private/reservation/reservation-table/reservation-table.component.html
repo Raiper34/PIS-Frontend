@@ -10,8 +10,8 @@
   </thead>
   <tbody>
   <tr *ngFor="let reservation of reservationList">
-    <td>{{reservation.customer.firstname}} {{reservation.customer.surname}}</td>
-    <td>{{reservation.reservedRoom.name}}</td>
+    <td>{{reservation.customer?.firstname}} {{reservation.customer?.surname}}</td>
+    <td>{{reservation.reservedRoom?.name}}</td>
     <td>{{reservation.dateFrom | date:'M/d/yyyy'}}</td>
     <td>{{reservation.dateTo | date:'M/d/yyyy'}}</td>
     <td>
@@ -21,8 +21,9 @@
     <td>
       <mz-dropdown [id]="reservation.id+'dropdown'" [dropdownButtonId]="reservation.id">
         <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/reservation/detail', reservation.id]">Detail</a></mz-dropdown-item>
+        <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/reservation/edit', reservation.id]">Edit</a></mz-dropdown-item>
         <mz-dropdown-divider></mz-dropdown-divider>
-        <mz-dropdown-item><a class="deep-orange-text" (click)="deleteReservation(reservation.id)" >Delete</a></mz-dropdown-item>
+        <mz-dropdown-item><a class="red white-text" (click)="deleteReservation(reservation.id)" >Delete</a></mz-dropdown-item>
       </mz-dropdown>
       <a class="deep-orange" mz-button id="{{reservation.id}}" href="#">
         <i mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>

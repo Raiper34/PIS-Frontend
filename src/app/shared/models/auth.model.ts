@@ -1,5 +1,6 @@
+import {PersonModel} from "./person.model";
+
 export interface AuthModel {
-  authId: string;
-  authPermission: string;
+  user: PersonModel;
   authToken: string;
 }

@@ -1,3 +1,62 @@
-<p>
-  reservation-edit works!
-</p>
+<!-- Container -->
+<div class="container">
+  <div class="row">
+    <h2 *ngIf="!editMode">Add reservation</h2>
+    <h2 *ngIf="editMode">Edit reservation {{reservation?.id}}</h2>
+  </div>
+  <div class="row">
+    <!-- Card -->
+    <mz-card>
+      <mz-card-content>
+        <!-- Form -->
+        <form [formGroup]="editForm" (ngSubmit)="submitForm()">
+          <div class="row">
+            <mz-datepicker-container class="color-container col s6">
+              <input mz-datepicker [label]="'From'" type="text" formControlName="dateFrom">
+            </mz-datepicker-container>
+            <mz-datepicker-container class="color-container col s6">
+              <input mz-datepicker [label]="'To'" type="text" formControlName="dateTo">
+            </mz-datepicker-container>
+          </div>
+          <div class="row">
+            <mz-select-container class="color-container col s6">
+              <select mz-select [label]="'Room'" [placeholder]="'None'" formControlName="reservedRoom">
+                <option *ngFor="let room of roomList" class="deep-orange" [value]="room.id">{{room.name}}</option>
+              </select>
+            </mz-select-container>
+            <mz-select-container class="color-container col s6">
+              <select mz-select [label]="'Customer'" [placeholder]="'None'" formControlName="customer">
+                <option *ngFor="let customer of customerList" class="deep-orange" [value]="customer.id">{{customer.firstname}} {{customer.surname}}</option>
+              </select>
+            </mz-select-container>
+          </div>
+          <div class="row">
+            <mz-select-container class="color-container col s6">
+              <select mz-select [label]="'Paid'" [placeholder]="'None'" formControlName="paid">
+                <option class="deep-orange" [value]="true">Yes</option>
+                <option class="deep-orange" [value]="false">No</option>
+              </select>
+            </mz-select-container>
+            <mz-select-container class="color-container col s6">
+              <select mz-select [label]="'Payment type'" [placeholder]="'None'" formControlName="paymentType">
+                <option class="deep-orange" [value]="'CARD'">CARD</option>
+                <option class="deep-orange" [value]="'CASH'">CASH</option>
+              </select>
+            </mz-select-container>
+          </div>
+          <div class="row">
+            <mz-select-container class="color-container col s6">
+              <select multiple mz-select [label]="'Services'" [placeholder]="'None'" formControlName="services">
+                <option *ngFor="let service of serviceList" class="deep-orange" [value]="service.id">{{service.name}}(+{{service.price}}EUR)</option>
+              </select>
+            </mz-select-container>
+          </div>
+          <div class="right-align">
+            <button *ngIf="!editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Create</button>
+            <button *ngIf="editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Edit</button>
+          </div>
+        </form>
+      </mz-card-content>
+    </mz-card>
+  </div>
+</div>
