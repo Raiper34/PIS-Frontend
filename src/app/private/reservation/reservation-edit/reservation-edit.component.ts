@@ -72,7 +72,7 @@ export class ReservationEditComponent implements OnDestroy {
     });
     this.reservationSubscription = store.pipe(select('reservation')).subscribe((reservation: ReservationModel) => {
       this.reservation = reservation;
-      if (this.isDispatched) {
+      if (this.isDispatched && this.reservation) {
         this.editForm.patchValue({
           ...this.reservation,
           reservedRoom: this.reservation.reservedRoom.id,
