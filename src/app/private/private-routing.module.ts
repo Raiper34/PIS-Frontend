@@ -6,18 +6,15 @@ import {PrivateAuthGuardService} from '../shared/services/private-auth-guard.ser
 import {ReservationComponent} from './reservation/reservation.component';
 import {RoomComponent} from './room/room.component';
 import {ServiceComponent} from "./service/service.component";
-import {CustomerComponent} from "./customer/customer.component";
-import {EmployeeComponent} from "./employee/employee.component";
 import {ReservationDetailComponent} from "./reservation/reservation-detail/reservation-detail.component";
 import {RoomDetailComponent} from "./room/room-detail/room-detail.component";
 import {ServiceDetailComponent} from "./service/service-detail/service-detail.component";
-import {CustomerDetailComponent} from "./customer/customer-detail/customer-detail.component";
-import {EmployeeDetailComponent} from "./employee/employee-detail/employee-detail.component";
 import {ReservationEditComponent} from "./reservation/reservation-edit/reservation-edit.component";
 import {RoomEditComponent} from "./room/room-edit/room-edit.component";
 import {ServiceEditComponent} from "./service/service-edit/service-edit.component";
-import {CustomerEditComponent} from "./customer/customer-edit/customer-edit.component";
-import {EmployeeEditComponent} from "./employee/employee-edit/employee-edit.component";
+import {PersonDetailComponent} from "./person/person-detail/person-detail.component";
+import {PersonEditComponent} from "./person/person-edit/person-edit.component";
+import {PersonComponent} from "./person/person.component";
 
 const privateRoutes: Routes = [
   {
@@ -41,14 +38,14 @@ const privateRoutes: Routes = [
           {path: 'service/detail/:id', component: ServiceDetailComponent},
           {path: 'service/edit/:id', component: ServiceEditComponent},
           {path: 'service/add', component: ServiceEditComponent},
-          {path: 'customer', component: CustomerComponent},
-          {path: 'customer/detail/:id', component: CustomerDetailComponent},
-          {path: 'customer/edit/:id', component: CustomerEditComponent},
-          {path: 'customer/add', component: CustomerEditComponent},
-          {path: 'employee', component: EmployeeComponent},
-          {path: 'employee/detail/:id', component: EmployeeDetailComponent},
-          {path: 'employee/edit/:id', component: EmployeeEditComponent},
-          {path: 'employee/add', component: EmployeeEditComponent},
+          {path: 'customer', component: PersonComponent, data: {type: 'customer'}},
+          {path: 'customer/detail/:id', component: PersonDetailComponent, data: {type: 'customer'}},
+          {path: 'customer/edit/:id', component: PersonEditComponent, data: {type: 'customer'}},
+          {path: 'customer/add', component: PersonEditComponent, data: {type: 'customer'}},
+          {path: 'employee', component: PersonComponent, data: {type: 'employee'}},
+          {path: 'employee/detail/:id', component: PersonDetailComponent, data: {type: 'employee'}},
+          {path: 'employee/edit/:id', component: PersonEditComponent, data: {type: 'employee'}},
+          {path: 'employee/add', component: PersonEditComponent, data: {type: 'employee'}},
           {path: '**', redirectTo: 'reservation', pathMatch: 'full'},
         ]
       }

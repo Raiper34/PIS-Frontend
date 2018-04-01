@@ -34,7 +34,7 @@
             <td>{{room.type}}</td>
             <td>{{room.capacity}} beds</td>
             <td>{{room.size}}m<sup>2</sup></td>
-            <td>{{room.price}}EUR</td>
+            <td>{{room.price}}&euro;</td>
             <td>
               <mz-dropdown [id]="room.id+'dropdown'" [dropdownButtonId]="room.id">
                 <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/room/detail', room.id]">Detail</a></mz-dropdown-item>

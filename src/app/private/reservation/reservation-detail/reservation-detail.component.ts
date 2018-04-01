@@ -5,6 +5,7 @@ import {Subscription} from "rxjs/Subscription";
 import {AppState} from "../../../shared/models/app.state";
 import {reservationActions} from "../../../shared/reducers/reservation.reducer";
 import {ActivatedRoute, Route, Router} from "@angular/router";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-reservation-detail',
@@ -30,10 +31,21 @@ export class ReservationDetailComponent implements OnDestroy {
     this.reservationSubscription.unsubscribe();
   }
 
+  get daysCount(): number {
+    if (this.reservation) {
+      const dateFrom = moment(this.reservation.dateFrom).startOf('day');
+      const dateTo = moment(this.reservation.dateTo).startOf('day');
+      return dateTo.diff(dateFrom, 'days');
+    }
+    return 0;
+  }
+
   get totalAmount(): number {
     if (this.reservation) {
-      return this.reservation.reservedRoom.price + this.reservation.services.reduce(
+      const pricePerDay = this.reservation.reservedRoom ? this.reservation.reservedRoom.price : 0;
+      const servicePrice = this.reservation.services.reduce(
         (accumulator, current) => accumulator + current.price, 0);
+      return  this.daysCount * pricePerDay + servicePrice;
     }
     return 0;
   }

@@ -1,5 +1,5 @@
 export interface RoomModel {
-  id: number;
+  id?: string;
   size: number;
   description: string;
   name: string;

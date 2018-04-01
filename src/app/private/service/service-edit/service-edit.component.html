@@ -1,3 +1,34 @@
-<p>
-  service-edit works!
-</p>
+<!-- Container -->
+<div class="container">
+  <div class="row">
+    <h2 *ngIf="!editMode">Add service</h2>
+    <h2 *ngIf="editMode">Edit service {{service?.name}}</h2>
+  </div>
+  <div class="row">
+    <!-- Card -->
+    <mz-card>
+      <mz-card-content>
+        <!-- Form -->
+        <form [formGroup]="editForm" (ngSubmit)="submitForm()">
+          <div class="row">
+            <mz-input-container class="color-container col s6">
+              <input mz-input [label]="'Name'" type="text" formControlName="name">
+            </mz-input-container>
+            <mz-input-container class="color-container col s6">
+              <input mz-input [label]="'Price'" type="number" formControlName="price">
+            </mz-input-container>
+          </div>
+          <div class="row">
+            <mz-textarea-container class="color-container col s12">
+              <textarea mz-textarea [label]="'Description'" placeholder="Enter your description here"></textarea>
+            </mz-textarea-container>
+          </div>
+          <div class="right-align">
+            <button *ngIf="!editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Create</button>
+            <button *ngIf="editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Edit</button>
+          </div>
+        </form>
+      </mz-card-content>
+    </mz-card>
+  </div>
+</div>

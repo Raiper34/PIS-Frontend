@@ -1,10 +1,10 @@
 export interface PersonModel {
-  id: number;
+  id?: string;
   firstname: string;
   surname: string;
   personalId: string;
   email: string;
   birthDate: number;
   role: number; //ENUM
-  telephone: string;
+  phone: string;
 }

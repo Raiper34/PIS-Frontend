@@ -1,0 +1,53 @@
+<!-- Container -->
+<div class="container">
+  <div class="row">
+    <h2 *ngIf="!editMode">Add <span *ngIf="isEmployee">employee</span><span *ngIf="!isEmployee">customer</span></h2>
+    <h2 *ngIf="editMode">Edit <span *ngIf="isEmployee">employee</span><span *ngIf="!isEmployee">customer</span> {{person?.firstname}} {{person?.surname}}</h2>
+  </div>
+  <div class="row">
+    <!-- Card -->
+    <mz-card>
+      <mz-card-content>
+        <!-- Form -->
+        <form [formGroup]="editForm" (ngSubmit)="submitForm()">
+          <div class="row">
+            <mz-input-container class="color-container col s6">
+              <input mz-input [label]="'Firstname'" type="text" formControlName="firstname">
+            </mz-input-container>
+            <mz-input-container class="color-container col s6">
+              <input mz-input [label]="'Surname'" type="text" formControlName="surname">
+            </mz-input-container>
+          </div>
+          <div class="row">
+            <mz-input-container class="color-container col s6">
+              <input mz-input [label]="'Personal Id'" type="text" formControlName="personalId">
+            </mz-input-container>
+            <mz-datepicker-container class="color-container col s6">
+              <input mz-datepicker [label]="'Birth date'" type="text" formControlName="birthDate">
+            </mz-datepicker-container>
+          </div>
+          <div class="row">
+            <mz-input-container class="color-container col s6">
+              <input mz-input [label]="'E-mail'" type="text" formControlName="email">
+            </mz-input-container>
+            <mz-input-container class="color-container col s6">
+              <input mz-input [label]="'Phone'" type="text" formControlName="phone">
+            </mz-input-container>
+          </div>
+          <div class="row" *ngIf="isEmployee">
+            <mz-select-container class="color-container col s6">
+              <select mz-select [label]="'Type'" [placeholder]="'None'" formControlName="role">
+                <option class="deep-orange" [value]="'ADMIN'">Admin</option>
+                <option class="deep-orange" [value]="'EMPLOYEE'">Employee</option>
+              </select>
+            </mz-select-container>
+          </div>
+          <div class="right-align">
+            <button *ngIf="!editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Create</button>
+            <button *ngIf="editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Edit</button>
+          </div>
+        </form>
+      </mz-card-content>
+    </mz-card>
+  </div>
+</div>

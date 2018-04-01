@@ -1,12 +1,14 @@
 <!-- Container -->
 <div class="container">
   <div class="row">
-    <h2>Customers</h2>
+    <h2 *ngIf="!isEmployee">Customers</h2>
+    <h2 *ngIf="isEmployee">Employees</h2>
   </div>
   <div class="row flex-container">
-    <button mz-button class="deep-orange" routerLink="/private/customer/add">
+    <button mz-button class="deep-orange" routerLink="/private/{{pageName}}/add">
       <i mz-icon [align]="'left'" [icon]="'add_circle'" [size]="'medium'"></i>
-      New Customer
+      <span *ngIf="!isEmployee">New Customer</span>
+      <span *ngIf="isEmployee">New Employee</span>
     </button>
     <mz-input-container class="color-container align-right">
       <input mz-input placeholder="Search" type="text" [(ngModel)]="searchString">
@@ -24,7 +26,7 @@
             <th>Name</th>
             <th>E-mail</th>
             <th>Phone</th>
-            <th>Role</th>
+            <th *ngIf="isEmployee">Role</th>
             <th></th>
           </tr>
           </thead>
@@ -33,13 +35,13 @@
             <td>{{customer.personalId}}</td>
             <td>{{customer.firstname}} {{customer.surname}}</td>
             <td>{{customer.email}}</td>
-            <td>{{customer.telephone}}</td>
-            <td>{{customer.role}}</td>
+            <td>{{customer.phone}}</td>
+            <td *ngIf="isEmployee">{{customer.role}}</td>
             <td></td>
             <td>
               <mz-dropdown [id]="customer.id+'dropdown'" [dropdownButtonId]="customer.id">
-                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/customer/detail', customer.id]">Detail</a></mz-dropdown-item>
-                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/customer/edit', customer.id]">Edit</a></mz-dropdown-item>
+                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/' + pageName + '/detail', customer.id]">Detail</a></mz-dropdown-item>
+                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/' + pageName + '/edit', customer.id]">Edit</a></mz-dropdown-item>
                 <mz-dropdown-divider></mz-dropdown-divider>
                 <mz-dropdown-item><a class="red white-text" (click)="deleteReservation(customer.id)" >Delete</a></mz-dropdown-item>
               </mz-dropdown>
@@ -52,7 +54,7 @@
           </tbody>
         </table>
 
-        <app-pagination [currentPage]="currentPage" [itemsLength]="customerListSize" (currentPageChange)="changePage($event)"></app-pagination>
+        <app-pagination [currentPage]="currentPage" [itemsLength]="personListSize" (currentPageChange)="changePage($event)"></app-pagination>
       </mz-card-content>
     </mz-card>
   </div>

@@ -14,12 +14,12 @@
           <mz-collection-item class="white-text" [ngClass]="{'red': !reservation?.paid, 'green': reservation?.paid}">
             <div class="title"><strong>Payment</strong></div>
             <div>
-              {{totalAmount}}EUR ({{reservation?.paymentType}})
+              {{totalAmount}}&euro; ({{reservation?.paymentType}})
             </div>
           </mz-collection-item>
           <mz-collection-item>
             <div class="title"><strong>Date</strong></div>
-            <div>{{reservation?.dateFrom | date:'M/d/yyyy'}} - {{reservation?.dateTo | date:'M/d/yyyy'}}</div>
+            <div>{{reservation?.dateFrom | date:'M/d/yyyy'}} - {{reservation?.dateTo | date:'M/d/yyyy'}} ({{daysCount}} days)</div>
           </mz-collection-item>
           <mz-collection-item>
             <div class="title"><strong>Customer</strong></div>
@@ -27,12 +27,12 @@
           </mz-collection-item>
           <mz-collection-item>
             <div class="title"><strong>Room</strong></div>
-            <div>{{reservation?.reservedRoom.name}}</div>
+            <div>{{reservation?.reservedRoom?.name}} ({{reservation?.reservedRoom?.price}}&euro; per day)</div>
           </mz-collection-item>
           <mz-collection-item>
             <div class="title"><strong>Services</strong></div>
             <div>
-              <span *ngFor="let service of reservation?.services">{{service.name}}({{service.price}}EUR), </span>
+              <span *ngFor="let service of reservation?.services">{{service.name}}({{service.price}}&euro;), </span>
             </div>
           </mz-collection-item>
         </mz-collection>

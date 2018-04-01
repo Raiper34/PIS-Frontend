@@ -28,13 +28,13 @@
           <tbody>
           <tr *ngFor="let service of serviceList">
             <td>{{service.name}}</td>
-            <td>{{service.price}}EUR</td>
+            <td>{{service.price}}&euro;</td>
             <td>
               <mz-dropdown [id]="service.id+'dropdown'" [dropdownButtonId]="service.id">
                 <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/service/detail', service.id]">Detail</a></mz-dropdown-item>
                 <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/service/edit', service.id]">Edit</a></mz-dropdown-item>
                 <mz-dropdown-divider></mz-dropdown-divider>
-                <mz-dropdown-item><a class="red white-text" (click)="deleteReservation(service.id)" >Delete</a></mz-dropdown-item>
+                <mz-dropdown-item><a class="red white-text" (click)="deleteService(service.id)" >Delete</a></mz-dropdown-item>
               </mz-dropdown>
               <a class="deep-orange" mz-button id="{{service.id}}" href="#">
                 <i mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>

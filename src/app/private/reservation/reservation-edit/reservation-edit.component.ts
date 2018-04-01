@@ -83,12 +83,26 @@ export class ReservationEditComponent implements OnDestroy {
     });
   }
 
+  get daysCount(): number {
+    const dateFrom = moment(this.editForm.get('dateFrom').value).startOf('day');
+    const dateTo = moment(this.editForm.get('dateTo').value).startOf('day');
+    return dateTo.diff(dateFrom, 'days');
+  }
+
+  get finalPrice(): number {
+    const reservedRoom = this.roomList.find((item) => item.id == this.editForm.get('reservedRoom').value);
+    const pricePerDay = reservedRoom ? reservedRoom.price : 0;
+    const servicePrice = this.serviceList.filter((item) => this.editForm.get('services').value.some((value) => value == item.id)).reduce(
+      (accumulator, current) => accumulator + current.price, 0);
+    return  this.daysCount * pricePerDay + servicePrice;
+  }
+
   submitForm(): void {
     const reservation = {
       ...this.reservation,
       ...this.editForm.getRawValue(),
-      dateFrom: moment(this.editForm.get('dateFrom').value).unix() * 1,
-      dateTo: moment(this.editForm.get('dateTo').value).unix() * 1,
+      dateFrom: moment(this.editForm.get('dateFrom').value).unix() * 1000,
+      dateTo: moment(this.editForm.get('dateTo').value).unix() * 1000,
       customer: this.customerList.find((item) => item.id == this.editForm.get('customer').value),
       reservedRoom: this.roomList.find((item) => item.id == this.editForm.get('reservedRoom').value),
       services: this.serviceList.filter((item) => this.editForm.get('services').value.some((value) => value == item.id)),
