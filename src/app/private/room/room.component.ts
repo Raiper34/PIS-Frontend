@@ -27,11 +27,11 @@ export class RoomComponent implements OnDestroy {
   }
 
   get roomList(): RoomModel[] {
-    const reservationListValue = this.roomListValue.filter(
+    const roomListValue = this.roomListValue.filter(
       (item) => item.name.includes(this.searchString)
     );
-    this.roomListSize = reservationListValue.length;
-    return reservationListValue
+    this.roomListSize = roomListValue.length;
+    return roomListValue
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 

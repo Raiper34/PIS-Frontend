@@ -38,8 +38,9 @@
             <td>
               <mz-dropdown [id]="room.id+'dropdown'" [dropdownButtonId]="room.id">
                 <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/room/detail', room.id]">Detail</a></mz-dropdown-item>
+                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/room/edit', room.id]">Edit</a></mz-dropdown-item>
                 <mz-dropdown-divider></mz-dropdown-divider>
-                <mz-dropdown-item><a class="deep-orange-text" (click)="deleteReservation(room.id)" >Delete</a></mz-dropdown-item>
+                <mz-dropdown-item><a class="red white-text" (click)="deleteReservation(room.id)" >Delete</a></mz-dropdown-item>
               </mz-dropdown>
               <a class="deep-orange" mz-button id="{{room.id}}" href="#">
                 <i mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>

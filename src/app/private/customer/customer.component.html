@@ -1,3 +1,59 @@
-<p>
-  customer works!
-</p>
+<!-- Container -->
+<div class="container">
+  <div class="row">
+    <h2>Customers</h2>
+  </div>
+  <div class="row flex-container">
+    <button mz-button class="deep-orange" routerLink="/private/customer/add">
+      <i mz-icon [align]="'left'" [icon]="'add_circle'" [size]="'medium'"></i>
+      New Customer
+    </button>
+    <mz-input-container class="color-container align-right">
+      <input mz-input placeholder="Search" type="text" [(ngModel)]="searchString">
+    </mz-input-container>
+  </div>
+  <div class="row">
+    <!-- Card -->
+    <mz-card>
+      <mz-card-content>
+        <!-- Table -->
+        <table class="highlight">
+          <thead>
+          <tr>
+            <th>Personal Id</th>
+            <th>Name</th>
+            <th>E-mail</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let customer of customerList">
+            <td>{{customer.personalId}}</td>
+            <td>{{customer.firstname}} {{customer.surname}}</td>
+            <td>{{customer.email}}</td>
+            <td>{{customer.telephone}}</td>
+            <td>{{customer.role}}</td>
+            <td></td>
+            <td>
+              <mz-dropdown [id]="customer.id+'dropdown'" [dropdownButtonId]="customer.id">
+                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/customer/detail', customer.id]">Detail</a></mz-dropdown-item>
+                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/customer/edit', customer.id]">Edit</a></mz-dropdown-item>
+                <mz-dropdown-divider></mz-dropdown-divider>
+                <mz-dropdown-item><a class="red white-text" (click)="deleteReservation(customer.id)" >Delete</a></mz-dropdown-item>
+              </mz-dropdown>
+              <a class="deep-orange" mz-button id="{{customer.id}}" href="#">
+                <i mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>
+                Action
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <app-pagination [currentPage]="currentPage" [itemsLength]="customerListSize" (currentPageChange)="changePage($event)"></app-pagination>
+      </mz-card-content>
+    </mz-card>
+  </div>
+</div>

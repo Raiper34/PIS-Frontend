@@ -3,6 +3,7 @@ import {AppState} from "../../shared/models/app.state";
 import {select, Store} from "@ngrx/store";
 import {Subscription} from "rxjs/Subscription";
 import {ServiceModel} from "../../shared/models/service.model";
+import {pageSize} from "../../shared/components/pagination/pagination.component";
 import {serviceListActions} from "../../shared/reducers/serviceList.reducer";
 
 @Component({
@@ -14,13 +15,28 @@ export class ServiceComponent implements OnDestroy {
 
   serviceListSubscription: Subscription;
   serviceListValue: ServiceModel[] = [];
+  serviceListSize = 0;
+  currentPage = 0;
+  searchString = '';
 
   constructor(private store: Store<AppState>) {
     this.serviceListSubscription = store.pipe(select('serviceList')).subscribe((serviceList: ServiceModel[]) => {
       this.serviceListValue = serviceList;
-      console.log(serviceList);
     });
     this.store.dispatch({type: serviceListActions.GET_REQUEST});
+  }
+
+  get serviceList(): ServiceModel[] {
+    const serviceListValue = this.serviceListValue.filter(
+      (item) => item.name.includes(this.searchString)
+    );
+    this.serviceListSize = serviceListValue.length;
+    return serviceListValue
+      .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
   }
 
   ngOnDestroy(): void {
