@@ -1,3 +1,63 @@
-<p>
-  person-detail works!
-</p>
+<!-- Container -->
+<div class="container">
+  <div class="row">
+    <h2 *ngIf="!isEmployee">Customer {{person?.firstname}} {{person?.surname}} detail</h2>
+    <h2 *ngIf="isEmployee">Employee {{person?.firstname}} {{person?.surname}} detail</h2>
+  </div>
+  <!-- General info -->
+  <div class="row">
+    <mz-card>
+      <mz-card-title>
+        General info
+      </mz-card-title>
+      <mz-card-content>
+        <mz-collection>
+          <mz-collection-item>
+            <div class="title"><strong>Name</strong></div>
+            <div>{{person?.firstname}} {{person?.surname}}</div>
+          </mz-collection-item>
+          <mz-collection-item>
+            <div class="title"><strong>Personal Id</strong></div>
+            <div>{{person?.personalId}}</div>
+          </mz-collection-item>
+          <mz-collection-item>
+            <div class="title"><strong>Birth date</strong></div>
+            <div>{{person?.birthDate | date:'M/d/yyyy'}}</div>
+          </mz-collection-item>
+          <mz-collection-item>
+            <div class="title"><strong>E-mail</strong></div>
+            <div>{{person?.email}}</div>
+          </mz-collection-item>
+          <mz-collection-item>
+            <div class="title"><strong>Phone</strong></div>
+            <div>{{person?.phone}}</div>
+          </mz-collection-item>
+          <mz-collection-item *ngIf="isEmployee">
+            <div class="title"><strong>Role</strong></div>
+            <div>{{person?.role}}</div>
+          </mz-collection-item>
+        </mz-collection>
+      </mz-card-content>
+      <mz-card-action>
+        <div class="right-align">
+          <button mz-button *ngIf="person" [routerLink]="['/private/' + pageName + '/edit', person?.id]" class="deep-orange">
+            Edit
+          </button>
+        </div>
+      </mz-card-action>
+    </mz-card>
+  </div>
+
+  <!-- Reservations -->
+  <div class="row">
+    <mz-card>
+      <mz-card-title>
+        Reservations
+      </mz-card-title>
+      <mz-card-content>
+        <app-reservation-table [reservationList]="reservationList"></app-reservation-table>
+        <app-pagination [currentPage]="currentPage" [itemsLength]="reservationListSize" (currentPageChange)="changePage($event)"></app-pagination>
+      </mz-card-content>
+    </mz-card>
+  </div>
+</div>
