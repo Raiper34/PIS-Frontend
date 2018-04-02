@@ -41,10 +41,11 @@ export class AuthService {
     return null;
   }
 
-  logout(): void {
-    localStorage.removeItem('auth');
-    this.api.headers = null;
-    //TODO
+  logout(): Observable<any> {
+    return this.api.get('auth/logout').pipe(tap(() => {
+      localStorage.removeItem('auth');
+      this.api.headers = null;
+    }));
   }
 
 }

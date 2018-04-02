@@ -22,11 +22,17 @@ export class PrivateComponent {
               private auth: AuthService,
               private router: Router) { }
 
-  logout(): void {
-    //TODO
-    this.auth.logout();
-    this.toastService.show('Logout successful!', 3000, 'green');
-    this.router.navigate(['public']);
+  logout(event: any): void {
+    event.preventDefault();
+    this.auth.logout().subscribe(
+      () => {
+        this.toastService.show('Logout successful!', 3000, 'green');
+        this.router.navigate(['public']);
+      },
+      (error) => {
+        this.toastService.show(error.message, 3000, 'red');
+      }
+    );
   }
 
 }

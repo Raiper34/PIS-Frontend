@@ -36,7 +36,7 @@
     <a routerLink="/private/employee">Profile</a>
   </mz-sidenav-link>
   <mz-sidenav-link (click)="sidenav.opened = !sidenav.opened">
-    <a href='' (click)="logout()">Logout</a>
+    <a href='#' (click)="logout($event)">Logout</a>
   </mz-sidenav-link>
 </mz-sidenav>
 
