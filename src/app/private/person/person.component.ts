@@ -9,6 +9,8 @@ import {ServiceModel} from "../../shared/models/service.model";
 import {pageSize} from "../../shared/components/pagination/pagination.component";
 import {ActivatedRoute} from "@angular/router";
 import {employeeListActions} from "../../shared/reducers/employeeList.reducer";
+import {MzToastService} from "ng2-materialize";
+import {ApiService} from "../../shared/services/api.service";
 
 @Component({
   selector: 'app-person',
@@ -25,8 +27,12 @@ export class PersonComponent implements OnDestroy {
   isEmployee = false;
   pageName = 'customer';
 
+  pickedToDeletePerson: PersonModel;
+
   constructor(private store: Store<AppState>,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private toastService: MzToastService,
+              private api: ApiService) {
     this.isEmployee = this.route.snapshot.data['type'] == 'employee';
     this.pageName = this.isEmployee ? 'employee' : 'customer';
     this.personListSubscription = store.pipe(select(this.isEmployee ? 'employeeList' : 'customerList')).subscribe((customerList: PersonModel[]) => {
@@ -35,7 +41,7 @@ export class PersonComponent implements OnDestroy {
     this.store.dispatch({type: this.isEmployee ? employeeListActions.GET_REQUEST : customerListActions.GET_REQUEST});
   }
 
-  get customerList(): PersonModel[] {
+  get personList(): PersonModel[] {
     const customerListValue = this.personListValue.filter(
       (item) => item.surname.includes(this.searchString) ||
         item.firstname.includes(this.searchString)
@@ -51,6 +57,20 @@ export class PersonComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.personListSubscription.unsubscribe();
+  }
+
+  deletePerson(): void {
+    this.api.delete(this.isEmployee ? 'employee' : 'customer', this.pickedToDeletePerson.id).subscribe(
+      () => {
+        this.store.dispatch({type: serviceListActions.GET_REQUEST});
+        this.toastService.show('Delete successful!', 3000, 'green');
+      },
+      (error) => this.toastService.show(error.message, 3000, 'red')
+    );
+  }
+
+  pickToDelete(person: PersonModel): void {
+    this.pickedToDeletePerson = person;
   }
 
 }

@@ -34,7 +34,7 @@
                 <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/service/detail', service.id]">Detail</a></mz-dropdown-item>
                 <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/service/edit', service.id]">Edit</a></mz-dropdown-item>
                 <mz-dropdown-divider></mz-dropdown-divider>
-                <mz-dropdown-item><a class="red white-text" (click)="deleteService(service.id)" >Delete</a></mz-dropdown-item>
+                <mz-dropdown-item><a class="red white-text" (click)="pickToDelete(service); deleteModal.open()" >Delete</a></mz-dropdown-item>
               </mz-dropdown>
               <a class="deep-orange" mz-button id="{{service.id}}" href="#">
                 <i mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>
@@ -50,3 +50,17 @@
     </mz-card>
   </div>
 </div>
+
+<!-- Delete modal -->
+<mz-modal #deleteModal>
+  <mz-modal-header>
+    <h4>Delete confirmation</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    Are you sure to delete this {{pickedToDeleteService?.name}}?
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button mz-modal-close class="deep-orange">No</button>
+    <button mz-button mz-modal-close class="red" (click)="deleteService()">Yes</button>
+  </mz-modal-footer>
+</mz-modal>

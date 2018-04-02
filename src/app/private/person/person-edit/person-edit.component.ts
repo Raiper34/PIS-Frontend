@@ -12,6 +12,7 @@ import {ApiService} from "../../../shared/services/api.service";
 import {PersonModel} from "../../../shared/models/person.model";
 import {customerActions} from "../../../shared/reducers/customer.reducer";
 import {employeeActions} from "../../../shared/reducers/employee.reducer";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-person-edit',
@@ -70,6 +71,7 @@ export class PersonEditComponent implements OnDestroy {
       role: 'CUSTOMER',
       ...this.person,
       ...this.editForm.getRawValue(),
+      birthDate: moment(this.editForm.get('birthDate').value).unix() * 1000,
     };
     if (this.editMode) {
       this.api.update(this.isEmployee ? 'employee' : 'customer', this.person.id, service).subscribe(

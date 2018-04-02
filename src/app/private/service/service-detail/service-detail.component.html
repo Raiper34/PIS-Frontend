@@ -27,6 +27,7 @@
       </mz-card-content>
       <mz-card-action>
         <div class="right-align">
+          <button mz-button (click)="deleteModal.open()" class="red">Delete</button>
           <button mz-button *ngIf="service" [routerLink]="['/private/service/edit', service?.id]" class="deep-orange">
             Edit
           </button>
@@ -48,3 +49,17 @@
     </mz-card>
   </div>
 </div>
+
+<!-- Delete modal -->
+<mz-modal #deleteModal>
+  <mz-modal-header>
+    <h4>Delete confirmation</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    Are you sure to delete this service?
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button mz-modal-close class="deep-orange">No</button>
+    <button mz-button mz-modal-close class="red" (click)="deleteService()">Yes</button>
+  </mz-modal-footer>
+</mz-modal>

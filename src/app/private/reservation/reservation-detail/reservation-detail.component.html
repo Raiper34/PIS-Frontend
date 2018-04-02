@@ -39,7 +39,8 @@
       </mz-card-content>
       <mz-card-action>
         <div class="right-align">
-          <button mz-button [flat]="true" *ngIf="reservation" [routerLink]="['/private/reservation/edit', reservation?.id]" class="deep-orange-text">
+          <button mz-button (click)="deleteModal.open()" class="red">Delete</button>
+          <button mz-button *ngIf="reservation" [routerLink]="['/private/reservation/edit', reservation?.id]" class="deep-orange">
             Edit
           </button>
         </div>
@@ -47,3 +48,17 @@
     </mz-card>
   </div>
 </div>
+
+<!-- Delete modal -->
+<mz-modal #deleteModal>
+  <mz-modal-header>
+    <h4>Delete confirmation</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    Are you sure to delete this reservation?
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button mz-modal-close class="deep-orange">No</button>
+    <button mz-button mz-modal-close class="red" (click)="deleteReservation()">Yes</button>
+  </mz-modal-footer>
+</mz-modal>

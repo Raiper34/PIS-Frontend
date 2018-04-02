@@ -5,6 +5,10 @@ import {Subscription} from "rxjs/Subscription";
 import {ServiceModel} from "../../shared/models/service.model";
 import {pageSize} from "../../shared/components/pagination/pagination.component";
 import {serviceListActions} from "../../shared/reducers/serviceList.reducer";
+import {RoomModel} from "../../shared/models/room.model";
+import {roomListActions} from "../../shared/reducers/roomList.reducer";
+import {MzToastService} from "ng2-materialize";
+import {ApiService} from "../../shared/services/api.service";
 
 @Component({
   selector: 'app-service',
@@ -19,7 +23,11 @@ export class ServiceComponent implements OnDestroy {
   currentPage = 0;
   searchString = '';
 
-  constructor(private store: Store<AppState>) {
+  pickedToDeleteService: ServiceModel;
+
+  constructor(private store: Store<AppState>,
+              private toastService: MzToastService,
+              private api: ApiService) {
     this.serviceListSubscription = store.pipe(select('serviceList')).subscribe((serviceList: ServiceModel[]) => {
       this.serviceListValue = serviceList;
     });
@@ -41,6 +49,20 @@ export class ServiceComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.serviceListSubscription.unsubscribe();
+  }
+
+  deleteService(): void {
+    this.api.delete('service', this.pickedToDeleteService.id).subscribe(
+      () => {
+        this.store.dispatch({type: serviceListActions.GET_REQUEST});
+        this.toastService.show('Delete successful!', 3000, 'green');
+      },
+      (error) => this.toastService.show(error.message, 3000, 'red')
+    );
+  }
+
+  pickToDelete(service: ServiceModel): void {
+    this.pickedToDeleteService = service;
   }
 
 }

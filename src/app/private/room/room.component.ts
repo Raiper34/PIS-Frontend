@@ -5,6 +5,10 @@ import {roomListActions} from "../../shared/reducers/roomList.reducer";
 import {Subscription} from "rxjs/Subscription";
 import {RoomModel} from "../../shared/models/room.model";
 import {pageSize} from "../../shared/components/pagination/pagination.component";
+import {ReservationModel} from "../../shared/models/reservation.model";
+import {reservationListActions} from "../../shared/reducers/reservationList.reducer";
+import {ApiService} from "../../shared/services/api.service";
+import {MzToastService} from "ng2-materialize";
 
 @Component({
   selector: 'app-room',
@@ -19,7 +23,11 @@ export class RoomComponent implements OnDestroy {
   currentPage = 0;
   searchString = '';
 
-  constructor(private store: Store<AppState>) {
+  pickedToDeleteRoom: RoomModel;
+
+  constructor(private store: Store<AppState>,
+              private toastService: MzToastService,
+              private api: ApiService) {
     this.roomListSubscription = store.pipe(select('roomList')).subscribe((roomList: RoomModel[]) => {
       this.roomListValue = roomList;
     });
@@ -41,6 +49,20 @@ export class RoomComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.roomListSubscription.unsubscribe();
+  }
+
+  deleteRoom(): void {
+    this.api.delete('room', this.pickedToDeleteRoom.id).subscribe(
+      () => {
+        this.store.dispatch({type: roomListActions.GET_REQUEST});
+        this.toastService.show('Delete successful!', 3000, 'green');
+      },
+      (error) => this.toastService.show(error.message, 3000, 'red')
+    );
+  }
+
+  pickToDelete(room: RoomModel): void {
+    this.pickedToDeleteRoom = room;
   }
 
 }

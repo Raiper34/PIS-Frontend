@@ -31,21 +31,21 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let customer of customerList">
-            <td>{{customer.personalId}}</td>
-            <td>{{customer.firstname}} {{customer.surname}}</td>
-            <td>{{customer.email}}</td>
-            <td>{{customer.phone}}</td>
-            <td *ngIf="isEmployee">{{customer.role}}</td>
+          <tr *ngFor="let person of personList">
+            <td>{{person.personalId}}</td>
+            <td>{{person.firstname}} {{person.surname}}</td>
+            <td>{{person.email}}</td>
+            <td>{{person.phone}}</td>
+            <td *ngIf="isEmployee">{{person.role}}</td>
             <td></td>
             <td>
-              <mz-dropdown [id]="customer.id+'dropdown'" [dropdownButtonId]="customer.id">
-                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/' + pageName + '/detail', customer.id]">Detail</a></mz-dropdown-item>
-                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/' + pageName + '/edit', customer.id]">Edit</a></mz-dropdown-item>
+              <mz-dropdown [id]="person.id+'dropdown'" [dropdownButtonId]="person.id">
+                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/' + pageName + '/detail', person.id]">Detail</a></mz-dropdown-item>
+                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/' + pageName + '/edit', person.id]">Edit</a></mz-dropdown-item>
                 <mz-dropdown-divider></mz-dropdown-divider>
-                <mz-dropdown-item><a class="red white-text" (click)="deleteReservation(customer.id)" >Delete</a></mz-dropdown-item>
+                <mz-dropdown-item><a class="red white-text" (click)="pickToDelete(person); deleteModal.open()" >Delete</a></mz-dropdown-item>
               </mz-dropdown>
-              <a class="deep-orange" mz-button id="{{customer.id}}" href="#">
+              <a class="deep-orange" mz-button id="{{person.id}}" href="#">
                 <i mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>
                 Action
               </a>
@@ -59,3 +59,17 @@
     </mz-card>
   </div>
 </div>
+
+<!-- Delete modal -->
+<mz-modal #deleteModal>
+  <mz-modal-header>
+    <h4>Delete confirmation</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    Are you sure to delete this {{pickedToDeletePerson?.firstname}} {{pickedToDeletePerson?.surname}}?
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button mz-modal-close class="deep-orange">No</button>
+    <button mz-button mz-modal-close class="red" (click)="deletePerson()">Yes</button>
+  </mz-modal-footer>
+</mz-modal>

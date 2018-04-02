@@ -6,6 +6,9 @@ import {AppState} from "../../../shared/models/app.state";
 import {reservationActions} from "../../../shared/reducers/reservation.reducer";
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import * as moment from "moment";
+import {reservationListActions} from "../../../shared/reducers/reservationList.reducer";
+import {MzToastService} from "ng2-materialize";
+import {ApiService} from "../../../shared/services/api.service";
 
 @Component({
   selector: 'app-reservation-detail',
@@ -18,7 +21,10 @@ export class ReservationDetailComponent implements OnDestroy {
   reservation: ReservationModel;
 
   constructor(private store: Store<AppState>,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router,
+              private toastService: MzToastService,
+              private api: ApiService) {
     this.reservationSubscription = store.pipe(select('reservation')).subscribe((reservation: ReservationModel) => {
       this.reservation = reservation;
     });
@@ -48,6 +54,16 @@ export class ReservationDetailComponent implements OnDestroy {
       return  this.daysCount * pricePerDay + servicePrice;
     }
     return 0;
+  }
+
+  deleteReservation(): void {
+    this.api.delete('reservation', this.reservation.id).subscribe(
+      () => {
+        this.toastService.show('Delete successful!', 3000, 'green');
+        this.router.navigate(['private/reservation']);
+      },
+      (error) => this.toastService.show(error.message, 3000, 'red')
+    );
   }
 
 }

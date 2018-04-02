@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {RoomModel} from "../../../shared/models/room.model";
 import {Subscription} from "rxjs/Subscription";
 import {select, Store} from "@ngrx/store";
@@ -10,6 +10,10 @@ import {serviceActions} from "../../../shared/reducers/service.reducer";
 import {ReservationModel} from "../../../shared/models/reservation.model";
 import {reservationListActions} from "../../../shared/reducers/reservationList.reducer";
 import {pageSize} from "../../../shared/components/pagination/pagination.component";
+import {roomListActions} from "../../../shared/reducers/roomList.reducer";
+import {serviceListActions} from "../../../shared/reducers/serviceList.reducer";
+import {MzToastService} from "ng2-materialize";
+import {ApiService} from "../../../shared/services/api.service";
 
 @Component({
   selector: 'app-service-detail',
@@ -28,7 +32,10 @@ export class ServiceDetailComponent implements OnDestroy {
   searchString = '';
 
   constructor(private store: Store<AppState>,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router,
+              private toastService: MzToastService,
+              private api: ApiService) {
     this.serviceSubscription = store.pipe(select('service')).subscribe((service: ServiceModel) => {
       this.service = service;
     });
@@ -56,6 +63,16 @@ export class ServiceDetailComponent implements OnDestroy {
 
   changePage(page: number): void {
     this.currentPage = page;
+  }
+
+  deleteService(): void {
+    this.api.delete('service', this.service.id).subscribe(
+      () => {
+        this.toastService.show('Delete successful!', 3000, 'green');
+        this.router.navigate(['private/service']);
+      },
+      (error) => this.toastService.show(error.message, 3000, 'red')
+    );
   }
 
   ngOnDestroy(): void {

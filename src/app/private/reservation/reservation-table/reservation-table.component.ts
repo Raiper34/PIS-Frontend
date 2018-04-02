@@ -14,19 +14,24 @@ import {AppState} from "../../../shared/models/app.state";
 export class ReservationTableComponent {
 
   @Input() reservationList: ReservationModel[];
+  pickedToDeleteReservation: ReservationModel;
 
   constructor(private store: Store<AppState>,
               private toastService: MzToastService,
               private api: ApiService) { }
 
-  deleteReservation(id: string): void {
-    this.api.delete('reservation', id).subscribe(
+  deleteReservation(): void {
+    this.api.delete('reservation', this.pickedToDeleteReservation.id).subscribe(
       () => {
         this.store.dispatch({type: reservationListActions.GET_REQUEST});
         this.toastService.show('Delete successful!', 3000, 'green');
       },
-      () => this.toastService.show('Delete error!', 3000, 'green')
+      (error) => this.toastService.show(error.message, 3000, 'red')
     );
+  }
+
+  pickToDelete(reservation: ReservationModel): void {
+    this.pickedToDeleteReservation = reservation;
   }
 
 }
