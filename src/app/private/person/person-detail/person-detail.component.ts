@@ -70,9 +70,9 @@ export class PersonDetailComponent implements OnDestroy {
   }
 
   deletePerson(): void {
-    this.api.delete(this.isEmployee ? 'employee' : 'customer', this.person.id).subscribe(
+    this.api.delete(this.isEmployee ? 'admin/user' : 'customer', this.person.id).subscribe(
       () => {
-        this.toastService.show('Delete successful!', 3000, 'green');
+        this.toastService.show('Deletion successful!', 3000, 'green');
         this.router.navigate([`private/${this.isEmployee ? 'employee' : 'customer'}`]);
       },
       (error) => this.toastService.show(error.message, 3000, 'red')

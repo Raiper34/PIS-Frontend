@@ -60,10 +60,10 @@ export class PersonComponent implements OnDestroy {
   }
 
   deletePerson(): void {
-    this.api.delete(this.isEmployee ? 'employee' : 'customer', this.pickedToDeletePerson.id).subscribe(
+    this.api.delete(this.isEmployee ? 'admin/user' : 'customer', this.pickedToDeletePerson.id).subscribe(
       () => {
         this.store.dispatch({type: serviceListActions.GET_REQUEST});
-        this.toastService.show('Delete successful!', 3000, 'green');
+        this.toastService.show('Deletion successful!', 3000, 'green');
       },
       (error) => this.toastService.show(error.message, 3000, 'red')
     );

@@ -59,7 +59,7 @@ export class ReservationDetailComponent implements OnDestroy {
   deleteReservation(): void {
     this.api.delete('reservation', this.reservation.id).subscribe(
       () => {
-        this.toastService.show('Delete successful!', 3000, 'green');
+        this.toastService.show('Deletion successful!', 3000, 'green');
         this.router.navigate(['private/reservation']);
       },
       (error) => this.toastService.show(error.message, 3000, 'red')

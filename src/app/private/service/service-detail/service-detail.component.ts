@@ -68,7 +68,7 @@ export class ServiceDetailComponent implements OnDestroy {
   deleteService(): void {
     this.api.delete('service', this.service.id).subscribe(
       () => {
-        this.toastService.show('Delete successful!', 3000, 'green');
+        this.toastService.show('Deletion successful!', 3000, 'green');
         this.router.navigate(['private/service']);
       },
       (error) => this.toastService.show(error.message, 3000, 'red')

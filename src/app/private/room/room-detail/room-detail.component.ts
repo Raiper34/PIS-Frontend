@@ -66,7 +66,7 @@ export class RoomDetailComponent implements OnDestroy {
   deleteRoom(): void {
     this.api.delete('room', this.room.id).subscribe(
       () => {
-        this.toastService.show('Delete successful!', 3000, 'green');
+        this.toastService.show('Deletion successful!', 3000, 'green');
         this.router.navigate(['private/room']);
       },
       (error) => this.toastService.show(error.message, 3000, 'red')

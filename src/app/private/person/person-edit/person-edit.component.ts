@@ -41,6 +41,7 @@ export class PersonEditComponent implements OnDestroy {
     this.editForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       surname: ['', Validators.required],
+      password: [''],
       role: ['CUSTOMER'],
       phone: [''],
       email: ['', Validators.email],
@@ -74,7 +75,7 @@ export class PersonEditComponent implements OnDestroy {
       birthDate: moment(this.editForm.get('birthDate').value).unix() * 1000,
     };
     if (this.editMode) {
-      this.api.update(this.isEmployee ? 'employee' : 'customer', this.person.id, service).subscribe(
+      this.api.update(this.isEmployee ? 'admin/user' : 'customer', this.person.id, service).subscribe(
         () => {
           this.toastService.show(`${this.isEmployee ? 'Employee' : 'Customer'} editation successful!`, 3000, 'green');
           this.router.navigate([`private/${this.isEmployee ? 'employee' : 'customer'}`]);
@@ -82,9 +83,9 @@ export class PersonEditComponent implements OnDestroy {
         (error) => this.toastService.show(error.message, 3000, 'red')
       );
     } else {
-      this.api.create(this.isEmployee ? 'employee' : 'customer', service).subscribe(
+      this.api.create(this.isEmployee ? 'admin/user' : 'customer', service).subscribe(
         () => {
-          this.toastService.show(`${this.isEmployee ? 'Employee' : 'Customer'} editation successful!`, 3000, 'green');
+          this.toastService.show(`${this.isEmployee ? 'Employee' : 'Customer'} creation successful!`, 3000, 'green');
           this.router.navigate([`private/${this.isEmployee ? 'employee' : 'customer'}`]);
         },
         (error) => this.toastService.show(error.message, 3000, 'red')

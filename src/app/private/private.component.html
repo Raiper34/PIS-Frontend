@@ -33,9 +33,6 @@
   </mz-sidenav-link>
   <mz-sidenav-subheader>Other</mz-sidenav-subheader>
   <mz-sidenav-link (click)="sidenav.opened = !sidenav.opened">
-    <a routerLink="/private/employee">Profile</a>
-  </mz-sidenav-link>
-  <mz-sidenav-link (click)="sidenav.opened = !sidenav.opened">
     <a href='#' (click)="logout($event)">Logout</a>
   </mz-sidenav-link>
 </mz-sidenav>
@@ -49,9 +46,8 @@
   [outDuration]="300"
   [stopPropagation]="true"
 >
-  <mz-dropdown-item><a routerLink="/private/employee" class="deep-orange-text">Profile</a></mz-dropdown-item>
   <mz-dropdown-item>
-    <a (click)="logout()" class="deep-orange-text">
+    <a (click)="logout($event)" class="deep-orange-text">
       Logout
       <i mz-icon [align]="'right'" [icon]="'power_settings_new'" [size]="'medium'"></i>
     </a>

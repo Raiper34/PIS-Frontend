@@ -18,6 +18,17 @@
               <input mz-input [label]="'Surname'" type="text" formControlName="surname">
             </mz-input-container>
           </div>
+          <div class="row" *ngIf="isEmployee">
+            <mz-input-container class="color-container col s6" *ngIf="!editMode">
+              <input mz-input [label]="'Password'" type="password" formControlName="password">
+            </mz-input-container>
+            <mz-select-container class="color-container col s6">
+              <select mz-select [label]="'Type'" [placeholder]="'None'" formControlName="role">
+                <option class="deep-orange" [value]="'ADMIN'">Admin</option>
+                <option class="deep-orange" [value]="'EMPLOYEE'">Employee</option>
+              </select>
+            </mz-select-container>
+          </div>
           <div class="row">
             <mz-input-container class="color-container col s6">
               <input mz-input [label]="'Personal Id'" type="text" formControlName="personalId">
@@ -33,14 +44,6 @@
             <mz-input-container class="color-container col s6">
               <input mz-input [label]="'Phone'" type="text" formControlName="phone">
             </mz-input-container>
-          </div>
-          <div class="row" *ngIf="isEmployee">
-            <mz-select-container class="color-container col s6">
-              <select mz-select [label]="'Type'" [placeholder]="'None'" formControlName="role">
-                <option class="deep-orange" [value]="'ADMIN'">Admin</option>
-                <option class="deep-orange" [value]="'EMPLOYEE'">Employee</option>
-              </select>
-            </mz-select-container>
           </div>
           <div class="right-align">
             <button *ngIf="!editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Create</button>

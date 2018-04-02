@@ -55,7 +55,7 @@ export class RoomComponent implements OnDestroy {
     this.api.delete('room', this.pickedToDeleteRoom.id).subscribe(
       () => {
         this.store.dispatch({type: roomListActions.GET_REQUEST});
-        this.toastService.show('Delete successful!', 3000, 'green');
+        this.toastService.show('Deletion successful!', 3000, 'green');
       },
       (error) => this.toastService.show(error.message, 3000, 'red')
     );
