@@ -4,7 +4,7 @@
     <h3>Rooms</h3>
   </div>
   <div class="row flex-container">
-    <button mz-button class="deep-orange" routerLink="/private/room/add">
+    <button mz-button class="deep-orange" routerLink="/private/room/add" *ngIf="isAdmin">
       <i mz-icon [align]="'left'" [icon]="'add_circle'" [size]="'medium'"></i>
       New Room
     </button>
@@ -38,9 +38,9 @@
             <td>
               <mz-dropdown [id]="room.id+'dropdown'" [dropdownButtonId]="room.id">
                 <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/room/detail', room.id]">Detail</a></mz-dropdown-item>
-                <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/room/edit', room.id]">Edit</a></mz-dropdown-item>
+                <mz-dropdown-item *ngIf="isAdmin"><a class="deep-orange-text" [routerLink]="['/private/room/edit', room.id]">Edit</a></mz-dropdown-item>
                 <mz-dropdown-divider></mz-dropdown-divider>
-                <mz-dropdown-item><a class="red white-text" (click)="pickToDelete(room); deleteModal.open()" >Delete</a></mz-dropdown-item>
+                <mz-dropdown-item *ngIf="isAdmin"><a class="red white-text" (click)="pickToDelete(room); deleteModal.open()" >Delete</a></mz-dropdown-item>
               </mz-dropdown>
               <a class="deep-orange" mz-button id="{{room.id}}" href="#">
                 <i mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>

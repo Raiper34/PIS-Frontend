@@ -15,6 +15,7 @@ import {ServiceEditComponent} from "./service/service-edit/service-edit.componen
 import {PersonDetailComponent} from "./person/person-detail/person-detail.component";
 import {PersonEditComponent} from "./person/person-edit/person-edit.component";
 import {PersonComponent} from "./person/person.component";
+import {RoleGuardService} from "../shared/services/role-guard.service";
 
 const privateRoutes: Routes = [
   {
@@ -32,20 +33,20 @@ const privateRoutes: Routes = [
           {path: 'reservation/add', component: ReservationEditComponent},
           {path: 'room', component: RoomComponent},
           {path: 'room/detail/:id', component: RoomDetailComponent},
-          {path: 'room/edit/:id', component: RoomEditComponent},
-          {path: 'room/add', component: RoomEditComponent},
+          {path: 'room/edit/:id', component: RoomEditComponent, canActivate: [RoleGuardService]},
+          {path: 'room/add', component: RoomEditComponent, canActivate: [RoleGuardService]},
           {path: 'service', component: ServiceComponent},
           {path: 'service/detail/:id', component: ServiceDetailComponent},
-          {path: 'service/edit/:id', component: ServiceEditComponent},
-          {path: 'service/add', component: ServiceEditComponent},
+          {path: 'service/edit/:id', component: ServiceEditComponent, canActivate: [RoleGuardService]},
+          {path: 'service/add', component: ServiceEditComponent, canActivate: [RoleGuardService]},
           {path: 'customer', component: PersonComponent, data: {type: 'customer'}},
           {path: 'customer/detail/:id', component: PersonDetailComponent, data: {type: 'customer'}},
           {path: 'customer/edit/:id', component: PersonEditComponent, data: {type: 'customer'}},
           {path: 'customer/add', component: PersonEditComponent, data: {type: 'customer'}},
-          {path: 'employee', component: PersonComponent, data: {type: 'employee'}},
-          {path: 'employee/detail/:id', component: PersonDetailComponent, data: {type: 'employee'}},
-          {path: 'employee/edit/:id', component: PersonEditComponent, data: {type: 'employee'}},
-          {path: 'employee/add', component: PersonEditComponent, data: {type: 'employee'}},
+          {path: 'employee', component: PersonComponent, data: {type: 'employee'}, canActivate: [RoleGuardService]},
+          {path: 'employee/detail/:id', component: PersonDetailComponent, data: {type: 'employee'}, canActivate: [RoleGuardService]},
+          {path: 'employee/edit/:id', component: PersonEditComponent, data: {type: 'employee'}, canActivate: [RoleGuardService]},
+          {path: 'employee/add', component: PersonEditComponent, data: {type: 'employee'}, canActivate: [RoleGuardService]},
           {path: '**', redirectTo: 'reservation', pathMatch: 'full'},
         ]
       }

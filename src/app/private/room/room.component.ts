@@ -9,6 +9,7 @@ import {ReservationModel} from "../../shared/models/reservation.model";
 import {reservationListActions} from "../../shared/reducers/reservationList.reducer";
 import {ApiService} from "../../shared/services/api.service";
 import {MzToastService} from "ng2-materialize";
+import {AuthService} from "../../shared/services/auth.service";
 
 @Component({
   selector: 'app-room',
@@ -24,10 +25,13 @@ export class RoomComponent implements OnDestroy {
   searchString = '';
 
   pickedToDeleteRoom: RoomModel;
+  isAdmin = false;
 
   constructor(private store: Store<AppState>,
               private toastService: MzToastService,
+              private auth: AuthService,
               private api: ApiService) {
+    this.isAdmin = this.auth.getActualUser().role === 'ADMIN';
     this.roomListSubscription = store.pipe(select('roomList')).subscribe((roomList: RoomModel[]) => {
       this.roomListValue = roomList;
     });

@@ -14,6 +14,7 @@ import {roomListActions} from "../../../shared/reducers/roomList.reducer";
 import {serviceListActions} from "../../../shared/reducers/serviceList.reducer";
 import {MzToastService} from "ng2-materialize";
 import {ApiService} from "../../../shared/services/api.service";
+import {AuthService} from "../../../shared/services/auth.service";
 
 @Component({
   selector: 'app-service-detail',
@@ -31,11 +32,15 @@ export class ServiceDetailComponent implements OnDestroy {
   currentPage = 0;
   searchString = '';
 
+  isAdmin = false;
+
   constructor(private store: Store<AppState>,
               private route: ActivatedRoute,
               private router: Router,
+              private auth: AuthService,
               private toastService: MzToastService,
               private api: ApiService) {
+    this.isAdmin = this.auth.getActualUser().role === 'ADMIN';
     this.serviceSubscription = store.pipe(select('service')).subscribe((service: ServiceModel) => {
       this.service = service;
     });

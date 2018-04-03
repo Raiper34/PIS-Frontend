@@ -37,7 +37,7 @@
           </mz-collection-item>
         </mz-collection>
       </mz-card-content>
-      <mz-card-action>
+      <mz-card-action *ngIf="isAdmin">
         <div class="right-align">
           <button mz-button (click)="deleteModal.open()" class="red">Delete</button>
           <button mz-button *ngIf="room" [routerLink]="['/private/room/edit', room?.id]" class="deep-orange">

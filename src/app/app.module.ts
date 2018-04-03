@@ -31,6 +31,7 @@ import {employeeEffects} from "./shared/effects/employee.effect";
 import {reservationEffects} from "./shared/effects/reservation.effect";
 import {roomEffects} from "./shared/effects/room.effect";
 import {serviceEffects} from "./shared/effects/service.effect";
+import {RoleGuardService} from "./shared/services/role-guard.service";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'public', pathMatch: 'full'},
@@ -80,6 +81,7 @@ const appRoutes: Routes = [
     AuthService,
     PrivateAuthGuardService,
     PublicAuthGuardService,
+    RoleGuardService,
     ApiService,
   ],
   bootstrap: [AppComponent]

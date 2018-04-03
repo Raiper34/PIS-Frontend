@@ -12,6 +12,7 @@ import {reservationListActions} from "../../../shared/reducers/reservationList.r
 import {pageSize} from "../../../shared/components/pagination/pagination.component";
 import {MzToastService} from "ng2-materialize";
 import {ApiService} from "../../../shared/services/api.service";
+import {AuthService} from "../../../shared/services/auth.service";
 
 @Component({
   selector: 'app-room-detail',
@@ -29,11 +30,15 @@ export class RoomDetailComponent implements OnDestroy {
   currentPage = 0;
   searchString = '';
 
+  isAdmin = false;
+
   constructor(private store: Store<AppState>,
               private route: ActivatedRoute,
               private router: Router,
               private toastService: MzToastService,
+              private auth: AuthService,
               private api: ApiService) {
+    this.isAdmin = this.auth.getActualUser().role === 'ADMIN';
     this.roomSubscription = store.pipe(select('room')).subscribe((room: RoomModel) => {
       this.room = room;
     });

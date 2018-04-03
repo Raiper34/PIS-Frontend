@@ -5,6 +5,6 @@ export interface PersonModel {
   personalId: string;
   email: string;
   birthDate: number;
-  role: number; //ENUM
+  role: string; //ENUM
   phone: string;
 }
