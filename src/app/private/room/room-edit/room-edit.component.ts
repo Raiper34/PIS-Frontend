@@ -26,6 +26,12 @@ export class RoomEditComponent implements OnDestroy {
   editMode = false;
   isDispatched = false;
 
+  roomTypes = [
+    {value: 'SINGLE', title: 'Single'},
+    {value: 'DOUBLE', title: 'Double'},
+    {value: 'APARTMENT', title: 'Apartment'},
+  ];
+
   constructor(private store: Store<AppState>,
               private formBuilder: FormBuilder,
               private toastService: MzToastService,
@@ -35,7 +41,7 @@ export class RoomEditComponent implements OnDestroy {
               private route: ActivatedRoute) {
     this.editForm = this.formBuilder.group({
       name: ['', Validators.required],
-      type: ['', Validators.required],
+      type: [this.roomTypes[0].value, Validators.required],
       price: [0],
       capacity: [0],
       size: [0],

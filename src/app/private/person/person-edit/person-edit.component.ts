@@ -29,6 +29,11 @@ export class PersonEditComponent implements OnDestroy {
   isEmployee = false;
   pageName = 'customer';
 
+  roleType = [
+    {value: 'EMPLOYEE', title: 'Employee'},
+    {value: 'ADMIN', title: 'Admin'},
+  ];
+
   constructor(private store: Store<AppState>,
               private formBuilder: FormBuilder,
               private toastService: MzToastService,
@@ -42,7 +47,7 @@ export class PersonEditComponent implements OnDestroy {
       firstname: ['', Validators.required],
       surname: ['', Validators.required],
       password: ['', Validators.required],
-      role: ['CUSTOMER', Validators.required],
+      role: [this.roleType[0].value, Validators.required],
       phone: [''],
       email: ['', Validators.email],
       birthDate: [0],

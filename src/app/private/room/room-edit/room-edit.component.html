@@ -16,9 +16,7 @@
             </mz-input-container>
             <mz-select-container class="color-container col s6">
               <select mz-select [label]="'Type'" [placeholder]="'None'" formControlName="type" id="type" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
-                <option class="deep-orange" [value]="'SINGLE'">Single</option>
-                <option class="deep-orange" [value]="'DOUBLE'">Double</option>
-                <option class="deep-orange" [value]="'APARTMENT'">Apartment</option>
+                <option class="deep-orange" *ngFor="let item of roomTypes" [value]="item.value">{{item.title}}</option>
               </select>
             </mz-select-container>
           </div>

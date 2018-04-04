@@ -24,8 +24,7 @@
             </mz-input-container>
             <mz-select-container class="color-container col s6">
               <select mz-select [label]="'Role'" [placeholder]="'None'" formControlName="role" id="role" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
-                <option class="deep-orange" [value]="'ADMIN'">Admin</option>
-                <option class="deep-orange" [value]="'EMPLOYEE'">Employee</option>
+                <option class="deep-orange" *ngFor="let item of roleType" [value]="item.value">{{item.title}}</option>
               </select>
             </mz-select-container>
           </div>

@@ -35,6 +35,16 @@ export class ReservationEditComponent implements OnDestroy {
   editMode = false;
   isDispatched = false;
 
+  paidTypes = [
+    {value: false, title: 'No'},
+    {value: true, title: 'Yes'},
+  ];
+
+  paymentTypes = [
+    {value: 'CARD', title: 'Card'},
+    {value: 'CASH', title: 'Cash'},
+  ];
+
   constructor(private store: Store<AppState>,
               private formBuilder: FormBuilder,
               private toastService: MzToastService,
@@ -47,8 +57,8 @@ export class ReservationEditComponent implements OnDestroy {
       dateTo: [moment().unix() * 1000, Validators.required],
       reservedRoom: [null, Validators.required],
       customer: [null, Validators.required],
-      paid: [''],
-      paymentType: [''],
+      paid: [this.paidTypes[0].value],
+      paymentType: [this.paymentTypes[0].value],
       services: [[]],
     });
 

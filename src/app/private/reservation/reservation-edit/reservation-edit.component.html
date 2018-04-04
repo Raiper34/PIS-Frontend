@@ -33,14 +33,12 @@
           <div class="row">
             <mz-select-container class="color-container col s6">
               <select mz-select [label]="'Paid'" [placeholder]="'None'" formControlName="paid">
-                <option class="deep-orange" [value]="true">Yes</option>
-                <option class="deep-orange" [value]="false">No</option>
+                <option class="deep-orange" *ngFor="let item of paidTypes" [value]="item.value">{{item.title}}</option>
               </select>
             </mz-select-container>
             <mz-select-container class="color-container col s6">
               <select mz-select [label]="'Payment type'" [placeholder]="'None'" formControlName="paymentType">
-                <option class="deep-orange" [value]="'CARD'">Card</option>
-                <option class="deep-orange" [value]="'CASH'">Cash</option>
+                <option class="deep-orange" *ngFor="let item of paymentTypes" [value]="item.value">{{item.title}}</option>
               </select>
             </mz-select-container>
           </div>
