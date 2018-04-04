@@ -42,11 +42,11 @@ export class PersonEditComponent implements OnDestroy {
       firstname: ['', Validators.required],
       surname: ['', Validators.required],
       password: ['', Validators.required],
-      role: ['CUSTOMER'],
+      role: ['CUSTOMER', Validators.required],
       phone: [''],
       email: ['', Validators.email],
       birthDate: [0],
-      personalId: ['', Validators.required],
+      personalId: [''],
     });
 
     this.route.params.subscribe(params => {

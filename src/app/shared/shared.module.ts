@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   MzButtonModule, MzCardModule, MzCollectionModule, MzDatepickerModule, MzDropdownModule, MzIconMdiModule, MzIconModule, MzInputModule,
   MzModalModule,
-  MzNavbarModule, MzSelectModule, MzSidenavModule, MzTextareaModule, MzToastModule, MzToastService
+  MzNavbarModule, MzSelectModule, MzSidenavModule, MzTextareaModule, MzToastModule, MzToastService, MzValidationModule
 } from "ng2-materialize";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
@@ -28,6 +28,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     MzDatepickerModule,
     MzSelectModule,
     MzTextareaModule,
+    MzValidationModule,
     ReactiveFormsModule,
     FormsModule,
     HttpModule,
@@ -49,6 +50,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     MzDatepickerModule,
     MzSelectModule,
     MzTextareaModule,
+    MzValidationModule,
     ReactiveFormsModule,
     FormsModule,
     HttpModule,

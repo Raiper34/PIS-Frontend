@@ -12,7 +12,7 @@
         <form [formGroup]="editForm" (ngSubmit)="submitForm()">
           <div class="row">
             <mz-input-container class="color-container col s6">
-              <input mz-input [label]="'Name'" type="text" formControlName="name">
+              <input mz-input [label]="'Name'" type="text" formControlName="name" id="name" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
             </mz-input-container>
             <mz-input-container class="color-container col s6">
               <input mz-input [label]="'Price'" type="number" formControlName="price">

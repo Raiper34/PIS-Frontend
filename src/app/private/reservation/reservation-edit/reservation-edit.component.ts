@@ -47,8 +47,8 @@ export class ReservationEditComponent implements OnDestroy {
       dateTo: [moment().unix() * 1000, Validators.required],
       reservedRoom: [null, Validators.required],
       customer: [null, Validators.required],
-      paid: ['', Validators.required],
-      paymentType: ['', Validators.required],
+      paid: [''],
+      paymentType: [''],
       services: [[]],
     });
 

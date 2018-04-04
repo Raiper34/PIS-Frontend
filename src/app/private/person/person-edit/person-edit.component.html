@@ -12,18 +12,18 @@
         <form [formGroup]="editForm" (ngSubmit)="submitForm()">
           <div class="row">
             <mz-input-container class="color-container col s6">
-              <input mz-input [label]="'Firstname'" type="text" formControlName="firstname">
+              <input mz-input [label]="'Firstname'" type="text" formControlName="firstname" id="firstname" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
             </mz-input-container>
             <mz-input-container class="color-container col s6">
-              <input mz-input [label]="'Surname'" type="text" formControlName="surname">
+              <input mz-input [label]="'Surname'" type="text" formControlName="surname" id="surname" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
             </mz-input-container>
           </div>
           <div class="row" *ngIf="isEmployee">
             <mz-input-container class="color-container col s6" *ngIf="!editMode">
-              <input mz-input [label]="'Password'" type="password" formControlName="password">
+              <input mz-input [label]="'Password'" type="password" formControlName="password" id="password" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
             </mz-input-container>
             <mz-select-container class="color-container col s6">
-              <select mz-select [label]="'Type'" [placeholder]="'None'" formControlName="role">
+              <select mz-select [label]="'Role'" [placeholder]="'None'" formControlName="role" id="role" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
                 <option class="deep-orange" [value]="'ADMIN'">Admin</option>
                 <option class="deep-orange" [value]="'EMPLOYEE'">Employee</option>
               </select>
@@ -39,7 +39,7 @@
           </div>
           <div class="row">
             <mz-input-container class="color-container col s6">
-              <input mz-input [label]="'E-mail'" type="text" formControlName="email">
+              <input mz-input [label]="'E-mail'" type="text" formControlName="email" id="email" mz-validation [errorMessageResource]="{email: 'Field needs to contain valid email address!'}">
             </mz-input-container>
             <mz-input-container class="color-container col s6">
               <input mz-input [label]="'Phone'" type="text" formControlName="phone">

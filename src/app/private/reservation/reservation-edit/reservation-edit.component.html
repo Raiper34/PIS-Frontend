@@ -12,20 +12,20 @@
         <form [formGroup]="editForm" (ngSubmit)="submitForm()">
           <div class="row">
             <mz-datepicker-container class="color-container col s6">
-              <input mz-datepicker [label]="'From'" type="text" formControlName="dateFrom">
+              <input mz-datepicker [label]="'From'" type="text" formControlName="dateFrom" id="dateFrom" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
             </mz-datepicker-container>
             <mz-datepicker-container class="color-container col s6">
-              <input mz-datepicker [label]="'To'" type="text" formControlName="dateTo">
+              <input mz-datepicker [label]="'To'" type="text" formControlName="dateTo" id="dateTo" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
             </mz-datepicker-container>
           </div>
           <div class="row">
             <mz-select-container class="color-container col s6">
-              <select mz-select [label]="'Room'" [placeholder]="'None'" formControlName="reservedRoom">
+              <select mz-select [label]="'Room'" [placeholder]="'None'" formControlName="reservedRoom" id="firstname" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
                 <option *ngFor="let room of roomList" class="deep-orange" [value]="room.id">{{room.name}}</option>
               </select>
             </mz-select-container>
             <mz-select-container class="color-container col s6">
-              <select mz-select [label]="'Customer'" [placeholder]="'None'" formControlName="customer">
+              <select mz-select [label]="'Customer'" [placeholder]="'None'" formControlName="customer" id="customer" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
                 <option *ngFor="let customer of customerList" class="deep-orange" [value]="customer.id">{{customer.firstname}} {{customer.surname}}</option>
               </select>
             </mz-select-container>
