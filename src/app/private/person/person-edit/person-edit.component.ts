@@ -41,7 +41,7 @@ export class PersonEditComponent implements OnDestroy {
     this.editForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       surname: ['', Validators.required],
-      password: [''],
+      password: ['', Validators.required],
       role: ['CUSTOMER'],
       phone: [''],
       email: ['', Validators.email],
@@ -52,6 +52,7 @@ export class PersonEditComponent implements OnDestroy {
     this.route.params.subscribe(params => {
       this.editMode = !!params.id;
       if (this.editMode) {
+        this.editForm.removeControl('password');
         this.isDispatched = true;
         this.store.dispatch({type: this.isEmployee ? employeeActions.GET_REQUEST : customerActions.GET_REQUEST, payload: params.id});
       }
