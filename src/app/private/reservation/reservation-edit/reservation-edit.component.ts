@@ -82,6 +82,9 @@ export class ReservationEditComponent implements OnDestroy {
       this.roomList = roomList as RoomModel[];
       this.serviceList = serviceList as ServiceModel[];
       this.editMode = params && params.id;
+      if (params.customer) {
+        this.editForm.patchValue({customer: params.customer});
+      }
       if (this.editMode && this.customerList.length > 0 && this.roomList.length > 0 && this.serviceList.length > 0) {
         this.isDispatched = true;
         this.store.dispatch({type: reservationActions.GET_REQUEST, payload: params.id});

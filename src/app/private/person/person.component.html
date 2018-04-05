@@ -42,6 +42,7 @@
               <mz-dropdown [id]="person.id+'dropdown'" [dropdownButtonId]="person.id">
                 <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/' + pageName + '/detail', person.id]">Detail</a></mz-dropdown-item>
                 <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/' + pageName + '/edit', person.id]">Edit</a></mz-dropdown-item>
+                <mz-dropdown-item *ngIf="!isEmployee"><a class="deep-orange-text" [routerLink]="['/private/reservation/add', person.id]">Reserve</a></mz-dropdown-item>
                 <mz-dropdown-divider></mz-dropdown-divider>
                 <mz-dropdown-item><a class="red white-text" (click)="pickToDelete(person); deleteModal.open()" >Delete</a></mz-dropdown-item>
               </mz-dropdown>
