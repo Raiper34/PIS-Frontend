@@ -35,6 +35,9 @@ export class ReservationEditComponent implements OnDestroy {
   editMode = false;
   isDispatched = false;
 
+  daysCount = 0;
+  finalPrice = 0;
+
   paidTypes = [
     {value: false, title: 'No'},
     {value: true, title: 'Yes'},
@@ -60,6 +63,10 @@ export class ReservationEditComponent implements OnDestroy {
       paid: [this.paidTypes[0].value],
       paymentType: [this.paymentTypes[0].value],
       services: [[]],
+    });
+    this.editForm.valueChanges.subscribe(() => {
+      this.daysCount = this.getDaysCount();
+      this.finalPrice = this.getFinalPrice();
     });
 
     this.store.dispatch({type: customerListActions.GET_REQUEST});
@@ -93,13 +100,13 @@ export class ReservationEditComponent implements OnDestroy {
     });
   }
 
-  get daysCount(): number {
+  getDaysCount(): number {
     const dateFrom = moment(this.editForm.get('dateFrom').value).startOf('day');
     const dateTo = moment(this.editForm.get('dateTo').value).startOf('day');
     return dateTo.diff(dateFrom, 'days');
   }
 
-  get finalPrice(): number {
+  getFinalPrice(): number {
     const reservedRoom = this.roomList.find((item) => item.id == this.editForm.get('reservedRoom').value);
     const pricePerDay = reservedRoom ? reservedRoom.price : 0;
     const servicePrice = this.serviceList.filter((item) => this.editForm.get('services').value.some((value) => value == item.id)).reduce(
