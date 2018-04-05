@@ -17,6 +17,7 @@ export class ReservationComponent implements OnDestroy {
 
   reservationListSubscription: Subscription;
   reservationListValue: ReservationModel[] = [];
+  reservationList: ReservationModel[] = [];
   reservationListSize = 0;
   currentPage = 0;
   searchString = '';
@@ -24,23 +25,30 @@ export class ReservationComponent implements OnDestroy {
   constructor(private store: Store<AppState>) {
     this.reservationListSubscription = store.pipe(select('reservationList')).subscribe((reservationList: ReservationModel[]) => {
       this.reservationListValue = reservationList;
+      this.prepareReservationList();
     });
     this.store.dispatch({type: reservationListActions.GET_REQUEST});
   }
 
-  get reservationList(): ReservationModel[] {
+  prepareReservationList(): void {
     const reservationListValue = this.reservationListValue.filter(
       (item) => (item.reservedRoom && item.reservedRoom.name.includes(this.searchString)) ||
         (item.customer && item.customer.surname.includes(this.searchString)) ||
         (item.customer && item.customer.firstname.includes(this.searchString))
     );
     this.reservationListSize = reservationListValue.length;
-    return reservationListValue
+    this.reservationList = reservationListValue
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
   changePage(page: number): void {
     this.currentPage = page;
+    this.prepareReservationList();
+  }
+
+  searchByString(search: string): void {
+    this.searchString = search;
+    this.prepareReservationList();
   }
 
   ngOnDestroy(): void {

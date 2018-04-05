@@ -11,7 +11,7 @@
       <span *ngIf="isEmployee">New Employee</span>
     </button>
     <mz-input-container class="color-container align-right">
-      <input mz-input placeholder="Search" type="text" [(ngModel)]="searchString">
+      <input mz-input placeholder="Search" type="text" (keyup)="searchByString($event.target.value)">
     </mz-input-container>
   </div>
   <div class="row">

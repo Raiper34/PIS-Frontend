@@ -20,6 +20,7 @@ export class RoomComponent implements OnDestroy {
 
   roomListSubscription: Subscription;
   roomListValue: RoomModel[] = [];
+  roomList: RoomModel[] = [];
   roomListSize = 0;
   currentPage = 0;
   searchString = '';
@@ -34,21 +35,28 @@ export class RoomComponent implements OnDestroy {
     this.isAdmin = this.auth.getActualUser().role === 'ADMIN';
     this.roomListSubscription = store.pipe(select('roomList')).subscribe((roomList: RoomModel[]) => {
       this.roomListValue = roomList;
+      this.prepareRoomList();
     });
     this.store.dispatch({type: roomListActions.GET_REQUEST});
   }
 
-  get roomList(): RoomModel[] {
+  prepareRoomList(): void {
     const roomListValue = this.roomListValue.filter(
       (item) => item.name.includes(this.searchString)
     );
     this.roomListSize = roomListValue.length;
-    return roomListValue
+    this.roomList = roomListValue
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
   changePage(page: number): void {
     this.currentPage = page;
+    this.prepareRoomList();
+  }
+
+  searchByString(search: string): void {
+    this.searchString = search;
+    this.prepareRoomList();
   }
 
   ngOnDestroy(): void {

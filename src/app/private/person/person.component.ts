@@ -21,6 +21,7 @@ export class PersonComponent implements OnDestroy {
 
   personListSubscription: Subscription;
   personListValue: PersonModel[] = [];
+  personList: PersonModel[] = [];
   personListSize = 0;
   currentPage = 0;
   searchString = '';
@@ -37,22 +38,29 @@ export class PersonComponent implements OnDestroy {
     this.pageName = this.isEmployee ? 'employee' : 'customer';
     this.personListSubscription = store.pipe(select(this.isEmployee ? 'employeeList' : 'customerList')).subscribe((customerList: PersonModel[]) => {
       this.personListValue = customerList;
+      this.preparePersonList();
     });
     this.store.dispatch({type: this.isEmployee ? employeeListActions.GET_REQUEST : customerListActions.GET_REQUEST});
   }
 
-  get personList(): PersonModel[] {
+  preparePersonList(): void {
     const customerListValue = this.personListValue.filter(
       (item) => item.surname.includes(this.searchString) ||
         item.firstname.includes(this.searchString)
     );
     this.personListSize = customerListValue.length;
-    return customerListValue
+    this.personList = customerListValue
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
   changePage(page: number): void {
     this.currentPage = page;
+    this.preparePersonList();
+  }
+
+  searchByString(search: string): void {
+    this.searchString = search;
+    this.preparePersonList();
   }
 
   ngOnDestroy(): void {

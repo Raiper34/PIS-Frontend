@@ -20,6 +20,7 @@ export class ServiceComponent implements OnDestroy {
 
   serviceListSubscription: Subscription;
   serviceListValue: ServiceModel[] = [];
+  serviceList: ServiceModel[] = [];
   serviceListSize = 0;
   currentPage = 0;
   searchString = '';
@@ -34,21 +35,28 @@ export class ServiceComponent implements OnDestroy {
     this.isAdmin = this.auth.getActualUser().role === 'ADMIN';
     this.serviceListSubscription = store.pipe(select('serviceList')).subscribe((serviceList: ServiceModel[]) => {
       this.serviceListValue = serviceList;
+      this.prepareServiceList();
     });
     this.store.dispatch({type: serviceListActions.GET_REQUEST});
   }
 
-  get serviceList(): ServiceModel[] {
+  prepareServiceList(): void {
     const serviceListValue = this.serviceListValue.filter(
       (item) => item.name.includes(this.searchString)
     );
     this.serviceListSize = serviceListValue.length;
-    return serviceListValue
+    this.serviceList = serviceListValue
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
   changePage(page: number): void {
     this.currentPage = page;
+    this.prepareServiceList();
+  }
+
+  searchByString(search: string): void {
+    this.searchString = search;
+    this.prepareServiceList();
   }
 
   ngOnDestroy(): void {
