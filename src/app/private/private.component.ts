@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AuthService} from "../shared/services/auth.service";
 import {Router} from "@angular/router";
 import {MzToastService} from "ng2-materialize";
+import {PersonModel} from "../shared/models/person.model";
 
 @Component({
   selector: 'app-private',
@@ -9,6 +10,8 @@ import {MzToastService} from "ng2-materialize";
   styleUrls: ['./private.component.scss']
 })
 export class PrivateComponent {
+
+  user: PersonModel;
 
   menu = [
     {link: '/private/reservation', title: 'Reservations', permission: ['ADMIN', 'EMPLOYEE']},
@@ -21,7 +24,8 @@ export class PrivateComponent {
   constructor(private toastService: MzToastService,
               private auth: AuthService,
               private router: Router) {
-    this.menu = this.menu.filter((item) => item.permission.some(permission => permission === this.auth.getActualUser().role));
+    this.user = this.auth.getActualUser();
+    this.menu = this.menu.filter((item) => item.permission.some(permission => permission === this.user.role));
   }
 
   logout(event: any): void {

@@ -6,7 +6,7 @@
     <mz-navbar-item *ngFor="let item of menu"><a routerLink="{{item.link}}">{{item.title}}</a></mz-navbar-item>
     <mz-navbar-item>
     <a id="menu-dropdown" href="#">
-      Filip Gulan
+      {{user.firstname}} {{user.surname}}
       <i mz-icon [align]="'right'" [icon]="'keyboard_arrow_down'" [size]="'medium'"></i>
     </a>
     </mz-navbar-item>
@@ -23,8 +23,8 @@
         <img src="assets/sidenav-background.jpeg">
       </div>
       <img class="circle" src="assets/avatar.png">
-      <span class="white-text name">Filip Gulan</span>
-      <span class="white-text email">xgulan00@stud.fit.vutbr.cz</span>
+      <span class="white-text name">{{user.firstname}} {{user.surname}}</span>
+      <span class="white-text email">{{user.email}}</span>
     </div>
   </li>
   <mz-sidenav-subheader>Menu</mz-sidenav-subheader>
