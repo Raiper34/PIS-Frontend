@@ -24,6 +24,7 @@ export class PersonEditComponent implements OnDestroy {
   personSubscription: Subscription;
   person: PersonModel;
   editForm: FormGroup;
+  passwordForm: FormGroup;
   editMode = false;
   isDispatched = false;
   isEmployee = false;
@@ -47,17 +48,25 @@ export class PersonEditComponent implements OnDestroy {
       firstname: ['', Validators.required],
       surname: ['', Validators.required],
       password: ['', Validators.required],
+      passwordAgain: ['', Validators.required],
       role: [this.roleType[0].value, Validators.required],
       phone: [''],
       email: ['', Validators.email],
       birthDate: [0],
       personalId: [''],
     });
+    this.passwordForm = this.formBuilder.group({
+      password: ['', Validators.required],
+      passwordAgain: ['', Validators.required],
+    });
 
     this.route.params.subscribe(params => {
       this.editMode = !!params.id;
-      if (this.editMode) {
+      if (this.editMode || !this.isEmployee) {
         this.editForm.removeControl('password');
+        this.editForm.removeControl('passwordAgain');
+      }
+      if (this.editMode) {
         this.isDispatched = true;
         this.store.dispatch({type: this.isEmployee ? employeeActions.GET_REQUEST : customerActions.GET_REQUEST, payload: params.id});
       }
@@ -73,13 +82,39 @@ export class PersonEditComponent implements OnDestroy {
     });
   }
 
+  get isPasswordInPasswordFormEqual: boolean {
+    return this.passwordForm.get('password').value === this.passwordForm.get('passwordAgain').value;
+  }
+
+  get isPasswordInEditFormEqual: boolean {
+    return !(this.editMode || !this.isEmployee) ? this.editForm.get('password').value === this.editForm.get('passwordAgain').value : true;
+  }
+
+  changePassword(): void {
+    this.api.update('admin/user', this.person.id, {
+      ...this.person,
+      password: this.passwordForm.get('password').value,
+    }).subscribe(
+      () => {
+        this.toastService.show(`${this.isEmployee ? 'Employee' : 'Customer'} editation successful!`, 3000, 'green');
+        this.router.navigate([`private/${this.isEmployee ? 'employee' : 'customer'}`]);
+      },
+      (error) => this.toastService.show(error.message, 3000, 'red')
+    );
+  }
+
   submitForm(): void {
+    const customerPassword = this.isEmployee ? {} : {password: ' '};
     const service = {
       role: 'CUSTOMER',
+      ...customerPassword,
       ...this.person,
       ...this.editForm.getRawValue(),
       birthDate: moment(this.editForm.get('birthDate').value).unix() * 1000,
     };
+    if (service.passwordAgain) {
+      delete service.passwordAgain;
+    }
     if (this.editMode) {
       this.api.update(this.isEmployee ? 'admin/user' : 'customer', this.person.id, service).subscribe(
         () => {

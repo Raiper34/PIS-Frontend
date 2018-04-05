@@ -18,15 +18,16 @@
               <input mz-input [label]="'Surname'" type="text" formControlName="surname" id="surname" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
             </mz-input-container>
           </div>
-          <div class="row" *ngIf="isEmployee">
-            <mz-input-container class="color-container col s6" *ngIf="!editMode">
+          <div class="row" *ngIf="isEmployee && !editMode">
+            <mz-input-container class="color-container col s6">
               <input mz-input [label]="'Password'" type="password" formControlName="password" id="password" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
             </mz-input-container>
-            <mz-select-container class="color-container col s6">
-              <select mz-select [label]="'Role'" [placeholder]="'None'" formControlName="role" id="role" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
-                <option class="deep-orange" *ngFor="let item of roleType" [value]="item.value">{{item.title}}</option>
-              </select>
-            </mz-select-container>
+            <mz-input-container class="color-container col s6">
+              <input mz-input [label]="'Password again'" type="password" formControlName="passwordAgain" id="passwordAgain" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
+            </mz-input-container>
+          </div>
+          <div class="row red-text center-align" *ngIf="!editMode && !isPasswordInEditFormEqual">
+            <div class="col s12">Passwords are not equal!</div>
           </div>
           <div class="row">
             <mz-input-container class="color-container col s6">
@@ -44,9 +45,45 @@
               <input mz-input [label]="'Phone'" type="text" formControlName="phone">
             </mz-input-container>
           </div>
+          <div class="row" *ngIf="isEmployee">
+            <mz-select-container class="color-container col s6">
+              <select mz-select [label]="'Role'" [placeholder]="'None'" formControlName="role" id="role" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
+                <option class="deep-orange" *ngFor="let item of roleType" [value]="item.value">{{item.title}}</option>
+              </select>
+            </mz-select-container>
+          </div>
           <div class="right-align">
-            <button *ngIf="!editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Create</button>
+            <button *ngIf="!editMode" [disabled]="editForm.invalid || (!editMode && !isPasswordInEditFormEqual)" mz-button class="deep-orange">Create</button>
             <button *ngIf="editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Edit</button>
+          </div>
+        </form>
+      </mz-card-content>
+    </mz-card>
+  </div>
+
+  <!-- Change password -->
+  <div class="row" *ngIf="editMode && isEmployee">
+    <!-- Card -->
+    <mz-card>
+      <mz-card-title>
+        Password
+      </mz-card-title>
+      <mz-card-content>
+        <!-- Form -->
+        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+          <div class="row" *ngIf="isEmployee">
+            <mz-input-container class="color-container col s6">
+              <input mz-input [label]="'Password'" type="password" formControlName="password" id="passwordEdit" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
+            </mz-input-container>
+            <mz-input-container class="color-container col s6">
+              <input mz-input [label]="'Password again'" type="password" formControlName="passwordAgain" id="passwordEditAgain" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
+            </mz-input-container>
+            <div class="row red-text center-align" *ngIf="!isPasswordInPasswordFormEqual">
+              <div class="col s12">Passwords are not equal!</div>
+            </div>
+          </div>
+          <div class="right-align">
+            <button [disabled]="passwordForm.invalid || !isPasswordInPasswordFormEqual" mz-button class="deep-orange">Change</button>
           </div>
         </form>
       </mz-card-content>

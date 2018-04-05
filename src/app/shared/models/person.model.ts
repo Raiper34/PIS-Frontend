@@ -7,4 +7,6 @@ export interface PersonModel {
   birthDate: number;
   role: string; //ENUM
   phone: string;
+  password: string;
+  passwordAgain: string;
 }
