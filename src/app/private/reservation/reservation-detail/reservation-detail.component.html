@@ -23,16 +23,16 @@
           </mz-collection-item>
           <mz-collection-item>
             <div class="title"><strong>Customer</strong></div>
-            <div>{{reservation?.customer.firstname}} {{reservation?.customer.surname}}</div>
+            <div><a *ngIf="reservation?.customer" [routerLink]="['/private/customer/detail', reservation?.customer?.id]">{{reservation?.customer?.firstname}} {{reservation?.customer?.surname}}</a></div>
           </mz-collection-item>
           <mz-collection-item>
             <div class="title"><strong>Room</strong></div>
-            <div>{{reservation?.reservedRoom?.name}} ({{reservation?.reservedRoom?.price}}&euro; per day)</div>
+            <div><a *ngIf="reservation?.reservedRoom" [routerLink]="['/private/room/detail', reservation.reservedRoom?.id]">{{reservation.reservedRoom?.name}}</a> ({{reservation?.reservedRoom?.price}}&euro; per day)</div>
           </mz-collection-item>
           <mz-collection-item>
             <div class="title"><strong>Services</strong></div>
             <div>
-              <span *ngFor="let service of reservation?.services">{{service.name}}({{service.price}}&euro;), </span>
+              <span *ngFor="let service of reservation?.services"><a [routerLink]="['/private/service/detail', service.id]">{{service.name}}</a>({{service.price}}&euro;), </span>
             </div>
           </mz-collection-item>
         </mz-collection>

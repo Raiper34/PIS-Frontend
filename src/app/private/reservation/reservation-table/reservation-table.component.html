@@ -10,8 +10,8 @@
   </thead>
   <tbody>
   <tr *ngFor="let reservation of reservationList">
-    <td>{{reservation.customer?.firstname}} {{reservation.customer?.surname}}</td>
-    <td>{{reservation.reservedRoom?.name}}</td>
+    <td><a [routerLink]="['/private/customer/detail', reservation.customer?.id]">{{reservation.customer?.firstname}} {{reservation.customer?.surname}}</a></td>
+    <td><a [routerLink]="['/private/room/detail', reservation.reservedRoom?.id]">{{reservation.reservedRoom?.name}}</a></td>
     <td>{{reservation.dateFrom | date:'M/d/yyyy'}}</td>
     <td>{{reservation.dateTo | date:'M/d/yyyy'}}</td>
     <td>
