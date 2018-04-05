@@ -19,6 +19,8 @@ export class ReservationDetailComponent implements OnDestroy {
 
   reservationSubscription: Subscription;
   reservation: ReservationModel;
+  daysCount = 0;
+  totalAmount = 0;
 
   constructor(private store: Store<AppState>,
               private route: ActivatedRoute,
@@ -27,6 +29,8 @@ export class ReservationDetailComponent implements OnDestroy {
               private api: ApiService) {
     this.reservationSubscription = store.pipe(select('reservation')).subscribe((reservation: ReservationModel) => {
       this.reservation = reservation;
+      this.daysCount = this.getDaysCount();
+      this.totalAmount = this.getTotalAmount();
     });
     this.route.params.subscribe(params => {
       this.store.dispatch({type: reservationActions.GET_REQUEST, payload: params.id});
@@ -37,7 +41,7 @@ export class ReservationDetailComponent implements OnDestroy {
     this.reservationSubscription.unsubscribe();
   }
 
-  get daysCount(): number {
+  getDaysCount(): number {
     if (this.reservation) {
       const dateFrom = moment(this.reservation.dateFrom).startOf('day');
       const dateTo = moment(this.reservation.dateTo).startOf('day');
@@ -46,7 +50,7 @@ export class ReservationDetailComponent implements OnDestroy {
     return 0;
   }
 
-  get totalAmount(): number {
+  getTotalAmount(): number {
     if (this.reservation) {
       const pricePerDay = this.reservation.reservedRoom ? this.reservation.reservedRoom.price : 0;
       const servicePrice = this.reservation.services.reduce(

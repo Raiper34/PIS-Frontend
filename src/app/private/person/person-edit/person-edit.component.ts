@@ -82,11 +82,11 @@ export class PersonEditComponent implements OnDestroy {
     });
   }
 
-  get isPasswordInPasswordFormEqual: boolean {
+  get isPasswordInPasswordFormEqual(): boolean {
     return this.passwordForm.get('password').value === this.passwordForm.get('passwordAgain').value;
   }
 
-  get isPasswordInEditFormEqual: boolean {
+  get isPasswordInEditFormEqual(): boolean {
     return !(this.editMode || !this.isEmployee) ? this.editForm.get('password').value === this.editForm.get('passwordAgain').value : true;
   }
 

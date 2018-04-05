@@ -28,9 +28,12 @@ export class PersonDetailComponent implements OnDestroy {
 
   reservationListSubscription: Subscription;
   reservationListValue: ReservationModel[] = [];
+  reservationList: ReservationModel[] = [];
   reservationListSize = 0;
   currentPage = 0;
   searchString = '';
+
+  dispatched = false;
 
   constructor(private store: Store<AppState>,
               private route: ActivatedRoute,
@@ -41,6 +44,8 @@ export class PersonDetailComponent implements OnDestroy {
     this.pageName = this.isEmployee ? 'employee' : 'customer';
     this.personSubscription = store.pipe(select(this.isEmployee ? 'employee' : 'customer')).subscribe((person: PersonModel) => {
       this.person = person;
+      this.dispatched = true;
+      this.store.dispatch({type: reservationListActions.GET_REQUEST});
     });
     this.route.params.subscribe(params => {
       this.store.dispatch({type: this.isEmployee ? employeeActions.GET_REQUEST : customerActions.GET_REQUEST, payload: params.id});
@@ -48,11 +53,13 @@ export class PersonDetailComponent implements OnDestroy {
 
     this.reservationListSubscription = store.pipe(select('reservationList')).subscribe((reservationList: ReservationModel[]) => {
       this.reservationListValue = reservationList;
+      if (this.dispatched && this.person) {
+        this.prepareReservationList();
+      }
     });
-    this.store.dispatch({type: reservationListActions.GET_REQUEST});
   }
 
-  get reservationList(): ReservationModel[] {
+  prepareReservationList(): void {
     const reservationListValue = this.reservationListValue
       .filter((item) => (this.isEmployee ? item.creator.id : item.customer.id) == this.person.id)
       .filter((item) => (item.reservedRoom && item.reservedRoom.name.includes(this.searchString)) ||
@@ -60,13 +67,13 @@ export class PersonDetailComponent implements OnDestroy {
         (item.customer && item.customer.firstname.includes(this.searchString))
       );
     this.reservationListSize = reservationListValue.length;
-    return reservationListValue
+    this.reservationList = reservationListValue
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
   changePage(page: number): void {
     this.currentPage = page;
-    this.reservationListSubscription.unsubscribe();
+    this.prepareReservationList();
   }
 
   deletePerson(): void {
@@ -81,6 +88,7 @@ export class PersonDetailComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.personSubscription.unsubscribe();
+    this.reservationListSubscription.unsubscribe();
   }
 
 }

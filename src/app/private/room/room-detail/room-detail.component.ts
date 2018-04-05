@@ -26,11 +26,13 @@ export class RoomDetailComponent implements OnDestroy {
 
   reservationListSubscription: Subscription;
   reservationListValue: ReservationModel[] = [];
+  reservationList: ReservationModel[] = [];
   reservationListSize = 0;
   currentPage = 0;
   searchString = '';
 
   isAdmin = false;
+  dispatched = false;
 
   constructor(private store: Store<AppState>,
               private route: ActivatedRoute,
@@ -41,6 +43,8 @@ export class RoomDetailComponent implements OnDestroy {
     this.isAdmin = this.auth.getActualUser().role === 'ADMIN';
     this.roomSubscription = store.pipe(select('room')).subscribe((room: RoomModel) => {
       this.room = room;
+      this.dispatched = true;
+      this.store.dispatch({type: reservationListActions.GET_REQUEST});
     });
     this.route.params.subscribe(params => {
       this.store.dispatch({type: roomActions.GET_REQUEST, payload: params.id});
@@ -48,11 +52,13 @@ export class RoomDetailComponent implements OnDestroy {
 
     this.reservationListSubscription = store.pipe(select('reservationList')).subscribe((reservationList: ReservationModel[]) => {
       this.reservationListValue = reservationList;
+      if (this.dispatched && this.room) {
+        this.prepareReservationList();
+      }
     });
-    this.store.dispatch({type: reservationListActions.GET_REQUEST});
   }
 
-  get reservationList(): ReservationModel[] {
+  prepareReservationList(): void {
     const reservationListValue = this.reservationListValue
       .filter((item) => item.reservedRoom.id == this.room.id)
       .filter((item) => (item.reservedRoom && item.reservedRoom.name.includes(this.searchString)) ||
@@ -60,12 +66,13 @@ export class RoomDetailComponent implements OnDestroy {
         (item.customer && item.customer.firstname.includes(this.searchString))
     );
     this.reservationListSize = reservationListValue.length;
-    return reservationListValue
+    this.reservationList = reservationListValue
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
   changePage(page: number): void {
     this.currentPage = page;
+    this.prepareReservationList();
   }
 
   deleteRoom(): void {

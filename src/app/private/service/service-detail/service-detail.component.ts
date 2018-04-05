@@ -28,11 +28,13 @@ export class ServiceDetailComponent implements OnDestroy {
 
   reservationListSubscription: Subscription;
   reservationListValue: ReservationModel[] = [];
+  reservationList: ReservationModel[] = [];
   reservationListSize = 0;
   currentPage = 0;
   searchString = '';
 
   isAdmin = false;
+  dispatched = false;
 
   constructor(private store: Store<AppState>,
               private route: ActivatedRoute,
@@ -43,6 +45,8 @@ export class ServiceDetailComponent implements OnDestroy {
     this.isAdmin = this.auth.getActualUser().role === 'ADMIN';
     this.serviceSubscription = store.pipe(select('service')).subscribe((service: ServiceModel) => {
       this.service = service;
+      this.dispatched = true;
+      this.store.dispatch({type: reservationListActions.GET_REQUEST});
     });
     this.route.params.subscribe(params => {
       this.store.dispatch({type: serviceActions.GET_REQUEST, payload: params.id});
@@ -50,11 +54,13 @@ export class ServiceDetailComponent implements OnDestroy {
 
     this.reservationListSubscription = store.pipe(select('reservationList')).subscribe((reservationList: ReservationModel[]) => {
       this.reservationListValue = reservationList;
+      if (this.dispatched && this.service) {
+        this.prepareReservationList();
+      }
     });
-    this.store.dispatch({type: reservationListActions.GET_REQUEST});
   }
 
-  get reservationList(): ReservationModel[] {
+  prepareReservationList(): void {
     const reservationListValue = this.reservationListValue
       .filter((item) => item.services.some((serviceItem) => serviceItem.id == this.service.id))
       .filter((item) => (item.reservedRoom && item.reservedRoom.name.includes(this.searchString)) ||
@@ -62,12 +68,13 @@ export class ServiceDetailComponent implements OnDestroy {
         (item.customer && item.customer.firstname.includes(this.searchString))
       );
     this.reservationListSize = reservationListValue.length;
-    return reservationListValue
+    this.reservationList = reservationListValue
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
   changePage(page: number): void {
     this.currentPage = page;
+    this.prepareReservationList();
   }
 
   deleteService(): void {
