@@ -43,7 +43,7 @@ const privateRoutes: Routes = [
           {path: 'customer', component: PersonComponent, data: {type: 'customer'}},
           {path: 'customer/detail/:id', component: PersonDetailComponent, data: {type: 'customer'}},
           {path: 'customer/edit/:id', component: PersonEditComponent, data: {type: 'customer'}},
-          {path: 'customer/add/', component: PersonEditComponent, data: {type: 'customer'}},
+          {path: 'customer/add', component: PersonEditComponent, data: {type: 'customer'}},
           {path: 'employee', component: PersonComponent, data: {type: 'employee'}, canActivate: [RoleGuardService]},
           {path: 'employee/detail/:id', component: PersonDetailComponent, data: {type: 'employee'}, canActivate: [RoleGuardService]},
           {path: 'employee/edit/:id', component: PersonEditComponent, data: {type: 'employee'}, canActivate: [RoleGuardService]},
