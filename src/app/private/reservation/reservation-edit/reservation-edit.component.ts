@@ -17,6 +17,7 @@ import {ApiService} from "../../../shared/services/api.service";
 import {MzToastService} from "ng2-materialize";
 import * as moment from 'moment';
 import {combineLatest} from "rxjs/observable/combineLatest";
+import {reservationListActions} from "../../../shared/reducers/reservationList.reducer";
 
 @Component({
   selector: 'app-reservation-edit',
@@ -28,7 +29,9 @@ export class ReservationEditComponent implements OnDestroy {
   customerRoomServiceSubscription: Subscription;
   reservationSubscription: Subscription;
   reservation: ReservationModel;
+  reservationList: ReservationModel[];
   customerList: PersonModel[] = [];
+  roomListValue: RoomModel[] = [];
   roomList: RoomModel[] = [];
   serviceList: ServiceModel[] = [];
   editForm: FormGroup;
@@ -56,8 +59,8 @@ export class ReservationEditComponent implements OnDestroy {
               private auth: AuthService,
               private route: ActivatedRoute) {
     this.editForm = this.formBuilder.group({
-      dateFrom: [moment().unix() * 1000, Validators.required],
-      dateTo: [moment().unix() * 1000, Validators.required],
+      dateFrom: [moment().startOf('day').unix() * 1000, Validators.required],
+      dateTo: [moment().startOf('day').unix() * 1000, Validators.required],
       reservedRoom: [null, Validators.required],
       customer: [null, Validators.required],
       paid: [this.paidTypes[0].value],
@@ -69,19 +72,32 @@ export class ReservationEditComponent implements OnDestroy {
       this.finalPrice = this.getFinalPrice();
     });
 
+    this.editForm.get('dateFrom').valueChanges.subscribe(() => this.changeDates());
+    this.editForm.get('dateTo').valueChanges.subscribe(() => this.changeDates());
+
     this.store.dispatch({type: customerListActions.GET_REQUEST});
     this.store.dispatch({type: roomListActions.GET_REQUEST});
     this.store.dispatch({type: serviceListActions.GET_REQUEST});
+    this.store.dispatch({type: reservationListActions.GET_REQUEST});
     this.customerRoomServiceSubscription = combineLatest(
       store.pipe(select('customerList')),
       store.pipe(select('roomList')),
       store.pipe(select('serviceList')),
+      store.pipe(select('reservationList')),
       this.route.params,
-    ).subscribe(([customerList, roomList, serviceList, params]) => {
+    ).subscribe(([customerList, roomList, serviceList, reservationList, params]) => {
       this.customerList = customerList as PersonModel[];
-      this.roomList = roomList as RoomModel[];
+      this.roomListValue = roomList as RoomModel[];
       this.serviceList = serviceList as ServiceModel[];
+      this.reservationList = reservationList as ReservationModel[];
       this.editMode = params && params.id;
+      if (this.editMode) {
+        this.roomList = this.roomListValue;
+        this.editForm.get('dateFrom').disable();
+        this.editForm.get('dateTo').disable();
+        this.editForm.get('reservedRoom').disable();
+        this.editForm.get('customer').disable();
+      }
       if (params.customer) {
         this.editForm.patchValue({customer: params.customer});
       }
@@ -103,6 +119,27 @@ export class ReservationEditComponent implements OnDestroy {
     });
   }
 
+  changeDates(): void {
+    if (!this.editMode) {
+      this.editForm.patchValue({reservedRoom: null});
+    }
+    if (this.roomList && this.reservationList) {
+      const dateFrom = moment(this.editForm.get('dateFrom').value).startOf('day').add(1, 'seconds');
+      const dateTo = moment(this.editForm.get('dateTo').value).startOf('day').subtract(1, 'seconds');
+      this.roomList = this.roomListValue.filter(roomItem =>
+        this.reservationList
+          .filter(reservationItem => reservationItem.reservedRoom.id === roomItem.id)
+          .filter(reservationItem =>
+            dateFrom.isBetween(reservationItem.dateFrom, reservationItem.dateTo) ||
+            dateTo.isBetween(reservationItem.dateFrom, reservationItem.dateTo) ||
+            moment(reservationItem.dateFrom).startOf('day').add(1, 'seconds').isBetween(dateFrom.subtract(1, 'seconds'), dateTo.add(1, 'seconds')) ||
+            moment(reservationItem.dateTo).startOf('day').add(1, 'seconds').isBetween(dateFrom.subtract(1, 'seconds'), dateTo.add(1, 'seconds'))
+          )
+          .length === 0
+      );
+    }
+  }
+
   getDaysCount(): number {
     const dateFrom = moment(this.editForm.get('dateFrom').value).startOf('day');
     const dateTo = moment(this.editForm.get('dateTo').value).startOf('day');
@@ -121,8 +158,8 @@ export class ReservationEditComponent implements OnDestroy {
     const reservation = {
       ...this.reservation,
       ...this.editForm.getRawValue(),
-      dateFrom: moment(this.editForm.get('dateFrom').value).unix() * 1000,
-      dateTo: moment(this.editForm.get('dateTo').value).unix() * 1000,
+      dateFrom: moment(this.editForm.get('dateFrom').value).startOf('day').unix() * 1000,
+      dateTo: moment(this.editForm.get('dateTo').value).startOf('day').unix() * 1000,
       customer: this.customerList.find((item) => item.id == this.editForm.get('customer').value),
       reservedRoom: this.roomList.find((item) => item.id == this.editForm.get('reservedRoom').value),
       services: this.serviceList.filter((item) => this.editForm.get('services').value.some((value) => value == item.id)),
