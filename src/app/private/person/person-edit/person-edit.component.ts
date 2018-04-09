@@ -85,11 +85,11 @@ export class PersonEditComponent implements OnDestroy {
     this.route.params.subscribe(params => {
       this.editMode = !!params.id;
       this.ownProfile = params.id == this.auth.getActualUser().id;
-      if (this.editMode || !this.isEmployee) { //it is editing and it is not employee so we do not create password
+      if (this.editMode || !this.isEmployee) { // it is editing and it is not employee so we do not create password
         this.editForm.removeControl('password');
         this.editForm.removeControl('passwordAgain');
       }
-      if (this.editMode) { //it is edit mode
+      if (this.editMode) {
         this.isDispatched = true;
         this.store.dispatch({type: this.isEmployee ? employeeActions.GET_REQUEST : customerActions.GET_REQUEST, payload: params.id});
       }
@@ -97,7 +97,7 @@ export class PersonEditComponent implements OnDestroy {
 
     this.personSubscription = store.pipe(select(this.isEmployee ? 'employee' : 'customer')).subscribe((person: PersonModel) => {
       this.person = person;
-      if (this.isDispatched) { //it was dispatched, so we have current wanted user
+      if (this.isDispatched) {
         this.editForm.patchValue({
           ...this.person,
         });

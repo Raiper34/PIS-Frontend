@@ -67,7 +67,7 @@
   </div>
 
   <!-- Change password -->
-  <div class="row" *ngIf="(editMode && isEmployee && this.person.role === 'EMPLOYEE') || (editMode && isEmployee && this.person.role === 'ADMIN' && ownProfile)">
+  <div class="row" *ngIf="(editMode && isEmployee && this.person?.role === 'EMPLOYEE') || (editMode && isEmployee && this.person?.role === 'ADMIN' && ownProfile)">
     <!-- Card -->
     <mz-card>
       <mz-card-title>
