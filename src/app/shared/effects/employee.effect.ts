@@ -7,9 +7,20 @@ import {of} from "rxjs/observable/of";
 import {catchError, map, mergeMap} from "rxjs/operators";
 import {employeeActions} from "../reducers/employee.reducer";
 
+/*
+ * Employee Effects
+ * Side effects of reducer to handle and process requests to API
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 2018
+ */
 @Injectable()
 export class employeeEffects {
 
+  /**
+   * Effect to catch dispatches and make any side effect like api call
+   * @type {Observable<any>}
+   */
   @Effect() get$: Observable<Action> = this.actions$.pipe(
     ofType(employeeActions.GET_REQUEST),
     mergeMap((action: any) =>
@@ -20,6 +31,11 @@ export class employeeEffects {
     )
   );
 
+  /**
+   * Constructor with Dependency Injections
+   * @param {ApiService} api
+   * @param {Actions} actions$
+   */
   constructor(private api: ApiService,
               private actions$: Actions) {
   }

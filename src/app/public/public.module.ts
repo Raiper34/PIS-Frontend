@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PublicComponent } from './public.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {PublicComponent} from './public.component';
 import {PublicRoutingModule} from "./public-routing.module";
-import { LoginComponent } from './login/login.component';
+import {LoginComponent} from './login/login.component';
 import {RouterModule} from "@angular/router";
 import {SharedModule} from "../shared/shared.module";
 
@@ -15,4 +15,5 @@ import {SharedModule} from "../shared/shared.module";
   ],
   declarations: [PublicComponent, LoginComponent]
 })
-export class PublicModule { }
+export class PublicModule {
+}

@@ -1,3 +1,10 @@
+/*
+ * Room Model
+ * Interface for room objects
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 export interface RoomModel {
   id?: string;
   size: number;

@@ -3,6 +3,13 @@ import {PersonModel} from "./person.model";
 import {RoomModel} from "./room.model";
 import {ServiceModel} from "./service.model";
 
+/*
+ * App State
+ * Represent whole application state, for reducers
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 export interface AppState {
   customerList: PersonModel[];
   customer: PersonModel;

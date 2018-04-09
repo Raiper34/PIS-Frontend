@@ -1,10 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
 import {ApiService} from "../../shared/services/api.service";
 import {Router} from "@angular/router";
 import {MzToastService} from "ng2-materialize";
 
+/*
+ * Login Component
+ * Component that holds login form
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,6 +21,14 @@ export class LoginComponent {
 
   loginForm: FormGroup;
 
+  /**
+   * Constructor widh Dependency Injection
+   * @param {FormBuilder} formBuilder
+   * @param {Router} router
+   * @param {MzToastService} toastService
+   * @param {ApiService} api
+   * @param {AuthService} auth
+   */
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private toastService: MzToastService,
@@ -25,6 +40,10 @@ export class LoginComponent {
     });
   }
 
+  /**
+   * Login
+   * Login user with provided form data
+   */
   login(): void {
     this.auth.login(
       this.loginForm.get('username').value,
