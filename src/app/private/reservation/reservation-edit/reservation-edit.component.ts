@@ -120,9 +120,10 @@ export class ReservationEditComponent implements OnDestroy {
   }
 
   changeDates(): void {
-    if (!this.editMode) {
-      this.editForm.patchValue({reservedRoom: null});
+    if (this.editMode) {
+      return;
     }
+    this.editForm.patchValue({reservedRoom: null});
     if (this.roomList && this.reservationList) {
       const dateFrom = moment(this.editForm.get('dateFrom').value).startOf('day').add(1, 'seconds');
       const dateTo = moment(this.editForm.get('dateTo').value).startOf('day').subtract(1, 'seconds');
