@@ -1,15 +1,38 @@
 <table class="highlight responsive-table">
   <thead>
   <tr>
+    <th>
+      <div class="sort-head">
+        Created
+        <i class="sort inactive-sort" *ngIf="sort.by !== 'dateCreated'"mz-icon [icon]="'keyboard_arrow_down'" [size]="'small'" (click)="setSort('dateCreated', 'asc')"></i>
+        <i class="sort active-sort" *ngIf="sort.by === 'dateCreated' && sort.direction === 'asc'" mz-icon [icon]="'keyboard_arrow_down'" [size]="'small'" (click)="setSort('dateCreated', 'desc')"></i>
+        <i class="sort active-sort" *ngIf="sort.by === 'dateCreated' && sort.direction === 'desc'" mz-icon [icon]="'keyboard_arrow_up'" [size]="'small'" (click)="setSort('dateCreated', 'asc')"></i>
+      </div>
+    </th>
     <th>Customer</th>
     <th>Room</th>
-    <th>From</th>
-    <th>To</th>
+    <th>
+      <div class="sort-head">
+        From
+        <i class="sort inactive-sort" *ngIf="sort.by !== 'dateFrom'"mz-icon [icon]="'keyboard_arrow_down'" [size]="'small'" (click)="setSort('dateFrom', 'asc')"></i>
+        <i class="sort active-sort" *ngIf="sort.by === 'dateFrom' && sort.direction === 'asc'" mz-icon [icon]="'keyboard_arrow_down'" [size]="'small'" (click)="setSort('dateFrom', 'desc')"></i>
+        <i class="sort active-sort" *ngIf="sort.by === 'dateFrom' && sort.direction === 'desc'" mz-icon [icon]="'keyboard_arrow_up'" [size]="'small'" (click)="setSort('dateFrom', 'asc')"></i>
+      </div>
+    </th>
+    <th>
+      <div class="sort-head">
+        To
+        <i class="sort inactive-sort" *ngIf="sort.by !== 'dateTo'"mz-icon [icon]="'keyboard_arrow_down'" [size]="'small'" (click)="setSort('dateTo', 'asc')"></i>
+        <i class="sort active-sort" *ngIf="sort.by === 'dateTo' && sort.direction === 'asc'" mz-icon [icon]="'keyboard_arrow_down'" [size]="'small'" (click)="setSort('dateTo', 'desc')"></i>
+        <i class="sort active-sort" *ngIf="sort.by === 'dateTo' && sort.direction === 'desc'" mz-icon [icon]="'keyboard_arrow_up'" [size]="'small'" (click)="setSort('dateTo', 'asc')"></i>
+      </div>
+    </th>
     <th>Paid</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let reservation of reservationList">
+  <tr *ngFor="let reservation of reservationListSorted">
+    <td>{{reservation.dateCreated | date:'M/d/yyyy'}}</td>
     <td><a [routerLink]="['/private/customer/detail', reservation.customer?.id]">{{reservation.customer?.firstname}} {{reservation.customer?.surname}}</a></td>
     <td><a [routerLink]="['/private/room/detail', reservation.reservedRoom?.id]">{{reservation.reservedRoom?.name}}</a></td>
     <td>{{reservation.dateFrom | date:'M/d/yyyy'}}</td>

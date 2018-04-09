@@ -5,6 +5,7 @@ import {Store} from "@ngrx/store";
 import {MzToastService} from "ng2-materialize";
 import {ApiService} from "../../../shared/services/api.service";
 import {AppState} from "../../../shared/models/app.state";
+import {ServiceModel} from "../../../shared/models/service.model";
 
 @Component({
   selector: 'app-reservation-table',
@@ -13,8 +14,14 @@ import {AppState} from "../../../shared/models/app.state";
 })
 export class ReservationTableComponent {
 
-  @Input() reservationList: ReservationModel[];
+  reservationListOriginal: ReservationModel[];
+  reservationListSorted: ReservationModel[];
   pickedToDeleteReservation: ReservationModel;
+
+  sort = {
+    by: 'dateCreated',
+    direction: 'desc',
+  };
 
   constructor(private store: Store<AppState>,
               private toastService: MzToastService,
@@ -45,6 +52,25 @@ export class ReservationTableComponent {
 
   pickToDelete(reservation: ReservationModel): void {
     this.pickedToDeleteReservation = reservation;
+  }
+
+  @Input()
+  set reservationList(reservationList: ReservationModel[]) {
+    this.reservationListOriginal = reservationList;
+    this.reservationListSorted = this.reservationListOriginal;
+  }
+
+  setSort(by: string, direction: string): void {
+    this.sort = {by, direction};
+    this.reservationListSorted = this.reservationListOriginal.sort((item1, item2) => this.sortItems(item1, item2));
+  }
+
+  sortItems(item1: ReservationModel, item2: ReservationModel): number {
+    if (this.sort.direction === 'asc') {
+      return item1[this.sort.by] > item2[this.sort.by] ? 1 : item2[this.sort.by] > item1[this.sort.by] ? -1 : 0;
+    } else {
+      return item1[this.sort.by] < item2[this.sort.by] ? 1 : item2[this.sort.by] < item1[this.sort.by] ? -1 : 0;
+    }
   }
 
 }

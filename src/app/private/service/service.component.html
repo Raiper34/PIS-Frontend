@@ -20,8 +20,22 @@
         <table class="highlight responsive-table">
           <thead>
           <tr>
-            <th>Name</th>
-            <th>Price</th>
+            <th>
+              <div class="sort-head">
+                Name
+                <i class="sort inactive-sort" *ngIf="sort.by !== 'name'"mz-icon [icon]="'keyboard_arrow_down'" [size]="'small'" (click)="setSort('name', 'asc')"></i>
+                <i class="sort active-sort" *ngIf="sort.by === 'name' && sort.direction === 'asc'" mz-icon [icon]="'keyboard_arrow_down'" [size]="'small'" (click)="setSort('name', 'desc')"></i>
+                <i class="sort active-sort" *ngIf="sort.by === 'name' && sort.direction === 'desc'" mz-icon [icon]="'keyboard_arrow_up'" [size]="'small'" (click)="setSort('name', 'asc')"></i>
+              </div>
+            </th>
+            <th>
+              <div class="sort-head">
+                Price
+                <i class="sort inactive-sort" *ngIf="sort.by !== 'price'"mz-icon [icon]="'keyboard_arrow_down'" [size]="'small'" (click)="setSort('price', 'asc')"></i>
+                <i class="sort active-sort" *ngIf="sort.by === 'price' && sort.direction === 'asc'" mz-icon [icon]="'keyboard_arrow_down'" [size]="'small'" (click)="setSort('price', 'desc')"></i>
+                <i class="sort active-sort" *ngIf="sort.by === 'price' && sort.direction === 'desc'" mz-icon [icon]="'keyboard_arrow_up'" [size]="'small'" (click)="setSort('price', 'asc')"></i>
+              </div>
+            </th>
             <th></th>
           </tr>
           </thead>

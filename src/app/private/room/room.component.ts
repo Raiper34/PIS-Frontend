@@ -10,6 +10,7 @@ import {reservationListActions} from "../../shared/reducers/reservationList.redu
 import {ApiService} from "../../shared/services/api.service";
 import {MzToastService} from "ng2-materialize";
 import {AuthService} from "../../shared/services/auth.service";
+import {ServiceModel} from "../../shared/models/service.model";
 
 @Component({
   selector: 'app-room',
@@ -24,6 +25,11 @@ export class RoomComponent implements OnDestroy {
   roomListSize = 0;
   currentPage = 0;
   searchString = '';
+
+  sort = {
+    by: 'name',
+    direction: 'asc',
+  };
 
   pickedToDeleteRoom: RoomModel;
   isAdmin = false;
@@ -46,7 +52,8 @@ export class RoomComponent implements OnDestroy {
     );
     this.roomListSize = roomListValue.length;
     this.roomList = roomListValue
-      .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
+      .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize)
+      .sort((item1, item2) => this.sortItems(item1, item2));
   }
 
   changePage(page: number): void {
@@ -75,6 +82,19 @@ export class RoomComponent implements OnDestroy {
 
   pickToDelete(room: RoomModel): void {
     this.pickedToDeleteRoom = room;
+  }
+
+  setSort(by: string, direction: string): void {
+    this.sort = {by, direction};
+    this.prepareRoomList();
+  }
+
+  sortItems(item1: RoomModel, item2: RoomModel): number {
+    if (this.sort.direction === 'asc') {
+      return item1[this.sort.by] > item2[this.sort.by] ? 1 : item2[this.sort.by] > item1[this.sort.by] ? -1 : 0;
+    } else {
+      return item1[this.sort.by] < item2[this.sort.by] ? 1 : item2[this.sort.by] < item1[this.sort.by] ? -1 : 0;
+    }
   }
 
 }

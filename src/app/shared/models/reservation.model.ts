@@ -4,6 +4,7 @@ import {ServiceModel} from "./service.model";
 
 export interface ReservationModel {
   id?: string;
+  dateCreated: number;
   dateFrom: number;
   dateTo: number;
   paid: boolean;

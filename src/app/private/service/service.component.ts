@@ -25,6 +25,11 @@ export class ServiceComponent implements OnDestroy {
   currentPage = 0;
   searchString = '';
 
+  sort = {
+    by: 'name',
+    direction: 'asc',
+  };
+
   pickedToDeleteService: ServiceModel;
   isAdmin = false;
 
@@ -46,7 +51,8 @@ export class ServiceComponent implements OnDestroy {
     );
     this.serviceListSize = serviceListValue.length;
     this.serviceList = serviceListValue
-      .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
+      .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize)
+      .sort((item1, item2) => this.sortItems(item1, item2));
   }
 
   changePage(page: number): void {
@@ -75,6 +81,19 @@ export class ServiceComponent implements OnDestroy {
 
   pickToDelete(service: ServiceModel): void {
     this.pickedToDeleteService = service;
+  }
+
+  setSort(by: string, direction: string): void {
+    this.sort = {by, direction};
+    this.prepareServiceList();
+  }
+
+  sortItems(item1: ServiceModel, item2: ServiceModel): number {
+    if (this.sort.direction === 'asc') {
+      return item1[this.sort.by] > item2[this.sort.by] ? 1 : item2[this.sort.by] > item1[this.sort.by] ? -1 : 0;
+    } else {
+      return item1[this.sort.by] < item2[this.sort.by] ? 1 : item2[this.sort.by] < item1[this.sort.by] ? -1 : 0;
+    }
   }
 
 }

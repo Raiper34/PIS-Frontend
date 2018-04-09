@@ -28,7 +28,7 @@ $primary-color: #ff5722;
 }
 ::ng-deep .color-container .input-field input[type=password]:focus + ::ng-deep  label
 {
-  color: #ff5722;
+  color: $primary-color;
 }
 ::ng-deep .color-container .input-field input[type=password]:focus
 {
@@ -47,4 +47,21 @@ $primary-color: #ff5722;
   display: flex;
   justify-content: flex-end;
   flex-grow: 1;
+}
+
+.sort-head {
+  display: flex;
+  align-items: center;
+}
+
+.sort {
+  cursor: pointer;
+
+  &.active-sort {
+    color: $primary-color;
+  }
+
+  &.inactive-sort {
+    color: #c7c7c7;
+  }
 }
