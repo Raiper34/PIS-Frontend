@@ -11,6 +11,8 @@ import {ActivatedRoute} from "@angular/router";
 import {employeeListActions} from "../../shared/reducers/employeeList.reducer";
 import {MzToastService} from "ng2-materialize";
 import {ApiService} from "../../shared/services/api.service";
+import {ReservationModel} from "../../shared/models/reservation.model";
+import {reservationListActions} from "../../shared/reducers/reservationList.reducer";
 
 @Component({
   selector: 'app-person',
@@ -79,6 +81,19 @@ export class PersonComponent implements OnDestroy {
 
   pickToDelete(person: PersonModel): void {
     this.pickedToDeletePerson = person;
+  }
+
+  changeActiveStatus(person: PersonModel): void {
+    this.api.update('admin/user', person.id, {
+      ...person,
+      active: !person.active,
+    }).subscribe(
+      () => {
+        this.store.dispatch({type: employeeListActions.GET_REQUEST});
+        this.toastService.show('Changing active status successful!', 3000, 'green');
+      },
+      (error) => this.toastService.show(error.message, 3000, 'red')
+    );
   }
 
 }

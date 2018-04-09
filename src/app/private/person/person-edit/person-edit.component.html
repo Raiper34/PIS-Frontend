@@ -51,6 +51,11 @@
                 <option class="deep-orange" *ngFor="let item of roleType" [value]="item.value">{{item.title}}</option>
               </select>
             </mz-select-container>
+            <mz-select-container class="color-container col s6">
+              <select mz-select [label]="'Active'" [placeholder]="'None'" formControlName="active" id="active">
+                <option class="deep-orange" *ngFor="let item of activeType" [value]="item.value">{{item.title}}</option>
+              </select>
+            </mz-select-container>
           </div>
           <div class="right-align">
             <button *ngIf="!editMode" [disabled]="editForm.invalid || (!editMode && !isPasswordInEditFormEqual)" mz-button class="deep-orange">Create</button>

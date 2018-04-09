@@ -1,4 +1,4 @@
-<table class="highlight">
+<table class="highlight responsive-table">
   <thead>
   <tr>
     <th>Customer</th>
@@ -23,6 +23,7 @@
         <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/reservation/detail', reservation.id]">Detail</a></mz-dropdown-item>
         <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/reservation/edit', reservation.id]">Edit</a></mz-dropdown-item>
         <mz-dropdown-divider></mz-dropdown-divider>
+        <mz-dropdown-item *ngIf="!reservation.paid"><a class="deep-orange-text" (click)="changePaidStatus(reservation)">Paid</a></mz-dropdown-item>
         <mz-dropdown-item><a class="red white-text" (click)="pickToDelete(reservation); deleteModal.open()" >Delete</a></mz-dropdown-item>
       </mz-dropdown>
       <a class="deep-orange" mz-button id="{{reservation.id}}" href="#">

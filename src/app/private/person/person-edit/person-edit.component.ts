@@ -35,6 +35,11 @@ export class PersonEditComponent implements OnDestroy {
     {value: 'ADMIN', title: 'Admin'},
   ];
 
+  activeType = [
+    {value: true, title: 'Yes'},
+    {value: false, title: 'No'},
+  ];
+
   constructor(private store: Store<AppState>,
               private formBuilder: FormBuilder,
               private toastService: MzToastService,
@@ -50,6 +55,7 @@ export class PersonEditComponent implements OnDestroy {
       password: ['', Validators.required],
       passwordAgain: ['', Validators.required],
       role: [this.roleType[0].value, Validators.required],
+      active: [this.activeType[0].value],
       phone: [''],
       email: ['', Validators.email],
       birthDate: [0],

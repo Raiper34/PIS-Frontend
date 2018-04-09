@@ -19,7 +19,7 @@
     <mz-card>
       <mz-card-content>
         <!-- Table -->
-        <table class="highlight">
+        <table class="highlight responsive-table">
           <thead>
           <tr>
             <th>Personal Id</th>
@@ -27,6 +27,7 @@
             <th>E-mail</th>
             <th>Phone</th>
             <th *ngIf="isEmployee">Role</th>
+            <th *ngIf="isEmployee">Active</th>
             <th></th>
           </tr>
           </thead>
@@ -37,6 +38,10 @@
             <td>{{person.email}}</td>
             <td>{{person.phone}}</td>
             <td *ngIf="isEmployee">{{person.role}}</td>
+            <td *ngIf="isEmployee">
+              <i *ngIf="person.active" mz-icon [icon]="'done'" class="green-text"></i>
+              <i *ngIf="!person.active" mz-icon [icon]="'clear'" class="red-text"></i>
+            </td>
             <td></td>
             <td>
               <mz-dropdown [id]="person.id+'dropdown'" [dropdownButtonId]="person.id">
@@ -44,6 +49,10 @@
                 <mz-dropdown-item><a class="deep-orange-text" [routerLink]="['/private/' + pageName + '/edit', person.id]">Edit</a></mz-dropdown-item>
                 <mz-dropdown-item *ngIf="!isEmployee"><a class="deep-orange-text" [routerLink]="['/private/reservation/add', person.id]">Reserve</a></mz-dropdown-item>
                 <mz-dropdown-divider></mz-dropdown-divider>
+                <mz-dropdown-item *ngIf="isEmployee && person.role === 'EMPLOYEE'"><a class="deep-orange-text" (click)="changeActiveStatus(person)">
+                  <span *ngIf="!person.active">Activate</span>
+                  <span *ngIf="person.active">Inactivate</span>
+                </a></mz-dropdown-item>
                 <mz-dropdown-item><a class="red white-text" (click)="pickToDelete(person); deleteModal.open()" >Delete</a></mz-dropdown-item>
               </mz-dropdown>
               <a class="deep-orange" mz-button id="{{person.id}}" href="#">

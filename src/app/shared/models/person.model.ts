@@ -1,4 +1,5 @@
 export interface PersonModel {
+  active?: boolean;
   id?: string;
   firstname: string;
   surname: string;

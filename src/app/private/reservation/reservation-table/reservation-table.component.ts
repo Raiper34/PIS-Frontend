@@ -30,6 +30,19 @@ export class ReservationTableComponent {
     );
   }
 
+  changePaidStatus(reservation: ReservationModel): void {
+    this.api.update('reservation', reservation.id, {
+      ...reservation,
+      paid: !reservation.paid,
+    }).subscribe(
+      () => {
+        this.store.dispatch({type: reservationListActions.GET_REQUEST});
+        this.toastService.show('Changing paid status successful!', 3000, 'green');
+      },
+      (error) => this.toastService.show(error.message, 3000, 'red')
+    );
+  }
+
   pickToDelete(reservation: ReservationModel): void {
     this.pickedToDeleteReservation = reservation;
   }
