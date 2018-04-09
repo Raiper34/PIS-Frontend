@@ -4,16 +4,19 @@ import {select, Store} from "@ngrx/store";
 import {customerListActions} from "../../shared/reducers/customerList.reducer";
 import {Subscription} from "rxjs/Subscription";
 import {PersonModel} from "../../shared/models/person.model";
-import {serviceListActions} from "../../shared/reducers/serviceList.reducer";
-import {ServiceModel} from "../../shared/models/service.model";
 import {pageSize} from "../../shared/components/pagination/pagination.component";
 import {ActivatedRoute} from "@angular/router";
 import {employeeListActions} from "../../shared/reducers/employeeList.reducer";
 import {MzToastService} from "ng2-materialize";
 import {ApiService} from "../../shared/services/api.service";
-import {ReservationModel} from "../../shared/models/reservation.model";
-import {reservationListActions} from "../../shared/reducers/reservationList.reducer";
 
+/*
+ * Person Component
+ * Contains table of customer or empoyees, it depends on isEmployee variable
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 @Component({
   selector: 'app-person',
   templateUrl: './person.component.html',
@@ -32,6 +35,13 @@ export class PersonComponent implements OnDestroy {
 
   pickedToDeletePerson: PersonModel;
 
+  /**
+   * Constructor with Dependency Injections
+   * @param {Store<AppState>} store
+   * @param {ActivatedRoute} route
+   * @param {MzToastService} toastService
+   * @param {ApiService} api
+   */
   constructor(private store: Store<AppState>,
               private route: ActivatedRoute,
               private toastService: MzToastService,
@@ -45,6 +55,10 @@ export class PersonComponent implements OnDestroy {
     this.store.dispatch({type: this.isEmployee ? employeeListActions.GET_REQUEST : customerListActions.GET_REQUEST});
   }
 
+  /**
+   * Prepare Person List
+   * Transform original data into data that are paginated, sorted and filtered
+   */
   preparePersonList(): void {
     const customerListValue = this.personListValue.filter(
       (item) => item.surname.includes(this.searchString) ||
@@ -55,20 +69,38 @@ export class PersonComponent implements OnDestroy {
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
+  /**
+   * Change Page
+   * Change page number and then filtrate data
+   * @param {number} page
+   */
   changePage(page: number): void {
     this.currentPage = page;
     this.preparePersonList();
   }
 
+  /**
+   * Search By String
+   * Set search string and then filtrate data
+   * @param {string} search
+   */
   searchByString(search: string): void {
     this.searchString = search;
     this.preparePersonList();
   }
 
+  /**
+   * Ng On Destroy
+   * Method that is called on component destroy
+   */
   ngOnDestroy(): void {
     this.personListSubscription.unsubscribe();
   }
 
+  /**
+   * Delete Person
+   * Method to delete person by picked id
+   */
   deletePerson(): void {
     this.api.delete(this.isEmployee ? 'admin/user' : 'customer', this.pickedToDeletePerson.id).subscribe(
       () => {
@@ -79,10 +111,20 @@ export class PersonComponent implements OnDestroy {
     );
   }
 
+  /**
+   * Pick To Delete
+   * Pick person to delete
+   * @param {PersonModel} person
+   */
   pickToDelete(person: PersonModel): void {
     this.pickedToDeletePerson = person;
   }
 
+  /**
+   * Change Active Status
+   * Change active status of given person
+   * @param {PersonModel} person
+   */
   changeActiveStatus(person: PersonModel): void {
     this.api.update('admin/user', person.id, {
       ...person,

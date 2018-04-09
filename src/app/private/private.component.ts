@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "../shared/services/auth.service";
 import {Router} from "@angular/router";
 import {MzToastService} from "ng2-materialize";
 import {PersonModel} from "../shared/models/person.model";
 
+/*
+ * Private Component
+ * Contains global items and menu
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 @Component({
   selector: 'app-private',
   templateUrl: './private.component.html',
@@ -21,6 +28,12 @@ export class PrivateComponent {
     {link: '/private/employee', title: 'Employee', permission: ['ADMIN']},
   ];
 
+  /**
+   * Constructor with Dependency Injections
+   * @param {MzToastService} toastService
+   * @param {AuthService} auth
+   * @param {Router} router
+   */
   constructor(private toastService: MzToastService,
               private auth: AuthService,
               private router: Router) {
@@ -28,6 +41,11 @@ export class PrivateComponent {
     this.menu = this.menu.filter((item) => item.permission.some(permission => permission === this.user.role));
   }
 
+  /**
+   * Logout
+   * Logout user from application
+   * @param event
+   */
   logout(event: any): void {
     event.preventDefault();
     this.auth.logout().subscribe(

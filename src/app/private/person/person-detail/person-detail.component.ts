@@ -1,8 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs/Subscription";
-import {serviceActions} from "../../../shared/reducers/service.reducer";
-import {ServiceModel} from "../../../shared/models/service.model";
 import {select, Store} from "@ngrx/store";
 import {AppState} from "../../../shared/models/app.state";
 import {PersonModel} from "../../../shared/models/person.model";
@@ -14,6 +12,13 @@ import {pageSize} from "../../../shared/components/pagination/pagination.compone
 import {MzToastService} from "ng2-materialize";
 import {ApiService} from "../../../shared/services/api.service";
 
+/*
+ * Person Detail Component
+ * Show information about persons, eg. employee or customer (specified by isEmployee variable)
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 @Component({
   selector: 'app-person-detail',
   templateUrl: './person-detail.component.html',
@@ -35,6 +40,14 @@ export class PersonDetailComponent implements OnDestroy {
 
   dispatched = false;
 
+  /**
+   * Constructor with Dependency Injections
+   * @param {Store<AppState>} store
+   * @param {ActivatedRoute} route
+   * @param {Router} router
+   * @param {MzToastService} toastService
+   * @param {ApiService} api
+   */
   constructor(private store: Store<AppState>,
               private route: ActivatedRoute,
               private router: Router,
@@ -53,12 +66,16 @@ export class PersonDetailComponent implements OnDestroy {
 
     this.reservationListSubscription = store.pipe(select('reservationList')).subscribe((reservationList: ReservationModel[]) => {
       this.reservationListValue = reservationList;
-      if (this.dispatched && this.person) {
+      if (this.dispatched && this.person) { //it was dispatched, so we have current wanted data
         this.prepareReservationList();
       }
     });
   }
 
+  /**
+   * Prepare Reservation List
+   * Transform original reservation data into data that are paginated, sorted and filtered
+   */
   prepareReservationList(): void {
     const reservationListValue = this.reservationListValue
       .filter((item) => (this.isEmployee ? item.creator.id : item.customer.id) == this.person.id)
@@ -71,11 +88,20 @@ export class PersonDetailComponent implements OnDestroy {
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
+  /**
+   * Change Page
+   * Change page of reservation table
+   * @param {number} page
+   */
   changePage(page: number): void {
     this.currentPage = page;
     this.prepareReservationList();
   }
 
+  /**
+   * Delete Person
+   * Delete current person
+   */
   deletePerson(): void {
     this.api.delete(this.isEmployee ? 'admin/user' : 'customer', this.person.id).subscribe(
       () => {
@@ -86,6 +112,10 @@ export class PersonDetailComponent implements OnDestroy {
     );
   }
 
+  /**
+   * Ng On Destroy
+   * Method that is called on component destroy
+   */
   ngOnDestroy(): void {
     this.personSubscription.unsubscribe();
     this.reservationListSubscription.unsubscribe();

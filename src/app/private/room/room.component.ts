@@ -5,13 +5,17 @@ import {roomListActions} from "../../shared/reducers/roomList.reducer";
 import {Subscription} from "rxjs/Subscription";
 import {RoomModel} from "../../shared/models/room.model";
 import {pageSize} from "../../shared/components/pagination/pagination.component";
-import {ReservationModel} from "../../shared/models/reservation.model";
-import {reservationListActions} from "../../shared/reducers/reservationList.reducer";
 import {ApiService} from "../../shared/services/api.service";
 import {MzToastService} from "ng2-materialize";
 import {AuthService} from "../../shared/services/auth.service";
-import {ServiceModel} from "../../shared/models/service.model";
 
+/*
+ * Room Component
+ * Show room table
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
@@ -34,6 +38,13 @@ export class RoomComponent implements OnDestroy {
   pickedToDeleteRoom: RoomModel;
   isAdmin = false;
 
+  /**
+   * Constructor with Dependency Injection
+   * @param {Store<AppState>} store
+   * @param {MzToastService} toastService
+   * @param {AuthService} auth
+   * @param {ApiService} api
+   */
   constructor(private store: Store<AppState>,
               private toastService: MzToastService,
               private auth: AuthService,
@@ -46,6 +57,10 @@ export class RoomComponent implements OnDestroy {
     this.store.dispatch({type: roomListActions.GET_REQUEST});
   }
 
+  /**
+   * Prepare Room List
+   * Transform original data into data that are paginated, sorted and filtered
+   */
   prepareRoomList(): void {
     const roomListValue = this.roomListValue.filter(
       (item) => item.name.includes(this.searchString)
@@ -56,20 +71,38 @@ export class RoomComponent implements OnDestroy {
       .sort((item1, item2) => this.sortItems(item1, item2));
   }
 
+  /**
+   * Change Page
+   * Change Page of table and filter data
+   * @param {number} page
+   */
   changePage(page: number): void {
     this.currentPage = page;
     this.prepareRoomList();
   }
 
+  /**
+   * Search String
+   * Set searching string and filter data
+   * @param {string} search
+   */
   searchByString(search: string): void {
     this.searchString = search;
     this.prepareRoomList();
   }
 
+  /**
+   * Ng On Destroy
+   * Method that is called on component destroy
+   */
   ngOnDestroy(): void {
     this.roomListSubscription.unsubscribe();
   }
 
+  /**
+   * Delete Room
+   * Delete picked room
+   */
   deleteRoom(): void {
     this.api.delete('room', this.pickedToDeleteRoom.id).subscribe(
       () => {
@@ -80,19 +113,37 @@ export class RoomComponent implements OnDestroy {
     );
   }
 
+  /**
+   * Pick To Delete
+   * Pick room to delete
+   * @param {RoomModel} room
+   */
   pickToDelete(room: RoomModel): void {
     this.pickedToDeleteRoom = room;
   }
 
+  /**
+   * Set Sort
+   * Set Sort object and filter data
+   * @param {string} by
+   * @param {string} direction
+   */
   setSort(by: string, direction: string): void {
     this.sort = {by, direction};
     this.prepareRoomList();
   }
 
+  /**
+   * Sort Items
+   * Method for sorting function
+   * @param {RoomModel} item1
+   * @param {RoomModel} item2
+   * @returns {number}
+   */
   sortItems(item1: RoomModel, item2: RoomModel): number {
-    if (this.sort.direction === 'asc') {
+    if (this.sort.direction === 'asc') { //sort ascending
       return item1[this.sort.by] > item2[this.sort.by] ? 1 : item2[this.sort.by] > item1[this.sort.by] ? -1 : 0;
-    } else {
+    } else { //sort descending
       return item1[this.sort.by] < item2[this.sort.by] ? 1 : item2[this.sort.by] < item1[this.sort.by] ? -1 : 0;
     }
   }

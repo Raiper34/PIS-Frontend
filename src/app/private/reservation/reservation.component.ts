@@ -4,10 +4,15 @@ import {AppState} from "../../shared/models/app.state";
 import {ReservationModel} from "../../shared/models/reservation.model";
 import {reservationListActions} from "../../shared/reducers/reservationList.reducer";
 import {Subscription} from "rxjs/Subscription";
-import {ApiService} from "../../shared/services/api.service";
-import {MzToastService} from "ng2-materialize";
 import {pageSize} from "../../shared/components/pagination/pagination.component";
 
+/*
+ * Reservation Component
+ * Contians table of reservations
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
@@ -22,6 +27,10 @@ export class ReservationComponent implements OnDestroy {
   currentPage = 0;
   searchString = '';
 
+  /**
+   * Constructor with Dependency Injections
+   * @param {Store<AppState>} store
+   */
   constructor(private store: Store<AppState>) {
     this.reservationListSubscription = store.pipe(select('reservationList')).subscribe((reservationList: ReservationModel[]) => {
       this.reservationListValue = reservationList;
@@ -30,6 +39,10 @@ export class ReservationComponent implements OnDestroy {
     this.store.dispatch({type: reservationListActions.GET_REQUEST});
   }
 
+  /**
+   * Prepare Reservation List
+   * Transform original data into data thar are paginated, sorted and filtered
+   */
   prepareReservationList(): void {
     const reservationListValue = this.reservationListValue.filter(
       (item) => (item.reservedRoom && item.reservedRoom.name.includes(this.searchString)) ||
@@ -41,16 +54,30 @@ export class ReservationComponent implements OnDestroy {
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
+  /**
+   * Change Page
+   * Change Page of reservations table and filter data
+   * @param {number} page
+   */
   changePage(page: number): void {
     this.currentPage = page;
     this.prepareReservationList();
   }
 
+  /**
+   * Search By String
+   * Set search string and filter data
+   * @param {string} search
+   */
   searchByString(search: string): void {
     this.searchString = search;
     this.prepareReservationList();
   }
 
+  /**
+   * Ng On Destroy
+   * Method that is called on component destroy
+   */
   ngOnDestroy(): void {
     this.reservationListSubscription.unsubscribe();
   }

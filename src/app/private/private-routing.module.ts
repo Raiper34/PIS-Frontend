@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {PrivateComponent} from './private.component';
 import {PrivateAuthGuardService} from '../shared/services/private-auth-guard.service';
@@ -17,6 +17,13 @@ import {PersonEditComponent} from "./person/person-edit/person-edit.component";
 import {PersonComponent} from "./person/person.component";
 import {RoleGuardService} from "../shared/services/role-guard.service";
 
+/*
+ * Private Routing Module
+ * Defines private module routes and routing
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 const privateRoutes: Routes = [
   {
     path: 'private',
@@ -62,4 +69,5 @@ const privateRoutes: Routes = [
   ],
   declarations: []
 })
-export class PrivateRoutingModule { }
+export class PrivateRoutingModule {
+}

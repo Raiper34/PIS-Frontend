@@ -1,11 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs/Subscription";
 import {ReservationModel} from "../../../shared/models/reservation.model";
 import {select, Store} from "@ngrx/store";
-import * as moment from "moment";
 import {AppState} from "../../../shared/models/app.state";
-import {reservationActions} from "../../../shared/reducers/reservation.reducer";
 import {RoomModel} from "../../../shared/models/room.model";
 import {roomActions} from "../../../shared/reducers/room.reducer";
 import {reservationListActions} from "../../../shared/reducers/reservationList.reducer";
@@ -14,6 +12,13 @@ import {MzToastService} from "ng2-materialize";
 import {ApiService} from "../../../shared/services/api.service";
 import {AuthService} from "../../../shared/services/auth.service";
 
+/*
+ * Room Detail Component
+ * Provides detail information of room
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 @Component({
   selector: 'app-room-detail',
   templateUrl: './room-detail.component.html',
@@ -34,6 +39,15 @@ export class RoomDetailComponent implements OnDestroy {
   isAdmin = false;
   dispatched = false;
 
+  /**
+   * Constructor with Dependency Injections
+   * @param {Store<AppState>} store
+   * @param {ActivatedRoute} route
+   * @param {Router} router
+   * @param {MzToastService} toastService
+   * @param {AuthService} auth
+   * @param {ApiService} api
+   */
   constructor(private store: Store<AppState>,
               private route: ActivatedRoute,
               private router: Router,
@@ -52,12 +66,16 @@ export class RoomDetailComponent implements OnDestroy {
 
     this.reservationListSubscription = store.pipe(select('reservationList')).subscribe((reservationList: ReservationModel[]) => {
       this.reservationListValue = reservationList;
-      if (this.dispatched && this.room) {
+      if (this.dispatched && this.room) { //it was dispatched so it is wanted data
         this.prepareReservationList();
       }
     });
   }
 
+  /**
+   * Prepare Reservation List
+   * Transform original reservation data into data that are paginated, sorted and filtered
+   */
   prepareReservationList(): void {
     const reservationListValue = this.reservationListValue
       .filter((item) => item.reservedRoom.id == this.room.id)
@@ -70,11 +88,20 @@ export class RoomDetailComponent implements OnDestroy {
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
   }
 
+  /**
+   * Change Page
+   * Cgange reservations table page
+   * @param {number} page
+   */
   changePage(page: number): void {
     this.currentPage = page;
     this.prepareReservationList();
   }
 
+  /**
+   * Delete Room
+   * Delete current room
+   */
   deleteRoom(): void {
     this.api.delete('room', this.room.id).subscribe(
       () => {
@@ -85,6 +112,10 @@ export class RoomDetailComponent implements OnDestroy {
     );
   }
 
+  /**
+   * Ng On Destroy
+   * Method that is called on component destroy
+   */
   ngOnDestroy(): void {
     this.roomSubscription.unsubscribe();
     this.reservationListSubscription.unsubscribe();

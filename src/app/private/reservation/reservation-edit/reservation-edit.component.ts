@@ -19,6 +19,13 @@ import * as moment from 'moment';
 import {combineLatest} from "rxjs/observable/combineLatest";
 import {reservationListActions} from "../../../shared/reducers/reservationList.reducer";
 
+/*
+ * Reservation Edit Component
+ * Contains form to allow editing or creating reservations
+ * @author: Filip Gulan
+ * @mail: xgulan00@stud.fit.vutbr.cz
+ * @date: 23.4.2018
+ */
 @Component({
   selector: 'app-reservation-edit',
   templateUrl: './reservation-edit.component.html',
@@ -51,6 +58,16 @@ export class ReservationEditComponent implements OnDestroy {
     {value: 'CASH', title: 'Cash'},
   ];
 
+  /**
+   * Constructor with Dependency Injections
+   * @param {Store<AppState>} store
+   * @param {FormBuilder} formBuilder
+   * @param {MzToastService} toastService
+   * @param {Router} router
+   * @param {ApiService} api
+   * @param {AuthService} auth
+   * @param {ActivatedRoute} route
+   */
   constructor(private store: Store<AppState>,
               private formBuilder: FormBuilder,
               private toastService: MzToastService,
@@ -91,24 +108,24 @@ export class ReservationEditComponent implements OnDestroy {
       this.serviceList = serviceList as ServiceModel[];
       this.reservationList = reservationList as ReservationModel[];
       this.editMode = params && params.id;
-      if (this.editMode) {
+      if (this.editMode) { //it is editing
         this.roomList = this.roomListValue;
         this.editForm.get('dateFrom').disable();
         this.editForm.get('dateTo').disable();
         this.editForm.get('reservedRoom').disable();
         this.editForm.get('customer').disable();
       }
-      if (params.customer) {
+      if (params.customer) { //customer provided trought url, so we fill him into form
         this.editForm.patchValue({customer: params.customer});
       }
-      if (this.editMode && this.customerList.length > 0 && this.roomList.length > 0 && this.serviceList.length > 0) {
+      if (this.editMode && this.customerList.length > 0 && this.roomList.length > 0 && this.serviceList.length > 0) { //it is edit mode and we obtains all desired data, so we can ask for reservation data
         this.isDispatched = true;
         this.store.dispatch({type: reservationActions.GET_REQUEST, payload: params.id});
       }
     });
     this.reservationSubscription = store.pipe(select('reservation')).subscribe((reservation: ReservationModel) => {
       this.reservation = reservation;
-      if (this.isDispatched && this.reservation) {
+      if (this.isDispatched && this.reservation) { //it was dispatched and data is here too, so it is wanted data
         this.editForm.patchValue({
           ...this.reservation,
           reservedRoom: this.reservation.reservedRoom.id,
@@ -119,12 +136,16 @@ export class ReservationEditComponent implements OnDestroy {
     });
   }
 
+  /**
+   * Change Dates
+   * When dates was chenged, we call this funciton to filter only free roms between theese dates
+   */
   changeDates(): void {
-    if (this.editMode) {
+    if (this.editMode) { //it is edit mode, so we do not need change free rooms
       return;
     }
     this.editForm.patchValue({reservedRoom: null});
-    if (this.roomList && this.reservationList) {
+    if (this.roomList && this.reservationList) { //room and reservation list are not empty
       const dateFrom = moment(this.editForm.get('dateFrom').value).startOf('day').add(1, 'seconds');
       const dateTo = moment(this.editForm.get('dateTo').value).startOf('day').subtract(1, 'seconds');
       this.roomList = this.roomListValue.filter(roomItem =>
@@ -141,12 +162,22 @@ export class ReservationEditComponent implements OnDestroy {
     }
   }
 
+  /**
+   * Get Days Count
+   * Method to get days between two dates from form
+   * @returns {number}
+   */
   getDaysCount(): number {
     const dateFrom = moment(this.editForm.get('dateFrom').value).startOf('day');
     const dateTo = moment(this.editForm.get('dateTo').value).startOf('day');
     return dateTo.diff(dateFrom, 'days');
   }
 
+  /**
+   * Get Final Price
+   * Method to get final price of reservation with all services, nights...
+   * @returns {number}
+   */
   getFinalPrice(): number {
     const reservedRoom = this.roomList.find((item) => item.id == this.editForm.get('reservedRoom').value);
     const pricePerDay = reservedRoom ? reservedRoom.price : 0;
@@ -155,6 +186,10 @@ export class ReservationEditComponent implements OnDestroy {
     return  this.daysCount * pricePerDay + servicePrice;
   }
 
+  /**
+   * Submit Form
+   * Send data from form to API and edit or create resource
+   */
   submitForm(): void {
     const reservation = {
       ...this.reservation,
@@ -166,7 +201,7 @@ export class ReservationEditComponent implements OnDestroy {
       services: this.serviceList.filter((item) => this.editForm.get('services').value.some((value) => value == item.id)),
       creator: this.auth.getActualUser()
     };
-    if (this.editMode) {
+    if (this.editMode) { //we are editing
       this.api.update('reservation', this.reservation.id, reservation).subscribe(
         () => {
           this.toastService.show('Reservation editation successful!', 3000, 'green');
@@ -174,7 +209,7 @@ export class ReservationEditComponent implements OnDestroy {
         },
         (error) => this.toastService.show(error.message, 3000, 'red')
       );
-    } else {
+    } else { //we are creating
       this.api.create('reservation', reservation).subscribe(
         () => {
           this.toastService.show('Reservation editation successful!', 3000, 'green');
@@ -185,6 +220,10 @@ export class ReservationEditComponent implements OnDestroy {
     }
   }
 
+  /**
+   * Ng On Destroy
+   * Method that is called on component destroy
+   */
   ngOnDestroy(): void {
     this.reservationSubscription.unsubscribe();
     this.customerRoomServiceSubscription.unsubscribe();
