@@ -29,6 +29,7 @@ export class PersonEditComponent implements OnDestroy {
   isDispatched = false;
   isEmployee = false;
   pageName = 'customer';
+  ownProfile = false;
 
   roleType = [
     {value: 'EMPLOYEE', title: 'Employee'},
@@ -68,6 +69,7 @@ export class PersonEditComponent implements OnDestroy {
 
     this.route.params.subscribe(params => {
       this.editMode = !!params.id;
+      this.ownProfile = params.id == this.auth.getActualUser().id;
       if (this.editMode || !this.isEmployee) {
         this.editForm.removeControl('password');
         this.editForm.removeControl('passwordAgain');
