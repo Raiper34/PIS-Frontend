@@ -2,10 +2,6 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/Observable";
 import {AuthService} from "./auth.service";
-import {of} from "rxjs/observable/of";
-import {catchError, map} from "rxjs/operators";
-import {customerActions} from "../reducers/customer.reducer";
-import {ApiService} from "./api.service";
 
 /*
  * Private Auth Guard Service
@@ -22,7 +18,7 @@ export class PrivateAuthGuardService implements CanActivate {
    * @param {Router} router
    * @param {AuthService} auth
    */
-  constructor(private router: Router, private auth: AuthService, private api: ApiService) {
+  constructor(private router: Router, private auth: AuthService) {
   }
 
   /**
@@ -33,13 +29,11 @@ export class PrivateAuthGuardService implements CanActivate {
    * @returns {Observable<boolean> | Promise<boolean> | boolean}
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.api.get('auth/me').pipe(
-      map(() => true),
-      catchError(() => {
-        this.router.navigate(['public']);
-        return of(false);
-      })
-    )
+    const isLogged = !!this.auth.getAuth();
+    if (!isLogged) {
+      this.router.navigate(['public']);
+    }
+    return isLogged;
   }
 
 }
