@@ -53,7 +53,7 @@
                   <span *ngIf="!person.active">Activate</span>
                   <span *ngIf="person.active">Inactivate</span>
                 </a></mz-dropdown-item>
-                <mz-dropdown-item><a class="red white-text" (click)="pickToDelete(person); deleteModal.open()" >Delete</a></mz-dropdown-item>
+                <mz-dropdown-item *ngIf="isEmployee && person.role === 'EMPLOYEE'"><a class="red white-text" (click)="pickToDelete(person); deleteModal.open()" >Delete</a></mz-dropdown-item>
               </mz-dropdown>
               <a class="deep-orange" mz-button id="{{person.id}}" href="#">
                 <i mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>

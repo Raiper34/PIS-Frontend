@@ -40,7 +40,7 @@
       </mz-card-content>
       <mz-card-action>
         <div class="right-align">
-          <button mz-button (click)="deleteModal.open()" class="red">Delete</button>
+          <button mz-button *ngIf="person?.role === 'EMPLOYEE'" (click)="deleteModal.open()" class="red">Delete</button>
           <button mz-button *ngIf="person && !isEmployee" [routerLink]="['/private/reservation/add', person?.id]" class="deep-orange">Reserve</button>
           <button mz-button *ngIf="person" [routerLink]="['/private/' + pageName + '/edit', person?.id]" class="deep-orange">
             Edit
