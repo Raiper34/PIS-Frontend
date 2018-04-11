@@ -5,6 +5,8 @@ import {ReservationModel} from "../../shared/models/reservation.model";
 import {reservationListActions} from "../../shared/reducers/reservationList.reducer";
 import {Subscription} from "rxjs/Subscription";
 import {pageSize} from "../../shared/components/pagination/pagination.component";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import * as moment from "moment";
 
 /*
  * Reservation Component
@@ -25,13 +27,22 @@ export class ReservationComponent implements OnDestroy {
   reservationList: ReservationModel[] = [];
   reservationListSize = 0;
   currentPage = 0;
-  searchString = '';
+  filterForm: FormGroup;
 
   /**
    * Constructor with Dependency Injections
    * @param {Store<AppState>} store
+   * @param formBuilder
    */
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private formBuilder: FormBuilder) {
+    this.filterForm = this.formBuilder.group({
+      dateFrom: [null],
+      dateTo: [null],
+      searchString: [''],
+    });
+    this.filterForm.valueChanges.subscribe(() => {
+      this.prepareReservationList();
+    });
     this.reservationListSubscription = store.pipe(select('reservationList')).subscribe((reservationList: ReservationModel[]) => {
       this.reservationListValue = reservationList;
       this.prepareReservationList();
@@ -45,10 +56,11 @@ export class ReservationComponent implements OnDestroy {
    */
   prepareReservationList(): void {
     const reservationListValue = this.reservationListValue.filter(
-      (item) => (item.reservedRoom && item.reservedRoom.name.includes(this.searchString)) ||
-        (item.customer && item.customer.surname.includes(this.searchString)) ||
-        (item.customer && item.customer.firstname.includes(this.searchString))
-    );
+      (item) => (item.reservedRoom && item.reservedRoom.name.includes(this.filterForm.get('searchString').value)) ||
+        (item.customer && item.customer.surname.includes(this.filterForm.get('searchString').value)) ||
+        (item.customer && item.customer.firstname.includes(this.filterForm.get('searchString').value))
+    ).filter((item) => (this.filterForm.get('dateFrom').value ? moment(this.filterForm.get('dateFrom').value).startOf('day') <= moment(item.dateFrom).startOf('day') : true))
+      .filter((item) => (this.filterForm.get('dateTo').value ? moment(this.filterForm.get('dateTo').value).startOf('day') >= moment(item.dateTo).startOf('day') : true));
     this.reservationListSize = reservationListValue.length;
     this.reservationList = reservationListValue
       .filter((item, index) => index >= this.currentPage * pageSize && index < (this.currentPage * pageSize) + pageSize);
@@ -61,16 +73,6 @@ export class ReservationComponent implements OnDestroy {
    */
   changePage(page: number): void {
     this.currentPage = page;
-    this.prepareReservationList();
-  }
-
-  /**
-   * Search By String
-   * Set search string and filter data
-   * @param {string} search
-   */
-  searchByString(search: string): void {
-    this.searchString = search;
     this.prepareReservationList();
   }
 

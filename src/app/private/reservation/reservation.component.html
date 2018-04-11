@@ -3,22 +3,31 @@
   <div class="row">
     <h3>Reservations</h3>
   </div>
-  <div class="row flex-container">
+  <div class="row">
     <button mz-button class="deep-orange" routerLink="/private/reservation/add">
       <i mz-icon [align]="'left'" [icon]="'add_circle'" [size]="'medium'"></i>
       New Reservation
     </button>
-    <mz-input-container class="color-container align-right">
-      <input mz-input placeholder="Search" type="text" (keyup)="searchByString($event.target.value)">
-    </mz-input-container>
   </div>
+  <form class="row" [formGroup]="filterForm">
+    <mz-datepicker-container class="color-container col s4">
+      <input mz-datepicker [label]="'From'" type="text" formControlName="dateFrom" id="dateTo">
+    </mz-datepicker-container>
+    <mz-datepicker-container class="color-container col s4">
+      <input mz-datepicker [label]="'To'" type="text" formControlName="dateTo" id="dateTo">
+    </mz-datepicker-container>
+    <mz-input-container class="color-container s4 align-right">
+      <input mz-input placeholder="Search" type="text" formControlName="searchString">
+    </mz-input-container>
+  </form>
   <div class="row">
     <!-- Card -->
     <mz-card>
       <mz-card-content>
         <!-- Table -->
         <app-reservation-table [reservationList]="reservationList"></app-reservation-table>
-        <app-pagination [currentPage]="currentPage" [itemsLength]="reservationListSize" (currentPageChange)="changePage($event)"></app-pagination>
+        <app-pagination [currentPage]="currentPage" [itemsLength]="reservationListSize"
+                        (currentPageChange)="changePage($event)"></app-pagination>
       </mz-card-content>
     </mz-card>
   </div>
