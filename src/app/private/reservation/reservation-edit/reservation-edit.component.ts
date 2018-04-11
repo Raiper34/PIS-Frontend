@@ -194,8 +194,8 @@ export class ReservationEditComponent implements OnDestroy {
     const reservation = {
       ...this.reservation,
       ...this.editForm.getRawValue(),
-      dateFrom: moment(this.editForm.get('dateFrom').value).startOf('day').unix() * 1000,
-      dateTo: moment(this.editForm.get('dateTo').value).startOf('day').unix() * 1000,
+      dateFrom: moment(this.editForm.get('dateFrom').value).startOf('day').add(1, 'days').unix() * 1000,
+      dateTo: moment(this.editForm.get('dateTo').value).startOf('day').add(1, 'days').unix() * 1000,
       customer: this.customerList.find((item) => item.id == this.editForm.get('customer').value),
       reservedRoom: this.roomList.find((item) => item.id == this.editForm.get('reservedRoom').value),
       services: this.serviceList.filter((item) => this.editForm.get('services').value.some((value) => value == item.id)),

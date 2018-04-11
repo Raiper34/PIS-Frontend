@@ -150,7 +150,7 @@ export class PersonEditComponent implements OnDestroy {
       ...customerPassword,
       ...this.person,
       ...this.editForm.getRawValue(),
-      birthDate: moment(this.editForm.get('birthDate').value).unix() * 1000,
+      birthDate: moment(this.editForm.get('birthDate').value).startOf('day').add(1, 'days').unix() * 1000,
     };
     if (service.passwordAgain) { //remove password again, it is unwanted field
       delete service.passwordAgain;
