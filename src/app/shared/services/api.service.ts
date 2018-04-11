@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
+import {catchError} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 export const ENDPOINT = 'http://mmarusic.eu:8888';
 
@@ -19,8 +21,9 @@ export class ApiService {
   /**
    * Constructor with Dependency Injections
    * @param {HttpClient} http
+   * @param {Router} router
    */
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   /**
@@ -34,7 +37,13 @@ export class ApiService {
   get(resource: string, id: string = '', child: string = ''): Observable<Object> {
     return this.http.get(`${ENDPOINT}/${resource}${id ? '/' : ''}${id}${child ? '/' : ''}${child}`, {
       headers: this.headers
-    });
+    }).pipe(catchError(error => {
+      if (error.status == 401) {
+        localStorage.removeItem('auth');
+        this.router.navigate(['public']);
+      }
+      return error;
+    }));
   }
 
   /**
