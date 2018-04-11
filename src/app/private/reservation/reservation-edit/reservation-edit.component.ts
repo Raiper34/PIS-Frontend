@@ -221,6 +221,17 @@ export class ReservationEditComponent implements OnDestroy {
   }
 
   /**
+   * Is Password In Password Form Equal
+   * Return if password and passwordAgain are equal or not
+   * @returns {boolean}
+   */
+  get isDateToGreaterThanDateFrom(): boolean {
+    const dateFrom = moment(this.editForm.get('dateFrom').value).startOf('day').unix();
+    const dateTo = moment(this.editForm.get('dateTo').value).startOf('day').unix();
+    return dateFrom <= dateTo;
+  }
+
+  /**
    * Ng On Destroy
    * Method that is called on component destroy
    */

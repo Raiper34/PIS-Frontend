@@ -18,6 +18,9 @@
               <input mz-datepicker [label]="'To'" type="text" formControlName="dateTo" id="dateTo" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
             </mz-datepicker-container>
           </div>
+          <div class="row red-text center-align" *ngIf="!isDateToGreaterThanDateFrom">
+            <div class="col s12">Date To is not equal or greater than Date From</div>
+          </div>
           <div class="row">
             <mz-select-container class="color-container col s6">
               <select mz-select [label]="'Room'" [placeholder]="'None'" formControlName="reservedRoom" id="firstname" mz-validation required [errorMessageResource]="{required: 'Field is required!'}">
@@ -53,8 +56,8 @@
             </div>
           </div>
           <div class="right-align">
-            <button *ngIf="!editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Create</button>
-            <button *ngIf="editMode" [disabled]="editForm.invalid" mz-button class="deep-orange">Edit</button>
+            <button *ngIf="!editMode" [disabled]="editForm.invalid || !isDateToGreaterThanDateFrom" mz-button class="deep-orange">Create</button>
+            <button *ngIf="editMode" [disabled]="editForm.invalid || !isDateToGreaterThanDateFrom" mz-button class="deep-orange">Edit</button>
           </div>
         </form>
       </mz-card-content>
